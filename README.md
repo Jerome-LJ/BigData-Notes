@@ -50,6 +50,7 @@ Hadoop 生态圈，大数据学习之路
 ## 七、Presto（分布式SQL查询引擎）
 ## 八、Flume（日志收集工具）
 ## 九、Kafka（分布式消息队列）
+&emsp;&emsp;[1 - Kafka 基础与入门](./Kafka/1-Kafka基础与入门.md)
 ## 十、ZooKeeper（分布式协作服务）
 ## 十一、Cloudera（大数据运维工具）
 ## 十二、Elastic（分布式搜索和分析引擎）
