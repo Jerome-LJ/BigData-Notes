@@ -3,16 +3,16 @@ Hadoop 生态圈，大数据学习之路
 
 <table>
     <tr>
-      <th><img width="70px" src="images/logo/hdfs-logo.jpg"></th>
-      <th><img width="70px" src="images/logo/yarn-logo.png"></th>
-      <th><img width="70px" src="images/logo/spark-logo.png"></th>
-      <th><img width="70px" src="images/logo/hbase-logo.png"></th>
-      <th><img width="70px" src="images/logo/kudu-logo.png"></th>
-      <th><img width="70px" src="images/logo/hive-logo.png"></th>
-      <th><img width="70px" src="images/logo/presto-logo.png"></th>
-      <th><img width="70px" src="images/logo/flume-logo.png"></th>
-      <th><img width="70px" src="images/logo/kafka-logo.png"></th>
-      <th><img width="70px" src="images/logo/zookeeper-logo.png"></th>
+      <th><img width="70px" src="images/Logo/hdfs-logo.jpg"></th>
+      <th><img width="70px" src="images/Logo/yarn-logo.png"></th>
+      <th><img width="70px" src="images/Logo/spark-logo.png"></th>
+      <th><img width="70px" src="images/Logo/hbase-logo.png"></th>
+      <th><img width="70px" src="images/Logo/kudu-logo.png"></th>
+      <th><img width="70px" src="images/Logo/hive-logo.png"></th>
+      <th><img width="70px" src="images/Logo/presto-logo.png"></th>
+      <th><img width="70px" src="images/Logo/flume-logo.png"></th>
+      <th><img width="70px" src="images/Logo/kafka-logo.png"></th>
+      <th><img width="70px" src="images/Logo/zookeeper-logo.png"></th>
     </tr>
     <tr>
       <td align="center"><a href="#一hdfshadoop分布式文件系统">HDFS</a></td>
@@ -27,9 +27,9 @@ Hadoop 生态圈，大数据学习之路
       <td align="center"><a href="#十zookeeper分布式协作服务">ZooKeeper</a></td>
     </tr>
     <tr>
-      <th><img width="70px" src="images/logo/cloudera-logo.png"></th>
-      <th><img width="70px" src="images/logo/elastic-logo.png"></th>
-      <th><img width="70px" src="images/logo/azkaban-logo.png"></th>
+      <th><img width="70px" src="images/Logo/cloudera-logo.png"></th>
+      <th><img width="70px" src="images/Logo/elastic-logo.png"></th>
+      <th><img width="70px" src="images/Logo/azkaban-logo.png"></th>
     </tr>
     <tr>
       <td align="center"><a href="#十一cloudera大数据运维工具">Cloudera</a></td>
@@ -50,7 +50,7 @@ Hadoop 生态圈，大数据学习之路
 ## 七、Presto（分布式SQL查询引擎）
 ## 八、Flume（日志收集工具）
 ## 九、Kafka（分布式消息队列）
-&emsp;&emsp;[1 - Kafka 基础与入门](./Kafka/1-Kafka基础与入门.md)
+&emsp;&emsp;[1 - Kafka 基础与入门](./Kafka/1--Kafka基础与入门.md)
 ## 十、ZooKeeper（分布式协作服务）
 ## 十一、Cloudera（大数据运维工具）
 ## 十二、Elastic（分布式搜索和分析引擎）
