@@ -44,7 +44,7 @@ Kafka 是一个高吞吐量的分布式发布/订阅消息系统。特点如下�
 ## 3 - Kafka 架构概述
 一个典型的 Kafka 集群包含若干 Producer、Broker、Consumer Group，以及一个 ZooKeeper 集群。Kafka 通过 ZooKeeper 管理集群配置，选举 Leader，以及在 Consumer Group 发生变化时进行 Rebalance。Producer 使用 push 模式将消息发布到 Broker，Consumer 使用 pull 模式从 Broker 订阅并消费消息。典型架构图如下图所示：
 
-<div align="center"> <img width="700px" src="../images/Kafka/kafka典型架构图.png"/> </div>
+<div align="center"> <img width="700px" src="../images/kafka/kafka典型架构图.png"/> </div>
 
 从图中可以看出，典型的消息系统由生产者（Producer）、存储系统（Broker）和消费者（Consumer）组成。Kafka 作为分布式的消息系统支持多个生产者和消费者，生产者可以将消息分布到集群中不同节点的不同 Partition 上，消费者也可以消费集群中多个节点上的多个 Partition。在写消息时允许多个生产者写到同一个 Partition 中，但是读消息时一个 Partition 只允许被一个消费组中的一个消费者所消费，而一个消费者可以消费多个 Partition。也就是说同一个消费组下消费者对 Partition 是互斥的，而不同消费组之间是共享的。
 
@@ -64,7 +64,7 @@ Kafka 中的 Topic 是以 Partition 的形式存放的，每一个 Topic 都可�
 
 在存储结构上，每个 Partition 在物理上对应一个文件夹，该文件夹下存储这个 Partition 的所有消息和索引文件。Partiton 命名规则为 Topic 名称 + 序号，第一个 Partiton 序号从 0 开始，序号最大值为 Partitions 数量减 1。由于一个 Topic 包含多个分区，因此无法在整个 Topic 范围内保证消息的顺序性，但可以保证消息在单个分区内的顺序性。
 
-<div align="center"> <img src="../images/Kafka/log_anatomy.png"/> </div>
+<div align="center"> <img src="../images/kafka/log_anatomy.png"/> </div>
 
 在每个 Partition（文件夹）中有多个大小相等的 Segment（段）数据文件，每个 Segment 的大小是相同的，但每条消息的大小可能不相同。因此 Segment 数据文件中消息数量不一定相等。Segment 数据文件有两个部分组成：index file 和 data file，此两个文件一一对应，成对出现，后缀`.index`和`.log`分别表示为 Segment 索引文件和数据文件。
 
@@ -86,7 +86,7 @@ Leader 维护了一个动态的 in-sync replica set（ISR）：和 Leader 保持
 
 如果 Follower 长时间未向 Leader 同步数据，则该 Follower 将被踢出 ISR 集合，该时间阈值由 `replica.lag.time.max.ms` 参数设定。Leader 发生故障后，就会从 ISR 中选举出新的 Leader。
 
-<div align="center"> <img src="../images/Kafka/kafka_hw.png"/> </div>
+<div align="center"> <img src="../images/kafka/kafka_hw.png"/> </div>
 
 - LEO：每个副本最大的 Offset
 - HW：消费者能见到的最大的 Offset，ISR 队列中最小的 LEO。
@@ -106,11 +106,11 @@ Kafka 发布消息通常有两种模式：**队列模式（Queuing）和发布/�
 
 消费者按照消息生成的顺序来读取，并通过检查消息的偏移量（offset）来区分读取过的消息。偏移量是一个不断递增的数值，在创建消息时，Kafka 会把它添加到其中，在给定的分区里，每个消息的偏移量都是唯一的。消费者把每个分区最后读取的偏移量保存在 Zookeeper 或 Kafka 上，如果消费者关闭或者重启，它还可以重新获取该偏移量，以保证读取状态不会丢失。
 
-<div align="center"> <img src="../images/Kafka/log_consumer.png"/> </div>
+<div align="center"> <img src="../images/kafka/log_consumer.png"/> </div>
 
 一个分区只能被同一个消费者组里面的一个消费者读取，但可以被不同消费者群组中所组成的多个消费者共同读取。多个消费者群组中消费者共同读取同一个主题时，彼此之间互不影响。
 
-<div align="center"> <img src="../images/Kafka/consumer-groups.png"/> </div>
+<div align="center"> <img src="../images/kafka/consumer-groups.png"/> </div>
 
 ## 8 - Brokers 与 Clusters
 一个独立的 Kafka 服务器被称为 Broker。Broker 接收来自生产者的消息，为消息设置偏移量，并提交消息到磁盘保存。Broker 为消费者提供服务，对读取分区的请求做出响应，返回已经提交到磁盘的消息。
@@ -119,4 +119,4 @@ Broker 是集群 Cluster 的组成部分。每一个集群都会选举出一个 
 
 在集群中，一个 Partition 从属于一个 Broker，该 Broker 被称为分区的 Leader。一个分区可以分配给多个 Brokers，这个时候会发生分区复制。这种复制机制为分区提供了消息冗余，如果其中一个 Broker 故障，其它 Broker 可以接管领导权。
 
-<div align="center"> <img src="../images/Kafka/kafka架构图.png"/> </div>
+<div align="center"> <img src="../images/kafka/kafka架构图.png"/> </div>

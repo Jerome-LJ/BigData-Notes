@@ -1,18 +1,30 @@
+[![GitHub stars](https://img.shields.io/github/stars/Jerome-LJ/BigData-Notes.svg?style=social&label=Stars)](https://github.com/Jerome-LJ/BigData-Notes/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Jerome-LJ/BigData-Notes.svg?style=social&label=Fork)](https://github.com/Jerome-LJ/BigData-Notes/network/members)
+[![GitHub watchers](https://img.shields.io/github/watchers/Jerome-LJ/BigData-Notes.svg?style=social&label=Watch)](https://github.com/Jerome-LJ/BigData-Notes/watchers)
+[![GitHub followers](https://img.shields.io/github/followers/Jerome-LJ.svg?style=social&label=Follow)](https://github.com/Jerome-LJ?tab=following)
+
+[![GitHub issues](https://img.shields.io/github/issues/Jerome-LJ/BigData-Notes.svg)](https://github.com/Jerome-LJ/BigData-Notes/issues)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Jerome-LJ/BigData-Notes.svg)](https://github.com/Jerome-LJ/BigData-Notes/commits)
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/Jerome-LJ/BigData-Notes.svg)](https://github.com/Jerome-LJ/BigData-Notes)
+[![HitCount](http://hits.dwyl.com/Jerome-LJ/BigData-Notes.svg)](http://hits.dwyl.com/Jerome-LJ/BigData-Notes)
+
+---
+
 # BigData-Notes
 Hadoop 生态圈，大数据学习之路
 
 <table>
     <tr>
-      <th><img width="70px" src="images/Logo/hdfs-logo.jpg"></th>
-      <th><img width="70px" src="images/Logo/yarn-logo.png"></th>
-      <th><img width="70px" src="images/Logo/spark-logo.png"></th>
-      <th><img width="70px" src="images/Logo/hbase-logo.png"></th>
-      <th><img width="70px" src="images/Logo/kudu-logo.png"></th>
-      <th><img width="70px" src="images/Logo/hive-logo.png"></th>
-      <th><img width="70px" src="images/Logo/presto-logo.png"></th>
-      <th><img width="70px" src="images/Logo/flume-logo.png"></th>
-      <th><img width="70px" src="images/Logo/kafka-logo.png"></th>
-      <th><img width="70px" src="images/Logo/zookeeper-logo.png"></th>
+      <th><img width="70px" src="images/logo/hdfs-logo.jpg"></th>
+      <th><img width="70px" src="images/logo/yarn-logo.png"></th>
+      <th><img width="70px" src="images/logo/spark-logo.png"></th>
+      <th><img width="70px" src="images/logo/hbase-logo.png"></th>
+      <th><img width="70px" src="images/logo/kudu-logo.png"></th>
+      <th><img width="70px" src="images/logo/hive-logo.png"></th>
+      <th><img width="70px" src="images/logo/presto-logo.png"></th>
+      <th><img width="70px" src="images/logo/flume-logo.png"></th>
+      <th><img width="70px" src="images/logo/kafka-logo.png"></th>
+      <th><img width="70px" src="images/logo/zookeeper-logo.png"></th>
     </tr>
     <tr>
       <td align="center"><a href="#一hdfshadoop分布式文件系统">HDFS</a></td>
@@ -27,9 +39,9 @@ Hadoop 生态圈，大数据学习之路
       <td align="center"><a href="#十zookeeper分布式协作服务">ZooKeeper</a></td>
     </tr>
     <tr>
-      <th><img width="70px" src="images/Logo/cloudera-logo.png"></th>
-      <th><img width="70px" src="images/Logo/elastic-logo.png"></th>
-      <th><img width="70px" src="images/Logo/azkaban-logo.png"></th>
+      <th><img width="70px" src="images/logo/cloudera-logo.png"></th>
+      <th><img width="70px" src="images/logo/elastic-logo.png"></th>
+      <th><img width="70px" src="images/logo/azkaban-logo.png"></th>
     </tr>
     <tr>
       <td align="center"><a href="#十一cloudera大数据运维工具">Cloudera</a></td>
