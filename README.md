@@ -6,7 +6,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/Jerome-LJ/BigData-Notes.svg)](https://github.com/Jerome-LJ/BigData-Notes/issues)
 [![GitHub last commit](https://img.shields.io/github/last-commit/Jerome-LJ/BigData-Notes.svg)](https://github.com/Jerome-LJ/BigData-Notes/commits)
 [![GitHub repo size in bytes](https://img.shields.io/github/repo-size/Jerome-LJ/BigData-Notes.svg)](https://github.com/Jerome-LJ/BigData-Notes)
-[![HitCount](http://hits.dwyl.com/Jerome-LJ/BigData-Notes.svg)](http://hits.dwyl.com/Jerome-LJ/BigData-Notes)
+[![HitCount](https://hits.b3log.org/Jerome-LJ/BigData-Notes.svg)](https://github.com/Jerome-LJ/BigData-Notes)
 
 ---
 
@@ -58,11 +58,12 @@ Hadoop 生态圈，大数据学习之路
 ## 三、Spark（内存计算）
 ## 四、HBase（分布式列存储数据库）
 ## 五、Kudu（列式存储管理器）
+&emsp;&emsp;&emsp;&emsp;[1 - Kudu基础与入门指南](Kudu/1--Kudu基础与入门指南.md)
 ## 六、Hive（数据仓库）
 ## 七、Presto（分布式SQL查询引擎）
 ## 八、Flume（日志收集工具）
 ## 九、Kafka（分布式消息队列）
-&emsp;&emsp;[1 - Kafka 基础与入门](./Kafka/1--Kafka基础与入门.md)
+&emsp;&emsp;&emsp;&emsp;[1 - Kafka 基础与入门指南](./Kafka/1--Kafka基础与入门指南.md)
 ## 十、ZooKeeper（分布式协作服务）
 ## 十一、Cloudera（大数据运维工具）
 ## 十二、Elastic（分布式搜索和分析引擎）
