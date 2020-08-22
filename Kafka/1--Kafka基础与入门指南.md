@@ -27,19 +27,19 @@ Kafka 是一个高吞吐量的分布式发布/订阅消息系统。特点如下�
 
 ## 2 - Kafka 角色术语
 在介绍架构之前，先来了解下 Kafka 中的一些核心概念和各种角色。
-- Broker：Kafka 集群包含一个或多个服务器，每个服务器被称为 Broker。
-- Topic（主题）：每条发布到 Kafka 集群的消息都有一个分类，这个类别被称为 Topic（主题）。
-- Producer（生产者）：负责发布消息到 Kafka Broker。
-- Consumer（消费者）：从 Kafka Broker 拉取数据，并消费这些已发布的消息。
-- Partition（分区）：为了实现扩展性，提高并发能力，每个 Topic 包含一个或多个 Partition，每个 Partition 都是一个有序的队列。Partition 中的每条消息都会被分配一个有序的 ID（称为 Offset）。
-- Consumer Group（消费者组）：可以给每个 Consumer 指定消费者组，若不指定，则属于默认的 Group。
+- **Broker：** Kafka 集群包含一个或多个服务器，每个服务器被称为 Broker。
+- **Topic（主题）：** 每条发布到 Kafka 集群的消息都有一个分类，这个类别被称为 Topic（主题）。
+- **Producer（生产者）：** 负责发布消息到 Kafka Broker。
+- **Consumer（消费者）：** 从 Kafka Broker 拉取数据，并消费这些已发布的消息。
+- **Partition（分区）：** 为了实现扩展性，提高并发能力，每个 Topic 包含一个或多个 Partition，每个 Partition 都是一个有序的队列。Partition 中的每条消息都会被分配一个有序的 ID（称为 Offset）。
+- **Consumer Group（消费者组）：** 可以给每个 Consumer 指定消费者组，若不指定，则属于默认的 Group。
 - Message（消息）：通信的基本单位，每个 Producer 可以向一个 Topic 发布一些消息。
-- Replica（副本）：为实现备份的功能，保证集群中的某个节点发生故障时，该节点上的 Partition 数据不丢失，且 Kafka 仍然能够继续工作，Kafka 提供了副本机制，一个 Topic 的每个分区都有若干个副本，一个 Leader 和若干个Follower。
-- Leader（领导）：每个分区多个副本的<主>副本，生产者发送数据的对象，以及消费者消费数据的对象，都是 Leader。
-- Follower（追随者）：每个分区多个副本的<从>副本，实时从 Leader 中同步数据，保持和 Leader 数据的同步。Leader 发生故障时，某个 Follower 通过 Controller 选举成为新的 Leader。
-- Controller（控制器）：Kafka 使用 zk 在 broker 中选出一个 Controller，用于 partition 分配和 leader 选举。
-- Offset（偏移量）：消费者消费的位置偏移量，当消费者挂掉再重新恢复的时候，可以从消费位置继续消费。
-- ZooKeeper（管理员）：帮助 Kafka 存储和管理集群信息。
+- **Replica（副本）：** 为实现备份的功能，保证集群中的某个节点发生故障时，该节点上的 Partition 数据不丢失，且 Kafka 仍然能够继续工作，Kafka 提供了副本机制，一个 Topic 的每个分区都有若干个副本，一个 Leader 和若干个Follower。
+- **Leader（领导）：** 每个分区多个副本的<主>副本，生产者发送数据的对象，以及消费者消费数据的对象，都是 Leader。
+- **Follower（追随者）：** 每个分区多个副本的<从>副本，实时从 Leader 中同步数据，保持和 Leader 数据的同步。Leader 发生故障时，某个 Follower 通过 Controller 选举成为新的 Leader。
+- **Controller（控制器）：** Kafka 使用 zk 在 broker 中选出一个 Controller，用于 partition 分配和 leader 选举。
+-** Offset（偏移量）：** 消费者消费的位置偏移量，当消费者挂掉再重新恢复的时候，可以从消费位置继续消费。
+- **ZooKeeper（管理员）：** 帮助 Kafka 存储和管理集群信息。
 
 ## 3 - Kafka 架构概述
 一个典型的 Kafka 集群包含若干 Producer、Broker、Consumer Group，以及一个 ZooKeeper 集群。Kafka 通过 ZooKeeper 管理集群配置，选举 Leader，以及在 Consumer Group 发生变化时进行 Rebalance。Producer 使用 push 模式将消息发布到 Broker，Consumer 使用 pull 模式从 Broker 订阅并消费消息。典型架构图如下图所示：
