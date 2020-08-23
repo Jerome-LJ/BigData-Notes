@@ -54,17 +54,19 @@ Hadoop 生态圈，大数据学习之路
 ---
 
 ## 一、HDFS（Hadoop分布式文件系统）
+&emsp;&emsp;&emsp;&emsp;[1 - HDFS基础与入门指南](./HDFS/1--HDFS基础与入门指南.md)
 ## 二、Yarn（分布式资源管理器）
 ## 三、Spark（内存计算）
 ## 四、HBase（分布式列存储数据库）
 ## 五、Kudu（列式存储管理器）
-&emsp;&emsp;&emsp;&emsp;[1 - Kudu基础与入门指南](Kudu/1--Kudu基础与入门指南.md)
+&emsp;&emsp;&emsp;&emsp;[1 - Kudu基础与入门指南](./Kudu/1--Kudu基础与入门指南.md)
 ## 六、Hive（数据仓库）
 ## 七、Presto（分布式SQL查询引擎）
 ## 八、Flume（日志收集工具）
 ## 九、Kafka（分布式消息队列）
 &emsp;&emsp;&emsp;&emsp;[1 - Kafka 基础与入门指南](./Kafka/1--Kafka基础与入门指南.md)
 ## 十、ZooKeeper（分布式协作服务）
+&emsp;&emsp;&emsp;&emsp;[1 - Zookeeper基础与入门指南](./Zookeeper/1--Zookeeper基础与入门指南.md)
 ## 十一、Cloudera（大数据运维工具）
 ## 十二、Elastic（分布式搜索和分析引擎）
 ## 十三、Azkaban（批处理工作流调度器）
