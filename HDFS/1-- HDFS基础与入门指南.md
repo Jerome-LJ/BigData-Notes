@@ -1,21 +1,20 @@
 <nav>
-<a href="#1---hdfs-基本概念"</a>1 - HDFS 基本概念<br/>
-<a href="#2---hdfs-角色术语"</a>2 - HDFS 角色术语<br/>
-<a href="#3---hdfs-架构概述"</a>3 - HDFS 架构概述<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31---hdfs-架构"</a>3.1 - HDFS 架构<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32---文件系统命名空间namespace"</a>3.2 - 文件系统命名空间（NameSpace）<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33---数据复制"</a>3.3 - 数据复制<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34---namenode-工作机制解析"</a>3.4 - NameNode 工作机制解析<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35---secondarynamenode-工作机制解析"</a>3.5 - SecondaryNameNode 工作机制解析<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36---namenode-下的元数据存储"</a>3.6 - NameNode 下的元数据存储<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#37---standbynamenode-下-journalnode-的元数据管理"</a>3.7 - StandbyNameNode 下 JournalNode 的元数据管理<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#38---hdfs-读取写入数据流程解析"</a>3.8 - HDFS 读取、写入数据流程解析<br/>
-<a href="#4---图解hdfs存储原理"</a>4 - 图解HDFS存储原理<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---hdfs写数据原理"</a>4.1 - HDFS写数据原理<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---hdfs读数据原理"</a>4.2 - HDFS读数据原理<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43---hdfs故障类型和其检测方法"</a>4.3 - HDFS故障类型和其检测方法<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44---副本布局策略"</a>4.4 - 副本布局策略<br/>
-</nav>
+<a href="#1---hdfs-基本概念"</a>1 - HDFS 基本概念</a><br/>
+<a href="#2---hdfs-角色术语"</a>2 - HDFS 角色术语</a><br/>
+<a href="#3---hdfs-架构概述"</a>3 - HDFS 架构概述</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31---hdfs-架构"</a>3.1 - HDFS 架构</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32---文件系统命名空间namespace"</a>3.2 - 文件系统命名空间（NameSpace）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33---数据复制"</a>3.3 - 数据复制</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34---namenode-工作机制解析"</a>3.4 - NameNode 工作机制解析</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35---secondarynamenode-工作机制解析"</a>3.5 - SecondaryNameNode 工作机制解析</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36---namenode-下的元数据存储"</a>3.6 - NameNode 下的元数据存储</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#37---standbynamenode-下-journalnode-的元数据管理"</a>3.7 - StandbyNameNode 下 JournalNode 的元数据管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#38---hdfs-读取写入数据流程解析"</a>3.8 - HDFS 读取、写入数据流程解析</a><br/>
+<a href="#4---图解hdfs存储原理"</a>4 - 图解HDFS存储原理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---hdfs写数据原理"</a>4.1 - HDFS写数据原理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---hdfs读数据原理"</a>4.2 - HDFS读数据原理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43---hdfs故障类型和其检测方法"</a>4.3 - HDFS故障类型和其检测方法</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44---副本布局策略"</a>4.4 - 副本布局策略</a><br/>
 </nav>
 
 ---
@@ -65,7 +64,8 @@ HDFS 的 `文件系统命名空间` 的层次结构与大多数文件系统类�
 
 <div align="center"> <img width="700px" src="../images/hdfs/hdfs-datanodes.png"/> </div>
 
-> <font size=1>*注：以下部分内容引用自拉勾教育：[大数据运维实战](https://kaiwu.lagou.com/course/courseInfo.htm?sid=20-h5Url-0&courseId=144&lagoufrom=noapp&sharetype=copy#/detail/pc?id=3082)*
+> <font size=1>注：以下部分内容引用自拉勾教育：[大数据运维实战](https://kaiwu.lagou.com/course/courseInfo.htm?sid=20-h5Url-0&courseId=144&lagoufrom=noapp&sharetype=copy#/detail/pc?id=3082)</font>
+
 ### 3.4 - NameNode 工作机制解析
 在 HDFS 中，FsImage 和 Edit Log 是 NameNode 两个非常重要的文件。它们存储在 NameNode 节点的本地磁盘上，这就是 NameNode 的元数据信息。其中，FsImage 文件用来记录数据块到文件的映射、目录或文件的结构、属性等信息，里面记录了自最后一次检查点之前 HDFS 文件系统中所有目录和文件的信息。
 
@@ -173,7 +173,7 @@ Client 开始往 A 上传第一个 block（先从磁盘读取数据放到一个�
 
 
 ## 4 - 图解HDFS存储原理
-<font size=1>*注：以下图片引用自博客：[翻译经典 HDFS 原理讲解漫画](https://blog.csdn.net/hudiefenmu/article/details/37655491)*
+<font size=1>*注：以下图片引用自博客：[翻译经典 HDFS 原理讲解漫画](https://blog.csdn.net/hudiefenmu/article/details/37655491)*</font>
 
 ### 4.1 - HDFS写数据原理
 

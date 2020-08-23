@@ -1,12 +1,12 @@
 <nav>
-<a href="#1---kudu-基本概念"</a>1 - Kudu 基本概念  <br/>
-<a href="#2---kudu-角色术语"</a>2 - Kudu 角色术语<br/>
-<a href="#3---kudu-架构概述"</a>3 - Kudu 架构概述<br/>
-<a href="#4---kudu-读写流程"</a>4 - Kudu 读写流程<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---读流程"</a>4.1 - 读流程<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---insert-流程"</a>4.2 - Insert 流程<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43---update-流程"</a>4.3 - Update 流程<br/>
-<a href="#5---kudu-数据存储方式"</a>5 - Kudu 数据存储方式<br/>
+<a href="#1---kudu-基本概念"</a>1 - Kudu 基本概念</a><br/>
+<a href="#2---kudu-角色术语"</a>2 - Kudu 角色术语</a><br/>
+<a href="#3---kudu-架构概述"</a>3 - Kudu 架构概述</a><br/>
+<a href="#4---kudu-读写流程"</a>4 - Kudu 读写流程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---读流程"</a>4.1 - 读流程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---insert-流程"</a>4.2 - Insert 流程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43---update-流程"</a>4.3 - Update 流程</a><br/>
+<a href="#5---kudu-数据存储方式"</a>5 - Kudu 数据存储方式</a><br/>
 </nav>
 
 ---
@@ -69,7 +69,7 @@ Kudu Master在Kudu集群中，发挥如下作用：
 <div align="center"> <img width="700px" src="../images/kudu/kudu网络架构.png"/> </div>
 
 ## 4 - Kudu 读写流程
-> <font size=1>*注：以下图片引用自博客：[kudu原理与使用](https://blog.csdn.net/a376554764/article/details/89445319)*
+> <font size=1>*注：以下图片引用自博客：[kudu原理与使用](https://blog.csdn.net/a376554764/article/details/89445319)*</font>
 
 ### 4.1 - 读流程
 客户端将要读取的数据信息发送给 Master， Master 对其进行一定的校验，比如表是否存在，字段是否存在。 Master 返回元数据信息给 Client，然后 Client 与 TServer 建立连接，通过 MetaData 找到数据所在的RowSet，首先加载内存里面的数据( MemRowSet 与 DeltMemStore ),然后加载磁盘里面的数据，最后返回最终数据给 Client。
