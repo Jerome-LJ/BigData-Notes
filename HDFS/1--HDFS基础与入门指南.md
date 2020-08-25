@@ -173,7 +173,7 @@ Client 开始往 A 上传第一个 block（先从磁盘读取数据放到一个�
 
 
 ## 4 - 图解HDFS存储原理
-<font size=1>*注：以下图片引用自博客：[翻译经典 HDFS 原理讲解漫画](https://blog.csdn.net/hudiefenmu/article/details/37655491)*</font>
+> <font size=1>*注：以下图片引用自博客：[翻译经典 HDFS 原理讲解漫画](https://blog.csdn.net/hudiefenmu/article/details/37655491)*</font>
 
 ### 4.1 - HDFS写数据原理
 

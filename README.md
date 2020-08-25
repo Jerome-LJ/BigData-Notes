@@ -55,6 +55,8 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 
 ## 一、HDFS（Hadoop分布式文件系统）
 &emsp;&emsp;&emsp;&emsp;[1 - HDFS基础与入门指南](./HDFS/1--HDFS基础与入门指南.md)
+
+&emsp;&emsp;&emsp;&emsp;[2 - 从生日请客到HDFS工作原理解析](./HDFS/2--从生日请客到HDFS工作原理解析.md)
 ## 二、Yarn（分布式资源管理器）
 ## 三、Spark（内存计算）
 ## 四、HBase（分布式列存储数据库）
