@@ -157,6 +157,8 @@ Zookeeper 采用 ACL(Access Control Lists) 策略实现权限控制，比如对�
 - **DELETE：** 允许删除子节点；
 - **ADMIN：** 允许为节点设置权限。
 
+> <font size=1>*注：以下部分内容引用 OSCHINA：[Zookeeper实现之Zab协议详解(二)](https://my.oschina.net/coderluo?tab=newest&catalogId=6596495)*</font>
+
 ## 4 - ZAB 协议
 ZAB 协议（Zookeeper Atomic Broadcast）是为分布式协调服务 ZooKeeper 专门设计的一种支持崩溃恢复的原子广播协议。在 ZooKeeper 中，主要依赖 ZAB 协议来实现分布式数据一致性。
 ### 4.1 - ZAB 协议概述
