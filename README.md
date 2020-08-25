@@ -60,6 +60,11 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 ## 二、Yarn（分布式资源管理器）
 ## 三、Spark（内存计算）
 ## 四、HBase（分布式列存储数据库）
+&emsp;&emsp;&emsp;&emsp;[1 - HBase基础与入门指南](./HBase/1--HBase基础与入门指南.md)
+
+&emsp;&emsp;&emsp;&emsp;[2 - HBase的架构及其各角色功能](./HBase/2--HBase的架构及其各角色功能.md)
+
+&emsp;&emsp;&emsp;&emsp;[3 - 从洗袜子到HBase存储原理解析](./HBase/3--从洗袜子到HBase存储原理解析.md)
 ## 五、Kudu（列式存储管理器）
 &emsp;&emsp;&emsp;&emsp;[1 - Kudu基础与入门指南](./Kudu/1--Kudu基础与入门指南.md)
 ## 六、Hive（数据仓库）
