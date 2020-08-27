@@ -68,6 +68,7 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 ## 五、Kudu（列式存储管理器）
 &emsp;&emsp;&emsp;&emsp;[1 - Kudu基础与入门指南](./Kudu/1--Kudu基础与入门指南.md)
 ## 六、Hive（数据仓库）
+&emsp;&emsp;&emsp;&emsp;[1 - Hive基础与入门指南](./Hive/1--Hive基础与入门指南.md)
 ## 七、Presto（分布式SQL查询引擎）
 ## 八、Flume（日志收集工具）
 ## 九、Kafka（分布式消息队列）
