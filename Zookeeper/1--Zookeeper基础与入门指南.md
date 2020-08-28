@@ -15,21 +15,19 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#35-znode数据节点"</a>3.5 Znode（数据节点）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#36---stat-结构节点信息"</a>3.6 - Stat 结构（节点信息）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#37-acl访问控制"</a>3.7 ACL（访问控制）</a><br/>
-<a href="#4---zab-协议"</a>4 - ZAB 协议</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---zab-协议概述"</a>4.1 - ZAB 协议概述</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---zab-协议原理"</a>4.2 - ZAB 协议原理</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43---zab-协议内容"</a>4.3 - ZAB 协议内容</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#431---协议过程"</a>4.3.1 - 协议过程</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#432---协议状态切换"</a>4.3.2 - 协议状态切换</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#433---保证消息有序"</a>4.3.3 - 保证消息有序</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44---崩溃恢复"</a>4.4 - 崩溃恢复</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#45---消息广播"</a>4.5 - 消息广播</a><br/>
-<a href="#5---zookeeper的典型应用场景"</a>5 - Zookeeper的典型应用场景</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51---数据的发布订阅"</a>5.1 - 数据的发布/订阅</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52---命名服务"</a>5.2 - 命名服务</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#53---master选举"</a>5.3 - Master选举</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#54---分布式锁"</a>5.4 - 分布式锁</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#55---集群管理"</a>5.5 - 集群管理</a><br/>
+<a href="#4---zookeeper-读写流程"</a>4 - Zookeeper 读写流程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---写流程"</a>4.1 - 写流程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---读流程"</a>4.2 - 写流程</a><br/>
+<a href="#5---zab-协议"</a>5 - ZAB 协议</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51---zab-协议概述"</a>5.1 - ZAB 协议概述</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52---zab-协议原理"</a>5.2 - ZAB 协议原理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#53---zab-协议内容"</a>5.3 - ZAB 协议内容</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#531---协议过程"</a>5.3.1 - 协议过程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#532---协议状态切换"</a>5.3.2 - 协议状态切换</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#533---保证消息有序"</a>5.3.3 - 保证消息有序</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#54---崩溃恢复"</a>5.4 - 崩溃恢复</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#55---消息广播"</a>5.5 - 消息广播</a><br/>
+<a href="#6---zookeeper-典型应用场景"</a>6 - Zookeeper 典型应用场景</a><br/>
 </nav>
 
 ---
@@ -37,10 +35,10 @@
 ## 1 - Zookeeper 简介
 Zookeeper 是一个开源分布式协调服务、分布式数据一致性解决方案。Zookeeper 可用于实现分布式系统中常见的数据发布/订阅、负载均衡、命令服务、分布式协调/通知、集群管理、Master 选举、分布式锁和分布式队列等功能。ZooKeeper 一个最常用的使用场景就是用于担任服务生产者和服务消费者的注册中心。
 
-它具有以下特性：
+**它具有以下特性：**
 - **顺序一致性：** 来自客户端的事务请求，将按照发送的顺序应用到 Zookeeper 中；
 - **原子性：** 在整个就群中所有机器上的数据都是一致的，一次数据更新只能成功或者失败，没有中间状态；
--** 一致性：** 客户端不论连接到哪个服务器，展示给它都是同一个视图；
+- **一致性：** 客户端不论连接到哪个服务器，展示给它都是同一个视图；
 - **可靠性：** 一旦应用了更新，它将一直持续到客户端覆盖更新为止；
 - **实时性：** Zookeeper 保证客户端将在一个时间间隔范围内获得服务器的更新信息，或者服务器失效的信息。但由于网络延时等原因，Zookeeper 不能保证两个客户端能同时得到刚更新的数据，如果需要最新数据，应该在读数据之前调用 sync() 接口。
 
@@ -63,9 +61,12 @@ ZooKeeper 将数据存全量储在内存中以保持高性能，并通过服务�
 
 ## 3 - Zookeeper 核心概念
 ### 3.1 - 角色术语
-- Leader：集群中有且仅有一个 Leader，通过选举过程产生。负责所有事务写操作（回话状态变更及数据节点变更操作），保证集群事务处理的顺序性。默认设置下，Leader 也处理读请求；
-- Follower：处理客户端非事务请求，转发事务请求给 Leader 服务器；参与 Leader 选举投票，参与事务操作的 `过半写成功` 投票策略；
-- Observer：只提供读取服务。在不影响写性能的情况下提升集群读取性能。不参与任何形式的投票。
+- **Leader：** 在 ZooKeeper 集群中只有一个节点作为集群的领导者，由各 Follower 通过 ZooKeeper Atomic Broadcast(ZAB) 协议选举产生，主要负责接收和协调所有写请求，并把写入的信息同步到 Follower 和 Observer。
+- **Follower：** 其功能有两个：
+    - 每个 Follower 都作为 Leader 的储备，当 Leader 故障时重新选举 Leader，避免单点故障。
+    - 处理读请求，并配合 Leader 一起进行写请求处理。
+- **Observer：** 不参与选举和写请求的投票，只负责处理读请求、并向 Leader 转发写请求，避免系统处理能力浪费。
+- **Client：** ZooKeeper 集群的客户端，对 ZooKeeper 集群进行读写操作。例如 HBase 可以作为 ZooKeeper 集群的客户端，利用 ZooKeeper 集群的仲裁功能，控制其 HMaster 的 `Active` 和 `Standby` 状态。
 
 ### 3.2 - Leader选举
 Leader 在集群中是非常重要的一个角色，负责了整个事务的处理和调度，保证分布式数据一致性的关键所在，也是集群在任何时候都有且仅有一个Leader存在。
@@ -159,16 +160,29 @@ Zookeeper 采用 ACL(Access Control Lists) 策略实现权限控制，比如对�
 
 > <font size=1>*注：以下部分内容引用 OSCHINA：[Zookeeper实现之Zab协议详解(二)](https://my.oschina.net/coderluo?tab=newest&catalogId=6596495)*</font>
 
-## 4 - ZAB 协议
+## 4 - Zookeeper 读写流程
+## 4.1 - 写流程
+- 1、客户端连接到集群中某一个 Zookeeper 节点；
+- 3、客户端发送写请求；
+- 4、Follower 或 Observer 接收到写请求后，转发给 Leader；
+- 5、Leader 协调各 Follower，通过投票机制决定是否接受该写请求；
+- 6、如果超过半数以上的 Leader、Follower 节点返回写入成功，那么 Leader 提交该请求并返回成功，否则返回失败；
+- 7、Follower 或 Observer 返回写请求处理结果。
+
+## 4.2 - 读流程
+- 1、客户端连接到集群中某一个 Zookeeper 节点；
+- 2、客户端直接向 Leader、Follower 或 Observer 读取数据。
+
+## 5 - ZAB 协议
 ZAB 协议（Zookeeper Atomic Broadcast）是为分布式协调服务 ZooKeeper 专门设计的一种支持崩溃恢复的原子广播协议。在 ZooKeeper 中，主要依赖 ZAB 协议来实现分布式数据一致性。
-### 4.1 - ZAB 协议概述
+### 5.1 - ZAB 协议概述
 Zookeeper 使用一个单一的主进程来接收并处理客户端的所有事务请求，并采用原子广播协议将数据状态的变更以事务 Proposal 的形式广播到所有的副本进程上去。如下图
 
 <div align="center"> <img width="700px" src="../images/zookeeper/zkcomponents.jpg"/> </div>
 
 所有的事务请求必须由唯一的 Leader 服务来处理，Leader 服务将事务请求转换为事务 Proposal，并将该 Proposal 分发给集群中所有的 Follower 服务。如果有半数的 Follower 服务进行了正确的反馈，那么 Leader 就会再次向所有的 Follower 发出 Commit 消息，要求将前一个 Proposal 进行提交。
 
-### 4.2 - ZAB 协议原理
+### 5.2 - ZAB 协议原理
 Zab 协议要求每个 Leader 都要经历四个阶段：选举、发现、同步、广播。
 
 - 1、选举阶段（Leader Election）：节点在一开始都处于选举节点，只要有一个节点得到超过半数节点的票数，它就可以当选准 Leader，只有到达第三个阶段（也就是同步阶段），这个准 Leader 才会成为真正的 Leader。
@@ -176,22 +190,22 @@ Zab 协议要求每个 Leader 都要经历四个阶段：选举、发现、同�
 - 3、同步阶段（Synchronization)：Leader 要负责将本身的数据与 Follower 完成同步，做到多副本存储。这样也是提现了 CAP 中的高可用和分区容错。Follower 将队列中未处理完的请求消费完成后，写入本地事务日志中。
 - 4、广播阶段（Broadcast）：Leader 可以进行消息广播。同时，如果有新的节点加入，还需要对新节点进行同步。 需要注意的是，Zab 提交事务并不像 2PC 一样需要全部 Follower 都 Ack，只需要得到 quorum（超过半数的节点）的Ack 就可以。
 
-### 4.3 - ZAB 协议内容
+### 5.3 - ZAB 协议内容
 ZAB 协议包括两种基本的模式，分别是 `broadcast 模式（消息广播模式，同步）`和 `recovery 模式（崩溃恢复模式，选 leader）`。
-#### 4.3.1 - 协议过程
+#### 5.3.1 - 协议过程
 当整个集群启动过程中，或者当 Leader 服务器出现网络中弄断、崩溃退出或重启等异常时，ZAB 协议就会 `进入崩溃恢复模式`，选举产生新的 Leader。
 
 当选举产生了新的 Leader，同时集群中有过半的机器与该 Leader 服务器完成了状态同步（即数据同步）之后，ZAB 协议就会退出崩溃恢复模式，`进入消息广播模式`。
 
 这时，如果有一台遵守 ZAB 协议的服务器加入集群，因为此时集群中已经存在一个 Leader 服务器在广播消息，那么该新加入的服务器自动进入恢复模式：找到 Leader 服务器，并且完成数据同步。同步完成后，作为新的 Follower 一起参与到消息广播流程中。
 
-#### 4.3.2 - 协议状态切换
+#### 5.3.2 - 协议状态切换
 当Leader出现崩溃退出或者机器重启，亦或是集群中不存在超过半数的服务器与 Leader 保存正常通信，ZAB 就会再一次进入崩溃恢复，发起新一轮 Leader 选举并实现数据同步。同步完成后又会进入消息广播模式，接收事务请求。
 
-#### 4.3.3 - 保证消息有序
+#### 5.3.3 - 保证消息有序
 在整个消息广播中，Leader 会将每一个事务请求转换成对应的 Proposal 来进行广播，并且在广播事务 Proposal 之前，Leader 服务器会首先为这个事务 Proposal 分配一个全局单递增的唯一 ID，称之为事务 ID（即zxid），由于 ZAB 协议需要保证每一个消息的严格的顺序关系，因此必须将每一个 Proposal 按照其 zxid 的先后顺序进行排序和处理。
 
-### 4.4 - 崩溃恢复
+### 5.4 - 崩溃恢复
 当整个服务框架在启动过程中，或者当 Leader 服务器出现异常时，ZAB 协议就会进入崩溃恢复模式，通过过半原则机制产生新的 Leader，之后其他机器将从新的 Leader 上同步状态，当有过半机器完成状态同步后，就退出恢复模式，进入消息广播模式。
 
 崩溃恢复具有两个阶段：`Leader 选举与初始化同步`。当完成 Leader 选举后，此时的 Leader 还是一个准 Leader，其要经过初始化同步后才能变为真正的 Leader。
@@ -215,17 +229,16 @@ ZAB 协议包括两种基本的模式，分别是 `broadcast 模式（消息广�
 
 当在 Leader 新事务已经通过，其已经将该事务更新到了本地，但所有 Follower 还都没有收到 Commit 之前，Leader 宕机了（比前面叙述的宕机更早），此时，所有 Follower 根本就不知道该 Proposal 的存在。当新的 Leader 选举出来，整个集群进入正常服务状态后，之前挂了的 Leader 主机重新启动并注册成为了 Follower。若那个别人根本不知道的 Proposal 还保留在那个主机，那么其数据就会比其它主机多出了内容，导致整个系统状态的不一致。 所以，该 Proposa 应该被丢弃。类似这样应该被丢弃的事务，是不能再次出现在集群中的，应该被清除。
 
-
-### 4.5 - 消息广播
+### 5.5 - 消息广播
 ZAB 协议的消息广播过程使用的是原子广播协议。在整个消息的广播过程中，Leader 服务器会每个事物请求生成对应的 Proposal，并为其分配一个全局唯一的递增的事务 ID(ZXID)，之后再对其进行广播。具体过程如下：
 
 <div align="center"> <img width="700px" src="../images/zookeeper/zkbrocast.jpg"/> </div>
 
 Leader 服务会为每一个 Follower 服务器分配一个单独的队列，然后将事务 Proposal 依次放入队列中，并根据 FIFO(先进先出) 的策略进行消息发送。Follower 服务在接收到 Proposal 后，会将其以事务日志的形式写入本地磁盘中，并在写入成功后反馈给 Leader 一个 Ack 响应。当 Leader 接收到超过半数 Follower 的 Ack 响应后，就会广播一个 Commit 消息给所有的 Follower 以通知其进行事务提交，之后 Leader 自身也会完成对事务的提交。而每一个 Follower 则在接收到 Commit 消息后，完成事务的提交。
 
-## 5 - Zookeeper的典型应用场景
-### 5.1 - 数据的发布/订阅
-### 5.2 - 命名服务
-### 5.3 - Master选举
-### 5.4 - 分布式锁
-### 5.5 - 集群管理
+## 6 - Zookeeper 典型应用场景
+- 1、数据的发布/订阅
+- 3、命名服务
+- 4、Master选举
+- 5、分布式锁
+- 6、集群管理
