@@ -12,37 +12,36 @@
 ---
 
 ## 1 - Kafka 基本概念
-Kafka 是一个高吞吐量的分布式发布/订阅消息系统。现在是个大数据时代，各种商业、社交、搜索、浏览都会产生大量的数据。那么如何快速收集这些数据，如何实时的分析这些数据，是一个必须要解决的问题，同时，这也形成了一个业务需求模型，即生产者生产（Produce）各种数据、消费者（Consume）消费（分析、处理）这些数据。那么面对这些需求，如何高效、稳定的完成数据的生产和消费呢？这就需要在生产者与消费者之间，建立一个通信的桥梁，这个桥梁就是**消息系统**。从微观层面来说，这种业务需求也可理解为不同的系统之间如何传递消息。
+它提供了类似于 JMS 的特性，但在设计上完全不同，它具有消息持久化、高吞吐、分布式、多客户端支持、实时等特性，适用于离线和在线的消息消费，如常规的消息收集、网站活性跟踪、聚合统计系统运营数据（监控数据）、日志收集等大量数据的互联网服务的数据收集场景。
 
-Kafka 是 Apache 组织下的一个开源系统，它的最大特性就是可以实时的处理大量数据以满足各种需求场景：比如基于 Hadoop 平台的数据分析、低时延的实时系统、Storm/Spark/Flink 流式处理引擎等。Kafka 现在已被多家大型公司作为多种类型的数据管道和消息系统使用。
+Kafka 有很多适用的场景：消息队列、行为跟踪、运维数据监控、日志收集、流处理、事件溯源、持久化日志等。
 
-Kafka 是一个高吞吐量的分布式发布/订阅消息系统。特点如下：
-- 支持消息的发布和订阅，类似于 RabbtMQ、ActiveMQ 等消息队列；
-- 支持数据实时处理；
-- 可靠性，能保证消息的可靠性传递；
-- 消息持久化，并通过多副本分布式的存储方案来保证消息的容错；
-- 扩展性，支持对大规模数据的处理，进行水平扩展集群；
-- 高吞吐率，单 Broker 可以轻松处理数千个分区以及每秒百万级的消息量；
+**Kafka 有如下几个特点：**
+- 高吞吐量，同时为发布和订阅提供高吞吐量。
+- 消息持久化到磁盘，并通过多副本分布式的存储方案来保证消息的容错。
+- 可靠性，能保证消息的可靠性传递，提供 At-Least Once，At-Most Once，Exactly Once 消息可靠传递。
+- 分布式系统易于向外扩展。
+- 容错性好。
+- 支持 online 和 offline 场景。
 - 多客户端支持，提供多种开发语言的接入。
 
 ## 2 - Kafka 角色术语
 在介绍架构之前，先来了解下 Kafka 中的一些核心概念和各种角色。
-- **Broker：** Kafka 集群包含一个或多个服务器，每个服务器被称为 Broker。
-- **Topic（主题）：** 每条发布到 Kafka 集群的消息都有一个分类，这个类别被称为 Topic（主题）。
-- **Producer（生产者）：** 负责发布消息到 Kafka Broker。
-- **Consumer（消费者）：** 从 Kafka Broker 拉取数据，并消费这些已发布的消息。
-- **Partition（分区）：** 为了实现扩展性，提高并发能力，每个 Topic 包含一个或多个 Partition，每个 Partition 都是一个有序的队列。Partition 中的每条消息都会被分配一个有序的 ID（称为 Offset）。
+- **Broker：** 在 Kafka 集群上包含一个或多个服务器，每个服务器被称为一个 Broker。
+- **Topic（主题）：**  一个 Topic 就是一个类别或者一个可订阅的条目名称，也即一类消息。一个主题可以有多个分区，这些分区可以作为并行的一个单元。
+- **Partition（分区）：** 为了实现扩展性，提高并发能力，每一个 Topic 可以被分为多个 Partition，每个 Partition 对应一个可持续追加的、有序不可变的消息序列，这个序列可以被连续地追加一个提交日志 log 文件。在分区内的每条消息都有一个有序的 ID 号，这个 ID 号被称为偏移（Offset），这个偏移量可以唯一确定每条消息在分区内的位置。- **Producer（生产者）：** 将消息发布到 Kafka topic 中。
+- **Consumer（消费者）：** 从 Kafka topic中消费已发布的消息。
 - **Consumer Group（消费者组）：** 可以给每个 Consumer 指定消费者组，若不指定，则属于默认的 Group。
-- Message（消息）：通信的基本单位，每个 Producer 可以向一个 Topic 发布一些消息。
+- **Message（消息）：** 通信的基本单位，每个 Producer 可以向一个 Topic 发布一些消息。
 - **Replica（副本）：** 为实现备份的功能，保证集群中的某个节点发生故障时，该节点上的 Partition 数据不丢失，且 Kafka 仍然能够继续工作，Kafka 提供了副本机制，一个 Topic 的每个分区都有若干个副本，一个 Leader 和若干个Follower。
 - **Leader（领导）：** 每个分区多个副本的<主>副本，生产者发送数据的对象，以及消费者消费数据的对象，都是 Leader。
 - **Follower（追随者）：** 每个分区多个副本的<从>副本，实时从 Leader 中同步数据，保持和 Leader 数据的同步。Leader 发生故障时，某个 Follower 通过 Controller 选举成为新的 Leader。
 - **Controller（控制器）：** Kafka 使用 zk 在 broker 中选出一个 Controller，用于 partition 分配和 leader 选举。
--** Offset（偏移量）：** 消费者消费的位置偏移量，当消费者挂掉再重新恢复的时候，可以从消费位置继续消费。
+- **Offset（偏移量）：** 消费者消费的位置偏移量，当消费者挂掉再重新恢复的时候，可以从消费位置继续消费。
 - **ZooKeeper（管理员）：** 帮助 Kafka 存储和管理集群信息。
 
 ## 3 - Kafka 架构概述
-一个典型的 Kafka 集群包含若干 Producer、Broker、Consumer Group，以及一个 ZooKeeper 集群。Kafka 通过 ZooKeeper 管理集群配置，选举 Leader，以及在 Consumer Group 发生变化时进行 Rebalance。Producer 使用 push 模式将消息发布到 Broker，Consumer 使用 pull 模式从 Broker 订阅并消费消息。典型架构图如下图所示：
+一个典型的 Kafka 集群包含若干 Producer、Broker、Consumer Group、以及一个 ZooKeeper 集群。Kafka 通过 ZooKeeper 管理集群配置选举 Leader，以及在 Consumer Group 发生变化时进行 Rebalance。Producer 使用 push 模式将消息发布到 Broker，Consumer 使用 pull 模式从 Broker 订阅并消费消息。典型架构图如下图所示：
 
 <div align="center"> <img width="700px" src="../images/kafka/kafka典型架构图.png"/> </div>
 
