@@ -27,7 +27,7 @@ Kudu 与HDFS相比，它虽然实现了数据的快速更新，删除等需求�
 
 正因为 HDFS 与 HBase 有上面这些缺点，Kudu 较好的解决了 HDFS 与 HBase 的这些缺点，它不及 HDFS 批处理快，也不及 HBase 随机读写能力强，但是反过来它比 HBase 批处理快（适用于 OLAP 的分析场景），而且比 HDFS 随机读写能力强（适用于实时写入或者更新的场景），这就是它能解决的问题。
 
-Kudu 共享 Hadoop 生态系统应用的常见技术特性: 它在 commodity hardware（商业硬件）上运行，horizontally scalable（水平可扩展），并支持 highly available（高可用）性操作。其特点如下：
+Kudu 共享 Hadoop 生态系统应用的常见技术特性: 它在 commodity hardware（商业硬件）上运行，horizontally scalable（水平可扩展），并支持 highly available（高可用）性操作。**其特点如下：**
 - OLAP 工作的快速处理。
 - 与 MapReduce，Spark 和其它 Hadoop 生态系统组件集成。
 - 与 Apache Impala（incubating）紧密集成，使其与 Apache Parquet 一起使用 HDFS 成为一个很好的可变的替代方案。
@@ -37,8 +37,7 @@ Kudu 共享 Hadoop 生态系统应用的常见技术特性: 它在 commodity har
 - High availability（高可用性）。Tablet server 和 Master 使用 Raft Consensus Algorithm 来保证节点的高可用，确保只要有一半以上的副本可用，该 tablet 便可用于读写。例如，如果 3 个副本中有 2 个或 5 个副本中的 3 个可用，则该 tablet 可用。即使在 leader tablet 出现故障的情况下，读取功能也可以通过 read-only（只读的）follower tablets 来进行服务。
 - 结构化数据模型。
 
-通过结合这些所有的特性，Kudu 的目标是**支持应用家庭中那些难以在当前 Hadoop 存储技术中实现的应用**。Kudu 常见的几个应用场景：
-
+通过结合这些所有的特性，Kudu 的目标是**支持应用家庭中那些难以在当前 Hadoop 存储技术中实现的应用**。**Kudu 常见的几个应用场景：**
 - 实时计算的场景。刚刚到达的数据就马上要被终端用户使用访问到。
 - 时间序列数据的场景，需要同时支持：
     - 根据海量历史数据查询。
