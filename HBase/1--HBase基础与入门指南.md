@@ -17,8 +17,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#61---hbase-第一次读写操作"</a>6.1 - HBase 第一次读写操作</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#62---hbase-写入流程"</a>6.2 - HBase 写入流程</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#63---hbase-读取流程"</a>6.3 - HBase 读取流程</a><br/>
-<a href="#6---hbase-架构的优缺点"</a>7 - HBase 架构的优缺点</a><br/>
-<a href="#7---hbase-使用场景"</a>7 - HBase 使用场景</a><br/>
+<a href="#7---hbase-架构的优缺点"</a>7 - HBase 架构的优缺点</a><br/>
+<a href="#8---hbase-使用场景"</a>8 - HBase 使用场景</a><br/>
 </nav>
 
 ---
