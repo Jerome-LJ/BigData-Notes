@@ -1,15 +1,16 @@
 <nav>
-<a href="#1---hdfs-基本概念"</a>1 - HDFS 基本概念</a><br/>
+<a href="#1---hdfs-简介"</a>1 - HDFS 简介</a><br/>
 <a href="#2---hdfs-角色术语"</a>2 - HDFS 角色术语</a><br/>
 <a href="#3---hdfs-架构概述"</a>3 - HDFS 架构概述</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#31---hdfs-架构"</a>3.1 - HDFS 架构</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32---文件系统命名空间namespace"</a>3.2 - 文件系统命名空间（NameSpace）</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33---数据复制"</a>3.3 - 数据复制</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34---namenode-工作机制解析"</a>3.4 - NameNode 工作机制解析</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35---secondarynamenode-工作机制解析"</a>3.5 - SecondaryNameNode 工作机制解析</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36---namenode-下的元数据存储"</a>3.6 - NameNode 下的元数据存储</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#37---standbynamenode-下-journalnode-的元数据管理"</a>3.7 - StandbyNameNode 下 JournalNode 的元数据管理</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#38---hdfs-读取写入数据流程解析"</a>3.8 - HDFS 读取、写入数据流程解析</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32---hdfs-ha-架构"</a>3.2 - HDFS HA 架构</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33---文件系统命名空间namespace"</a>3.3 - 文件系统命名空间（NameSpace）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34---数据复制"</a>3.4 - 数据复制</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35---namenode-工作机制解析"</a>3.5 - NameNode 工作机制解析</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36---secondarynamenode-工作机制解析"</a>3.6 - SecondaryNameNode 工作机制解析</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#37---namenode-下的元数据存储"</a>3.7 - NameNode 下的元数据存储</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#38---standbynamenode-下-journalnode-的元数据管理"</a>3.8 - StandbyNameNode 下 JournalNode 的元数据管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#39---hdfs-读取写入数据流程解析"</a>3.9 - HDFS 读取、写入数据流程解析</a><br/>
 <a href="#4---图解hdfs存储原理"</a>4 - 图解HDFS存储原理</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---hdfs写数据原理"</a>4.1 - HDFS写数据原理</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---hdfs读数据原理"</a>4.2 - HDFS读数据原理</a><br/>
@@ -19,8 +20,8 @@
 
 ---
 
-## 1 - HDFS 基本概念
-HDFS（Hadoop Distributed File System）是 Hadoop 下的分布式文件系统，具有高容错、高吞吐量等特性，可以部署在低成本硬件上。其具体特点如下：
+## 1 - HDFS 简介
+HDFS（Hadoop Distributed File System）是 Hadoop 下的分布式文件系统。是一个适合运行在通用硬件之上，具备高度容错特性，支持高吞吐量数据访问的分布式文件系统，适合大规模数据集方面的应用，为海量数据提供存储。**其具体特点如下：**
 - **高容错：** 由于 HDFS 采用数据的多副本方案，所以部分硬件的损坏不会导致全部数据的丢失。
 - **高吞吐量：** HDFS 设计的重点是支持高吞吐量的数据访问，而不是低延迟的数据访问。
 - **支持大文件：** HDFS 适合于大文件的存储，文档的大小应该是是 GB 到 TB 级别的。
@@ -34,21 +35,30 @@ HDFS（Hadoop Distributed File System）是 Hadoop 下的分布式文件系统�
     - 对于大量前人经验而言，一个文件/目录/文件块一般占有150字节的元数据内存空间。如果有100万个文件，每个文件占用1个文件块，则需要大约300M的内存。因此十亿级别的文件数量在现有商用机器上难以支持。
 - 多方读写，需要任意的文件修改：HDFS 采用追加 (append-only) 的方式写入数据。不支持数据的随机访问，不能从文件任意位置新增数据。
 
+**HDFS 适用于如下场景：**
+- 处理海量数据（TB或PB级别以上）。
+- 需要很高的吞吐量。
+- 需要高可靠性。
+- 需要很好的可扩展能力。
+
 ## 2 - HDFS 角色术语
 Hadoop 中的分布式文件系统 HDFS 为大数据平台提供了统一的存储，它主要由三部分构成，分别是 NameNode、DataNode 和 SecondaryNameNode。如果是 HA 架构，那么还有 StandbyNameNode、JournalNode 和 Failover Controller。
 
-- **NameNode（元数据节点）：** 是 HDFS 的管理节点，专门用来存储元数据信息，所谓元数据指的是除文件内容之外的数据，比如数据块存储位置、文件权限、文件大小等信息。元数据首先保存在内存中，然后定时持久化到硬盘上，在 NameNode 启动时，元数据就会从硬盘加载到内存中。后续的操作，元数据都是在内存中进行读写操作的。
-- **DataNode（数据节点）：** 主要用来存储数据，是 HDFS 中真正存储文件的部分。HDFS 中的文件以块的形式保存在 DataNode 所在服务器的本地磁盘上，同时 DataNode 也维护了 block id 到 DataNode 本地文件的映射关系。
-- **SecondaryNameNode：** 表示 NameNode 元数据的备份节点，它主要用于备份 NameNode 的元数据，这个备份不是热备份，而是定时异地冷备份。因此，在 NameNode 出问题时，通过 SecondaryNameNode 不能完整恢复元数据信息，可能会丢失一部分数据。基于此，出现了后续的 StandbyNameNode。
-- **StandbyNameNode：** 表示 NameNode 的备用节点，此节点处于 Standby 状态，不接受用户请求。但它会通过 JournalNode 时刻同步 NameNode 的元数据信息，当 NameNode（处于 Active 状态）发生故障后，ZooKeeper 会及时发现问题，进而执行主、备切换，StandbyNameNode 就变成 Active 状态。这种高可用机制是完全意义上的热备份，可以做到零数据丢失。生产环境下建议配置此热备份模式。
-- **JournalNode：** 主要用在 NameNode 的 HA 架构中，是实现主备 NameNode 之间共享数据的桥梁。NameNode 将元数据变动信息实时写入 JournalNode 中，然后 StandbyNameNode 实时从 JournalNode 中读出元数据信息，接着应用到自身，保持 NameNode 和 StandbyNameNode 元数据的实时同步。
-- **Failover Controller：** ZKFC 和 NameNode 是一一对应的，以守护进程的方式负责和 ZK 通信，并且时刻检查 NameNode 的健康状况。通过不断的 ping，如果能 ping 通，则说明节点是健康的。然后 ZKFC 会和 ZK 保持一个持久通话及 Session 对话，并且 ActiveNode 在 ZK 里面记录了一个`锁`，这样就会 Prevent 其它节点成为 ActiveNode，当会话丢失时，ZKFC 会发通知给 ZK，同时删掉`锁`，这个时候其它 NameNode 会去争抢并建立新的`锁`，这个过程叫 ZKFC 的选举。
+- **NameNode（元数据节点）：** 用于管理文件系统的命名空间、目录结构、元数据信息以及提供备份机制等。比如数据块存储位置、文件权限、文件大小等信息。元数据首先保存在内存中，然后定时持久化到硬盘上，在 NameNode 启动时，元数据就会从硬盘加载到内存中。后续的操作，元数据都是在内存中进行读写操作的。其分为：
+    - Active NameNode：管理文件系统的命名空间、维护文件系统的目录结构树以及元数据信息；记录写入的每个“数据块”与其归属文件的对应关系。
+    - Standby NameNode：与 Active NameNode 中的数据保持同步；随时准备在 Active NameNode 出现异常时接管其服务。
+- **DataNode（数据节点）：** 用于存储每个文件的“数据块”数据，并且会周期性地向 NameNode 报告该 DataNode 的数据存放情况。
+- **SecondaryNameNode：** 单节点集群下，是 NameNode 元数据的备份节点，主要用于备份 NameNode 的元数据，这个备份不是热备份，而是定时异地冷备份。因此，在 NameNode 出问题时，通过 SecondaryNameNode 不能完整恢复元数据信息，可能会丢失一部分数据。基于此，出现了后续的 StandbyNameNode。
+- **JournalNode：** HA 集群下，用于同步主备 NameNode 之间的元数据信息。NameNode 将元数据变动信息实时写入 JournalNode 中，然后 StandbyNameNode 实时从 JournalNode 中读出元数据信息，接着应用到自身，保持 NameNode 和 StandbyNameNode 元数据的实时同步。
+- **Failover Controller：** ZKFC 和 NameNode 是一一对应的服务，以守护进程的方式负责和 ZK 通信，并且时刻检查 NameNode 的健康状况。通过不断的 ping，如果能 ping 通，则说明节点是健康的。然后 ZKFC 会和 ZK 保持一个持久通话及 Session 对话，并且 ActiveNode 在 ZK 里面记录了一个`锁`，这样就会 Prevent 其它节点成为 Active NameNode，当会话丢失时，ZKFC 会发通知给 ZK，同时删掉`锁`，这个时候其它 NameNode 会去争抢并建立新的`锁`，这个过程叫 ZKFC 的选举。
+- **ZK Cluster：** ZooKeeper 是一个协调服务，帮助 ZKFC 执行主 NameNode 的选举。
 
 ## 3 - HDFS 架构概述
 ### 3.1 - HDFS 架构
 <div align="center"> <img width="700px" src="../images/hdfs/hdfs-architecture.png"/> </div>
+在 HDFS 中，一个文件分成一个或多个“数据块”，这些“数据块”存储在 DataNode 集合里，NameNode 负责保存和管理所有 HDFS 的元数据。客户端连接到 NameNode ，执行文件系统的“命名空间”操作，例如打开、关闭、重命名文件和目录，同时决定“数据块”到具体 DataNode 节点的映射。DataNode 在 NameNode 的指挥下进行“数据块”的创建、删除和复制。客户端连接到 DataNode ，执行读写数据块操作。
 
-HDFS 主/从体系结构，由单个 NameNode(NN) 和多个 DataNode(DN) 组成：
+HDFS 是一个 Master/Slave 的架构，由单个或两个 NameNode(NN) 和多个 DataNode(DN) 组成：
 - NameNode: 是 HDFS 的心脏，管理和维护着整个 HDFS 文件系统。
     - 负责接收用户的操作请求；
     - 负责管理 `文件系统命名空间`（NameSpace）、集群配置信息及存储块的复制等；
@@ -56,17 +66,28 @@ HDFS 主/从体系结构，由单个 NameNode(NN) 和多个 DataNode(DN) 组成�
     - 负责管理 block 与 DataNode 之间的关系。
 - DataNode：负责提供来自文件系统客户端的读写请求，执行块的创建，删除等操作。
 
-### 3.2 - 文件系统命名空间（NameSpace）
+### 3.2 - HDFS HA 架构
+HA 即为 High Availability，用于解决 NameNode 单点故障问题，该特性通过热备的方式为主 NameNode 提供一个备用者，一旦主 NameNode 出现故障，可以迅速切换至备 NameNode，从而不间断对外提供服务。
+
+在一个典型 HDFS HA 场景中，通常由两个 NameNode 组成，一个处于 Active 状态，另一个处于 Standby 状态。
+
+为了能实现 Active 和 Standby 两个 NameNode 的元数据信息同步，需提供一个共享存储系统。主备 NameNode 之间通过一组 JournalNode 同步元数据信息。
+
+通常配置奇数个（2N+1个） JournalNode，且最少要运行3个 JournalNode 。这样，一条元数据更新消息只要有N+1个 JournalNode 写入成功就认为数据写入成功，此时最多容忍N个 JournalNode 写入失败。比如，3个 JournalNode 时，最多允许1个 JournalNode 写入失败，5个 JournalNode 时，最多允许2个 JournalNode 写入失败。
+
+由于 JournalNode 是一个轻量级的守护进程，可以与 Hadoop 其它服务共用机器。建议将 JournalNode 部署在管理节点上，以避免数据节点在进行大数据量传输时引起 JournalNode 写入失败。
+
+### 3.3 - 文件系统命名空间（NameSpace）
 HDFS 的 `文件系统命名空间` 的层次结构与大多数文件系统类似（如 Linux）， 支持目录和文件的创建、移动、删除和重命名等操作，支持配置用户和访问权限，但不支持硬链接和软连接。NameNode 负责维护文件系统名称空间，记录对名称空间或其属性的任何更改。
 
-### 3.3 - 数据复制
+### 3.4 - 数据复制
 由于 Hadoop 被设计运行在廉价的机器上，这意味着硬件是不可靠的，为了保证容错性，HDFS 提供了数据复制机制。HDFS 将每一个文件存储为一系列块，每个块由多个副本来保证容错，块的大小和复制因子可以自行配置（默认情况下，块大小是 128M，默认复制因子是 3）。NameNode 定期从群集中的每个 DataNode 接收心跳信号和 Blockreport，收到心跳信号表示 DataNode 正常运行。 Blockreport 包含 DataNode 上所有块的列表。
 
 <div align="center"> <img width="700px" src="../images/hdfs/hdfs-datanodes.png"/> </div>
 
 > <font size=1>注：以下部分内容引用自拉勾教育：[大数据运维实战](https://kaiwu.lagou.com/course/courseInfo.htm?sid=20-h5Url-0&courseId=144&lagoufrom=noapp&sharetype=copy#/detail/pc?id=3082)</font>
 
-### 3.4 - NameNode 工作机制解析
+### 3.5 - NameNode 工作机制解析
 在 HDFS 中，FsImage 和 Edit Log 是 NameNode 两个非常重要的文件。它们存储在 NameNode 节点的本地磁盘上，这就是 NameNode 的元数据信息。其中，FsImage 文件用来记录数据块到文件的映射、目录或文件的结构、属性等信息，里面记录了自最后一次检查点之前 HDFS 文件系统中所有目录和文件的信息。
 
 Edit Log 文件记录了对文件的创建、删除、重命名等操作日志，也就是自最后一次检查点之后所有针对 HDFS 文件系统的操作都会记录在 Edit Log 文件中。例如，在 HDFS 中创建一个文件， NameNode 就会在 Edit Log 中插入一条记录，同样修改文件的副本系数也会在 Edit Log 中插入一条记录。
@@ -85,7 +106,7 @@ Edit Log 文件记录了对文件的创建、删除、重命名等操作日志�
 
 由于 checkpoint 的过程需要消耗大量的 IO 和 CPU 资源，并且会阻塞 HDFS 的读写操作。所以，该过程不会在 NameNode 节点上触发，在 Hadoop1.x 中由 SecondaryNameNode 来完成。而在 HDFS 的 HA 模式下，checkpoint 则由 StandBy 状态的 NameNode 来实现。
 
-### 3.5 - SecondaryNameNode 工作机制解析
+### 3.6 - SecondaryNameNode 工作机制解析
 SecondaryNameNode 实现有两个功能，即对 NameNode 元数据的备份以及将 Edit Log 合并到 Fsimage 中，这种实现机制比较简单，下面通过一张图来了解这种实现机制，如下图所示：
 
 <div align="center"> <img width="700px" src="../images/hdfs/hdfs-secondaryNameNode.png"/> </div>
@@ -102,7 +123,7 @@ SecondaryNameNode 总是周期性的去检查是否符合触发 checkpoint 的�
 
 生产环境下，SecondaryNameNode 建议运行在一台独立的服务器上，因为它在执行 FsImage 和 Edit Log 合并过程需要耗费大量 IO 和内存资源。不过，HDFS 支持 HA 功能后，SecondaryNameNode 已经很少使用了。
 
-### 3.6 - NameNode 下的元数据存储
+### 3.7 - NameNode 下的元数据存储
 元数据在 NameNode 中有 3 种存储形式，即内存、Edit Log 文件和 Fsimage 文件。最完整且最新的元数据一定是内存中的这一部分。那么元数据的目录结构是什么样的呢，打开元数据目录（如：`/data1/hadoop/dfs/name/current`），可以看到文件或目录，如下图所示：
 
 <div align="center"> <img width="700px" src="../images/hdfs/hdfs-namenode.png"/> </div>
@@ -119,7 +140,7 @@ SecondaryNameNode 总是周期性的去检查是否符合触发 checkpoint 的�
 
 上面说到了 edit 文件可以回滚，回滚的意思是生成一个新的文件。
 
-### 3.7 - StandbyNameNode 下 JournalNode 的元数据管理
+### 3.8 - StandbyNameNode 下 JournalNode 的元数据管理
 JournalNode 只在 HDFS 的 HA 模式下出现，其作为一个守护进程，实现了元数据在主、备节点的共享。JournalNode 的元数据目录在 hdfs-site.xml 文件中通过 `dfs.journalnode.edits.dir` 参数指定，包含一个 VERSION 文件，多个 `edits_xx` 文件和一个 `edits_inprogress_xxx` 文件，还包含一些与 HA 实现相关的文件，这些文件主要是为了防止脑裂，但 JournalNode 中并不包含 fsimage 和 seen_txid 文件。
 
 在 HA 模式下，StandbyNameNode 之所以会周期地让主 NameNode 对 Edit Log 文件进行回滚，间隔周期由 `dfs.ha.log-roll.period` 指定，默认是 120s，是因为 StandbyNameNode 不会读取 inprogress 的 Edit Log 文件，它只会周期性（`dfs.ha.tail-edits.period`，默认是 60s）的去检测已经完成的 Edit Log 文件，然后将该 Edit Log 文件通过 JournalNode 读取到内存，进而更新 Fsimage 在内存中的状态。在达到 checkpoint 触发条件后，新的 Fsimage 文件会在 StandbyNameNode 上生成。接着，StandbyNameNode 会删除自己磁盘上保留的陈旧 Fsimage 文件，然后将新的 Fsimage 文件上传给主 NameNode。
@@ -128,7 +149,7 @@ JournalNode 只在 HDFS 的 HA 模式下出现，其作为一个守护进程，�
 
 你可能发现了，在主 NameNode 元数据目录下会有非常多的 Edit Log 文件，而在 StandbyNameNode 元数据目录下只有一个 edits_inprogress_xxx 文件，这是因为 StandbyNameNode 并不会从 JournalNode 上拉取 Edit Log 文件保存到磁盘。而主 NameNode 下 Edit Log 文件每两分钟（由 `dfs.ha.log-roll.period` 控制）生成一个，所以我们需要定期清理陈旧的 Edit Log 文件。
 
-### 3.8 - HDFS 读取、写入数据流程解析
+### 3.9 - HDFS 读取、写入数据流程解析
 在使用 HDFS 之前，需要了解它的几个特点：
 
 一次写入，多次读取（不可修改，只可追加）；
@@ -170,7 +191,6 @@ Client 开始和 DataNode 建立传输通道，首先请求 DataNode A 节点上
 Client 开始往 A 上传第一个 block（先从磁盘读取数据放到一个本地内存缓存），以 packet 为单位（一个 packet 为 64KB），DataNode A 收到一个 packet 就会传给 DataNode B，DataNode B 接着传给 DataNode C；DataNode A 每传一个 packet 会放入一个应答队列，等待应答。
 当一个 block 传输完成之后，Client 再次请求 NameNode 开始上传第二个 block，上传过程重复上面 4~6 步骤。
 这样，就完成了 HDFS 写入数据的一个过程。
-
 
 ## 4 - 图解HDFS存储原理
 > <font size=1>*注：以下图片引用自博客：[翻译经典 HDFS 原理讲解漫画](https://blog.csdn.net/hudiefenmu/article/details/37655491)*</font>
