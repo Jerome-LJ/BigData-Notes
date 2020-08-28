@@ -1,32 +1,32 @@
 <nav>
 <a href="#1---hbase-基本概念"</a>1 - HBase 基本概念</a><br/>
 <a href="#2---hbase-table"</a>2 - HBase Table</a><br/>
-<a href="#3---hbase-表结构逻辑视图"</a>3 - HBase 表结构逻辑视图</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-row-key-行键"</a>3.1 Row Key (行键)</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-column-family列族"</a>3.2 Column Family（列族）</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33-column-qualifier-列限定符"</a>3.3 Column Qualifier (列限定符)</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34-column列"</a>3.4 Column(列)</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35-cell"</a>3.5 Cell</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36-timestamp时间戳"</a>3.6 Timestamp(时间戳)</a><br/>
-<a href="#4---hbase-架构概述"</a>4 - HBase 架构概述</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---zookeeper"</a>4.1 - Zookeeper</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---master"</a>4.2 - Master</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43---region-server"</a>4.3 - Region Server</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44---组件间的协同工作"</a>4.4 - 组件间的协同工作</a><br/>
-<a href="#5---hbase-数据的读写流程"</a>5 - HBase 数据的读写流程</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51---hbase-第一次读写操作"</a>5.1 - HBase 第一次读写操作</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52---hbase-写入流程"</a>5.2 - HBase 写入流程</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#53---hbase-读取流程"</a>5.3 - HBase 读取流程</a><br/>
-<a href="#6---hbase-架构的优缺点"</a>6 - HBase 架构的优缺点</a><br/>
-<a href="#7---hbase使用场景"</a>7 - HBase使用场景</a><br/>
+<a href="#3---hbase-架构概述"</a>3 - HBase 架构概述</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31---zookeeper"</a>3.1 - Zookeeper</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32---master"</a>3.2 - Master</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33---region-server"</a>3.3 - Region Server</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34---组件间的协同工作"</a>3.4 - 组件间的协同工作</a><br/>
+<a href="#4---hbase-数据模型"</a>4 - HBase 数据模型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41-row-key-行键"</a>4.1 Row Key (行键)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42-column-family列族"</a>4.2 Column Family（列族）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-column列"</a>4.3 Column（列）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44-cell"</a>4.4 Cell</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#45-timestamp时间戳"</a>4.5 Timestamp（时间戳）</a><br/>
+<a href="#5---hbase-ha-架构"</a>5 - HBase HA 架构</a><br/>
+<a href="#6---hbase-数据的读写流程"</a>6 - HBase 数据的读写流程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#61---hbase-第一次读写操作"</a>6.1 - HBase 第一次读写操作</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#62---hbase-写入流程"</a>6.2 - HBase 写入流程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#63---hbase-读取流程"</a>6.3 - HBase 读取流程</a><br/>
+<a href="#6---hbase-架构的优缺点"</a>7 - HBase 架构的优缺点</a><br/>
+<a href="#7---hbase-使用场景"</a>7 - HBase 使用场景</a><br/>
 </nav>
 
 ---
 
 ## 1 - HBase 基本概念
-Apache HBase 是一个构建在 Hadoop 文件系统之上的分布式、面向列的存储数据库。根据 Google 的 Chang 等人发表的论文 “Bigtable：A Distributed Storage System for Strctured Data” 来设计的。
+Apache HBase 是一个构建在 Hadoop 文件系统之上的高可靠性、高性能、面向列、可伸缩的分布式存储数据库。根据 Google 的 Chang 等人发表的论文 “Bigtable：A Distributed Storage System for Strctured Data” 来设计的。HBase 适合于存储大表数据（表的规模可以达到数十亿行以及数百万列），并且对大表数据的读、写访问可以达到实时级别。
 
-HDFS 为 Hbase 提供可靠的底层数据存储服务，MapReduce 为 Hbase 提供高性能的计算能力，Zookeeper 为 Hbase 提供稳定服务和 Failover 机制，因此与 Hadoop 一样，Hbase 目标是一个通过大量廉价的机器解决海量数据的高速存储和读取的分布式数据库解决方案。它具有以下特点：
+利用 Hadoop HDFS（Hadoop Distributed File System）作为其文件存储系统，Spark 和 Hadoop MapReduce 提供海量数据实时处理能力，Zookeeper 为 Hbase 提供稳定协同服务和 Failover 机制，因此与 Hadoop 一样，HBase设计目标是用来解决关系型数据库在处理海量数据时的局限性。**它具有以下特点：**
 - 严格一致的读写。
 - 可扩展性，通过增加机器进行横向扩展。
 - 支持 RegionServer 之间的自动故障转移。
@@ -54,10 +54,10 @@ HBase 是一个在 HDFS 之上的面向列的分布式数据库。从逻辑上�
 
 > <font size=1>*注：图片引用自博客：[HBase 是列式存储数据库吗](https://www.iteblog.com/archives/2498.html)*</font>
 
-HBase 表的具有如下特点：
-- **容量大：** 一个表可以有数十亿行，上百万列；
-- **面向列：** 数据是按照列存储，每一列都单独存放，数据即索引，在查询时可以只访问指定列的数据，有效地降低了系统的 I/O 负担；
-- **稀疏性：** 空 (null) 列并不占用存储空间，表可以设计的非常稀疏；
+HBase 中的表具有如下特点：
+- **大：** 一个表可以有上亿行，上百万列。
+- **面向列：** 面向列（族）的存储和权限控制，列（族）独立检索。
+- **稀疏性：** 对于为空（null）的列，并不占用存储空间，因此，表可以设计的非常稀疏。
 - **无严格模式：** 每行都有一个可排序的主键和任意多的列，列可以根据需要动态的增加，同一张表中不同的行可以有截然不同的列；
 - **数据多版本：** 每个单元中的数据可以有多个版本，默认情况下版本号自动分配，是单元格插入时的时间戳，最新的数据在最上面；
 - **存储类型单一：** Hbase中的数据都是字符串，没有类型。
@@ -68,48 +68,23 @@ HBase 提供对数据的随机实时读/写访问功能；
 
 HBase 内部使用哈希表，并存储索引，可将存在HDFS文件中的数据进行快速查找。
 
-## 3 - HBase 表结构逻辑视图
-
-### 3.1 Row Key (行键)
-与 NoSQL 数据库一样，Row Key 是用来检索记录的主键。访问 HBase Table 中的数据，只有以下三种方式：
-- 通过指定的 Row Key 进行访问；
-- 通过 Row Key 的 range 进行访问，即访问指定范围内的行；
-- 进行全表扫描。
-
-Row Key 可以是任意字符串，存储时数据按照 Row Key 的字典序进行排序。这里需要注意以下两点：
-- 因为字典序对 Int 排序的结果是 1,10,100,11,12,13,14,15,16,17,18,19,2,20,21,…,9,91,92,93,94,95,96,97,98,99。如果需要使用整型的字符串作为行键，那么为了保持整型的自然序，行键必须用 0 作左填充。
-- 行的一次读写操作时原子性的 (不论一次读写多少列)。
-
-### 3.2 Column Family（列族）
-HBase 表中的每个列，都归属于某个列族。列族是表的 Schema 的一部分（列不是），所以列族需要在创建表时进行定义。列族的所有列都以列族名作为前缀，例如 `courses:history`，`courses:math` 都属于 courses 这个列族。
-
-### 3.3 Column Qualifier (列限定符)
-列限定符，可以理解为是具体的列名，例如 `courses:history`，`courses:math` 都属于 courses 这个列族，它们的列限定符分别是 history 和 math。需要注意的是列限定符不是表 Schema 的一部分，可以在插入数据的过程中动态创建列。
-
-### 3.4 Column(列)
-HBase 中的列由列族和列限定符组成，它们由 :(冒号) 进行分隔，即一个完整的列名应该表述为 列族名 ：列限定符。
-
-### 3.5 Cell
-Cell 是行，列族和列限定符的组合，并包含值和时间戳。你可以等价理解为关系型数据库中由指定行和指定列确定的一个单元格，但不同的是 HBase 中的一个单元格是由多个版本的数据组成的，每个版本的数据用时间戳进行区分。
-
-由{row key, column( =<family> + <label>), version} 唯一确定的单元。
-
-### 3.6 Timestamp(时间戳)
-HBase 中通过 row key 和 column 确定的为一个存储单元称为 Cell。每个 Cell 都保存着同一份数据的多个版本。版本通过时间戳来索引，时间戳的类型是 64 位整型，时间戳可以由 HBase 在数据写入时自动赋值，也可以由客户显式指定。每个 Cell 中，不同版本的数据按照时间戳倒序排列，即最新的数据排在最前面。
-
-## 4 - HBase 架构概述
-HBase 使用 LSM（Log-Structured Merge Tree日志结构合并树）树，用于为那些频繁访问的数据（插入或删除）的文件提供低成本的索引机制。
+## 3 - HBase 架构概述
+HBase 使用 LSM（Log-Structured Merge Tree日志结构合并树）树，用于为那些频繁访问的数据（插入或删除）的文件提供低成本的索引机制。HBase 集群由主备 Master 进程和多个 RegionServer 进程组成
 
 <div align="center"> <img width="700px" src="../images/hbase/hbase架构图.png"/> </div>
 
-HBase 是主从式（Master/Salve）架构，由三种不同类型的组件组成：Zookeeper、Master、RegionServer。
-- Region Server 负责处理数据的读写请求，客户端请求数据时直接和 Region Server 交互。
-- HBase Master 负责 Region 的分配，DDL（创建，删除 table）等操作。
-- Zookeeper，作为 HDFS 的一部分，负责维护集群状态。
+HBase 是主从（Master/Salve）架构，由三种不同类型的组件组成：Zookeeper、Master、RegionServer。
+- **ZooKeeper 集群：** ZooKeeper 为 HBase 集群中各进程提供分布式协作服务。各 RegionServer 将自己的信息注册到 Zookeeper 中，主 Master 据此获取各个 RegionServer 的健康状态。
+- **RegionServer：** 负责提供表数据读写等服务，是 HBase 的数据处理和计算单元。RegionServer 一般与 HDFS 集群的DataNode部署在一起，实现数据的存储功能。
+- **Master：** 又叫 HMaster，在 HA 模式下，包含主 Master 和备 Master。
+    - **主 Master：** 负责 HBase 中 RegionServer 的管理，包括表的增删改查；RegionServer 的负载均衡，Region 分布调整；Region 分裂以及分裂后的 Region 分配；RegionServer 失效后的 Region 迁移等。
+    - **备 Master：** 当主用 Master 故障时，备 Master 将取代主 Master 对外提供服务。故障恢复后，原主 Master 降为备用。
+- **HDFS 集群：** HDFS 为 HBase 提供高可靠的文件存储服务，HBase 的数据全部存储在 HDFS 中。
+- **Client：**  Client 使用 HBase 的 RPC 机制与 Master、RegionServer 进行通信。Client 与 Master 进行管理类通信，与 RegionServer 进行数据操作类通信。
 
 > <font size=1>*注：以下部分内容翻译自文章：[An In-Depth Look at the HBase Architecture](https://mapr.com/blog/in-depth-look-hbase-architecture/)*</font>
 
-### 4.1 - Zookeeper
+### 3.1 - Zookeeper
 HBase 使用 Zookeeper 提供的分布式协调服务以维护集群的服务状态。Zookeeper 中记录了 HBase 中哪些服务节点是存活且可用的，同时在某些节点发生故障时提供通知功能。
 - 保证任何时候，集群中只有一个 Master；
 - 存贮所有 Region 的寻址入口；
@@ -118,7 +93,7 @@ HBase 使用 Zookeeper 提供的分布式协调服务以维护集群的服务状
 
 <div align="center"> <img width="700px" src="../images/hbase/zookeeper.png"/> </div>
 
-### 4.2 - Master
+### 3.2 - Master
 也叫 HMaster，负责 Region 的分配，DDL（创建，删除表）等操作：
 
 **统筹协调所有 RegionServer：**
@@ -130,7 +105,7 @@ HBase 使用 Zookeeper 提供的分布式协调服务以维护集群的服务状
 
 <div align="center"> <img width="700px" src="../images/hbase/hmaster.png"/> </div>
 
-### 4.3 - Region Server
+### 3.3 - Region Server
 Zookeeper 用于协调 HBase 分布式系统中的各个成员的各类共享状态信息。RegionServer 和处于 Active HMaster 会与 Zookeeper 保持连接会话，每个活跃的会话会在 Zookeeper 中创建临时节点，同时 Zookeeper 会通过心跳机制来监测会话是否处于活跃状态。
 - RegionServer 负责维护 Master 分配给它的 Region ，并处理发送到 Region 上的 IO 请求；
 - RegionServer 负责分割在运行过程中变得过大的 Region。
@@ -145,7 +120,7 @@ RegionServer 运行在 HDFS 的 DataNode 上，由以下的几个组件组成：
 
 RegionServer 存取一个子表时，会创建一个 Region 对象，然后对表的每个列族创建一个 Store 实例，每个 Store 会有 0 个或多个 StoreFile 与之对应，每个 StoreFile 则对应一个 HFile，HFile 就是实际存储在 HDFS 上的文件。
 
-### 4.4 - 组件间的协同工作
+### 3.4 - 组件间的协同工作
 HBase 使用 Zookeeper 用来协调分布式系统中集群状态信息的共享。RegionServers 和 HMaster（Active Master）和 Zookeeper 保持会话（session）。Zookeeper 通过心跳检测来维护所有临时节点（ephemeral nodes）。
 
 <div align="center"> <img width="700px" src="../images/hbase/work-together.png"/> </div>
@@ -156,8 +131,50 @@ HBase 使用 Zookeeper 用来协调分布式系统中集群状态信息的共享
 
 如果有一个 RegionServer 或者 Active HMaster 出现故障或各种原因导致发送心跳失败，则与 Zookeeper 的 session 会话过期，并删除相应的 ephemeral 节点。Zookeeper 会将这个消息通知给监听者。使得 Standby HMaster 收到通知，当 RegionServer 出现故障时，HMaster 会尝试处理 RegionServer 的故障转移工作；而当 Active HMaster 出现故障时，Standby HMaster 切换为 Active HMaster 状态。
 
-## 5 - HBase 数据的读写流程
-### 5.1 - HBase 第一次读写操作
+## 4 - HBase 数据模型
+HBase 以表的形式存储数据，数据模型如下图所示。表中的数据划分为多个 Region，并由 Master 分配给对应的 RegionServer 进行管理。
+
+每个 Region 包含了表中一段 Row Key 区间范围内的数据，HBase 的一张数据表开始只包含一个 Region，随着表中数据的增多，当一个 Region 的大小达到容量上限后会分裂成两个 Region。您可以在创建表时定义 Region 的 Row Key 区间，或者在配置文件中定义 Region 的大小。
+
+<div align="center"> <img width="700px" src="../images/hbase/hbase-data-model.png"/> </div>
+
+### 4.1 Row Key (行键)
+Row Key 相当于关系表的主键，每一行数据的唯一标识。访问 HBase Table 中的数据，只有以下三种方式：
+- 通过指定的 Row Key 进行访问；
+- 通过 Row Key 的 range 进行访问，即访问指定范围内的行；
+- 进行全表扫描。
+
+Row Key 可以是字符串、整数、二进制串，所有记录按照 Row Key 排序后存储。这里需要注意以下两点：
+- 因为字典序对 Int 排序的结果是 1,10,100,11,12,13,14,15,16,17,18,19,2,20,21,…,9,91,92,93,94,95,96,97,98,99。如果需要使用整型的字符串作为行键，那么为了保持整型的自然序，行键必须用 0 作左填充。
+- 行的一次读写操作时原子性的 (不论一次读写多少列)。
+
+### 4.2 Column Family（列族）
+一个表在水平方向上由一个或多个 Column Family 组成。一个 Column Family 可以由任意多个 Column 组成。Column 是 Column Family 下的一个标签，可以在写入数据时任意添加，因此 Column Family 支持动态扩展，无需预先定义 Column 的数量和类型。HBase 中表的列非常稀疏，不同行的列的个数和类型都可以不同。此外，每个 Column Family 都有独立的生存周期（TTL）。可以只对行上锁，对行的操作始终是原始的。
+
+### 4.3 Column（列）
+与传统的数据库类似，HBase 的表中也有列的概念，列用于表示相同类型的数据。
+
+### 4.4 Cell
+Cell 是 HBase 最小的存储单元，由 Key 和 Value 组成。Key 由 row、column family、column qualifier、timestamp、type、MVCC version 这6个字段组成。Value 就是对应存储的二进制数据对象。
+
+由{row key, column( =<family> + <label>), version} 唯一确定的单元。
+
+### 4.5 Timestamp（时间戳）
+每次数据操作对应的时间戳，数据按时间戳区分版本，每个 Cell 的多个版本的数据按时间倒序存储。不同版本的数据按照时间戳倒序排列，即最新的数据排在最前面。
+
+## 5 - HBase HA 架构
+HMaster 高可用性实现架构
+
+HMaster 高可用性架构通过在 ZooKeeper 集群创建临时节点（Empheral Zookeeper Node）实现的。
+
+当 HMaster 两个节点启动时都会尝试在 ZooKeeper 集群上创建一个 Znode 节点 Master，先创建的成为 Active HMaster，后创建的成为 Standby HMaster。
+
+Standby HMaster 会在 Master 节点添加监听事件。如果主节点服务停止，就会和 Zookeeper 集群失去联系，session 过期之后 Master 节点会消失。Standby 节点通过监听事件（watch event）感知到节点消失，会去创建 master 节点自己成为 Active HMaster，主备切换完成。如果后续停止服务的节点重新启动，发现 Master 节点已经存在，则进入 Standby 模式，并对 Master Znode 创建监听事件。
+
+当客户端访问 HBase 时，会首先通过 Zookeeper 上的 master 节点信息找到 HMaster 的地址，然后与 Active HMaster 进行连接。
+
+## 6 - HBase 数据的读写流程
+### 6.1 - HBase 第一次读写操作
 HBase 存在一张特殊的 Catalog 表，即 `.META` 表，包含了集群中所有 Region 的位置信息。而 Zookeeper 则记录了 Meta Table 的位置信息。
 
 当第一次向 HBase 读或写时，会有以下的操作：
@@ -169,11 +186,11 @@ HBase 存在一张特殊的 Catalog 表，即 `.META` 表，包含了集群中�
 
 <div align="center"> <img width="700px" src="../images/hbase/first-read-or-write.png"/> </div>
 
-### 5.2 - HBase 写入流程
+### 6.2 - HBase 写入流程
 HBase 写入数据流程的简要步骤如下：
-- 1、Client先访问 Zookeeper，获取 hbase:meta 表位于哪个 RegionServer；
-- 2、访问对应的 RegionServer，获取 hbase:meta 表，根据读请求的 namespace:table/rowkey，查询出目标数据位于哪个 RegionServer 中的哪个 Region 中。并将该 table 的 region 信息以及 meta 表的位置信息缓存在客户端的 metacache，方便下次访问；
-- 3、找到对应的 RegionServer；
+- 1、HBase Client 首先连接 Zookeeper，获取 `hbase:meta` 表所在的 RegionServer 的信息（涉及 namespace 级别修改的，比如创建表、删除表需要访问 HMaster 更新 meta 信息）；
+- 2、HBase Client 连接到包含对应的 `hbase:meta` 表的 Region 所在的 RegionServer，并获得相应的用户表的 Region 所在的 RegionServer 位置信息。并缓存在客户端的 metacache，方便下次访问；
+- 3、HBase Client 连接到对应的用户表 Region 所在的 RegionServer；
 - 4、将数据顺序分别写入（追加）到 WAL（HLog 文件）、MemStore（数据会在 MemStore 进行排序）；
 - 5、向客户端发送 ACK 响应表示写数据完成；
 - 6、等 MemStore 中存放的数据达到一个阈值后则把数据刷成一个 StoreFile 文件（若 MemStore 中的数据有丢失，则可以通过 HLog 恢复）；
@@ -192,17 +209,17 @@ HBase 写入数据流程的简要步骤如下：
 
 <div align="center"> <img width="700px" src="../images/hbase/hbase-write-2.png"/> </div>
 
-### 5.3 - HBase 读取流程
+### 6.3 - HBase 读取流程
 **HBase 读取数据流程的简要步骤如下：**
 
-- 1、Client 先访问 Zookeeper，获取 hbase:meta 表位于哪个 RegionServer；
-- 2、访问对应的 RegionServer，获取 hbase:meta 表，根据读请求的 namespace:table/rowkey，查询出目标数据位于哪个 RegionServer 中的哪个 Region 中。并将该 table 的 region 信息以及 meta 表的位置信息缓存在客户端的 metacache，方便下次访问；
-- 3、找到对应的 RegionServer；
+- 1、HBase Client 首先连接 Zookeeper，获取 `hbase:meta` 表所在的 RegionServer 的信息（涉及 namespace 级别修改的，比如创建表、删除表需要访问 HMaster 更新 meta 信息）；
+- 2、HBase Client 连接到包含对应的 `hbase:meta` 表的 Region 所在的 RegionServer，并获得相应的用户表的 Region 所在的 RegionServer 位置信息。并缓存在客户端的 metacache，方便下次访问；
+- 3、HBase Client 连接到对应的用户表 Region 所在的 RegionServer；
 - 4、分别在 BlockCache（读缓存）、MemStore 和 StoreFile（HFile） 中依次查询目标数据，并将查到的所有数据进行合并。此处所有数据是指同一条数据的不同版本（timestamp）或者不同的类型（Put/Delete）；
 - 5、将从文件中查询到的数据块（Block，HFile 数据存储单元，默认大小为64KB）缓存到 BlockCache；
 - 6、将合并后的最终结果返回给客户端。
 
-## 6 - HBase 架构的优缺点
+## 7 - HBase 架构的优缺点
 **1、HBase 具有以下的优点：**
 - 强一致性模型：
     - 当写操作返回时，所有的读取操作都会看到相同的数据。
@@ -221,7 +238,12 @@ HBase 写入数据流程的简要步骤如下：
 - 故障恢复操作比较慢且过程复杂。
 - Major Compaction 会带来 I/O 飚升。
 
-## 7 - HBase使用场景
- - HBase 适用于瞬间写入量很大，常用数据库不好支撑或需要很高成本支撑的场景；
- - HBase 适用于数据需要长久保存，且量会持久增长到比较大的场景；
- - HBase 不适用于有 join 操作、多级索引或表关系复杂的数据模型。
+## 8 - HBase 使用场景
+HBase 的使用场景有如下几个特点：
+- 适用于处理海量数据（TB 或 PB 级别以上）。
+- 具有高吞吐量。
+- 在海量数据中实现高效的随机读取。
+- 具有很好的伸缩能力。
+- 能够同时处理结构化和非结构化的数据。
+- 不需要完全拥有传统关系型数据库所具备的 ACID 特性。ACID 特性指原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。
+- 不适用于有 join 操作、多级索引或表关系复杂的数据模型。

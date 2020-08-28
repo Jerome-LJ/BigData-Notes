@@ -61,10 +61,12 @@ Zookeeper 用于协调 HBase 分布式系统中的各个成员的各类共享状
 - RegionServer 负责分割在运行过程中变得过大的 Region。
 
 RegionServer 运行在 HDFS 的 DataNode 上，由以下的几个组件组成：
-- **WAL（Write Ahead Log，预写日志）：** 是分布式文件系统上的 HLog 文件，用于存储新的尚未被持久化存储的数据，以便发生故障时用于恢复。
+- **Store：**：一个 Region 由一个或多个 Store 组成，每个 Store 对应一个Column Family。
+- **MemStore（写缓存）：** 一个 Store 包含一个 MemStore，MemStore 缓存客户端向 Region 插入的数据，当 RegionServer 中的 MemStore 大小达到配置的容量上限时，RegionServer 会将 MemStore 中的数据 `flush` 到 HDFS 中。
 - **BlockCache（读缓存）：** 在内存中缓存了频繁访问的数据，当 BlockCache 存储数据总量达到一定阈值之后使用 LRU 算法（最近最少使用原则）清除多余数据。
-- **MemStore（写缓存）：** 在内存中缓存了尚未被持久化到硬盘的新数据。当被写入硬盘时，数据会首先被排序。注意每个 Region 的每个 Column Family 都会有一个 MemStore。
-- **HFile：** 在硬盘上（HDFS）存储 HBase 数据，以有序 KeyValue 的结构数据存储在文件系统上。
+- **WAL（Write Ahead Log，预写日志）：** 是分布式文件系统上的 HLog 文件，用于存储新的尚未被持久化存储的数据，以便发生故障时用于恢复。RegionServer 的多个 Region 共享一个相同的 HLog。
+- **StoreFile：**  MemStore 的数据 flus 到 HDFS 后成为 StoreFile，随着数据的插入，一个 Store 会产生多个 StoreFile，当 StoreFile 的个数达到配置的最大值时，RegionServer 会将多个 StoreFile 合并为一个大的 StoreFile。
+- **HFile：** 在硬盘上（HDFS）存储 HBase 数据，以有序 KeyValue 的结构数据存储在文件系统上。 
 
 <div align="center"> <img width="700px" src="../images/hbase/regionserver.png"/> </div>
 
@@ -93,7 +95,7 @@ Region 是 HBase 中`分布式存储和负载均衡的最小单元`。这意味�
 - `.META` 表是一张特殊的 HBase 表，存放了系统中所有 Region 的信息。
 - `.META` 表的结果类似 B 树。
 - `.META` 表结构如下，一对 Key 和 Value 标记着某张表的某个 Region 所在的 RegionServer 的信息：
-    - Key：存放了该表的 Region 的 ID、Start Key。
+    - Key：存放了该表的 Region 的 ID、Start Key、Eng Key等信息。
     - Value：存放了对应的 RegionServer 的信息。
 
 <div align="center"> <img width="700px" src="../images/hbase/meta-table.png"/> </div>
