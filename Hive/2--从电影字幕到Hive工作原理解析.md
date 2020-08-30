@@ -26,7 +26,7 @@
 
 <div align="center"> <img src="../images/hive/pictures/010.png"/> </div>
 
-**【 Hive 简介】**
+**【Hive 简介】**
 
 <div align="center"> <img src="../images/hive/pictures/011.png"/> </div>
 
@@ -50,7 +50,7 @@
 
 <div align="center"> <img src="../images/hive/pictures/020.png"/> </div>
 
-**【 Hive 工作原理】**
+**【Hive 工作原理】**
 
 <div align="center"> <img src="../images/hive/pictures/021.png"/> </div>
 
@@ -92,7 +92,7 @@
 
 <div align="center"> <img src="../images/hive/pictures/040.png"/> </div>
 
-**【数据迁移 sqoop 】**
+**【数据迁移 sqoop】**
 
 <div align="center"> <img src="../images/hive/pictures/041.png"/> </div>
 
@@ -110,7 +110,7 @@
 
 <div align="center"> <img src="../images/hive/pictures/048.png"/> </div>
 
-**【 Hive 优缺点】**
+**【Hive 优缺点】**
 
 <div align="center"> <img src="../images/hive/pictures/049.png"/> </div>
 
