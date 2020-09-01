@@ -274,21 +274,21 @@ public class WordCountApp {
 
 ### 3.6 - 提交到服务器运行
 在实际开发中，可以在本机配置 hadoop 开发环境，直接在 IDE 中启动进行测试。这里主要介绍一下打包提交到服务器运行。由于本项目没有使用除 Hadoop 外的第三方依赖，直接打包即可：
-```shell
+```bash
 # mvn clean package
 ```
 
 使用以下命令提交作业：
 
-```shell
+```bash
 hadoop jar /usr/appjar/hadoop-word-count-1.0.jar \
-com.heibaiying.WordCountApp \
+com.jerome.WordCountApp \
 /wordcount/input.txt /wordcount/output/WordCountApp
 ```
 
 作业完成后查看 HDFS 上生成目录：
 
-```shell
+```bash
 # 查看目录
 hadoop fs -ls /wordcount/output/WordCountApp
 
@@ -299,7 +299,6 @@ hadoop fs -cat /wordcount/output/WordCountApp/part-r-00000
 <div align="center"> <img src="../images/hadoop/mr-wordcountapp.png"/> </div>
 
 ## 4 - 频统计案例进阶之Combiner
-
 ### 4.1 - 代码实现
 想要使用 `combiner` 功能只要在组装作业时，添加下面一行代码即可：
 
