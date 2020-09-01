@@ -128,7 +128,7 @@ HBase	Hive
 ```
 为方便大家开发，我在项目源码中放置了一个工具类 `WordCountDataUtils`，用于模拟产生词频统计的样本，生成的文件支持输出到本地或者直接写到 HDFS 上。
 
-> 项目完整源码下载地址：[hadoop-word-count](https://github.com/Jerome-LJ/BigData-Notes/tree/master/code/Hadoop/hadoop-word-count)
+> 项目完整源码下载地址：[hadoop-word-count](https://github.com/Jerome-LJ/BigData-Notes/tree/master/Code/Hadoop/hadoop-word-count)
 
 ### 3.2 - 项目依赖
 想要进行 MapReduce 编程，需要导入 `hadoop-client` 依赖：
