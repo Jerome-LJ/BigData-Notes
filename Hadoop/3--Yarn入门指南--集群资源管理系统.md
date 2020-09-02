@@ -33,7 +33,7 @@ Yarn 的架构设计基于主从（Master-Slave）模式，主要由 ResourceMan
 ### 3.1 - ResourceManager（RM）
 RM 是一个**全局的资源管理器**，集群里只有一个。它负责整个 Hadoop 系统的资源管理和分配，包括处理客户端请求、启动监控 ApplicationMaster、监控 NodeManager、资源的分配与调度等。它主要由两个组件构成：
 - 资源调度器（Scheduler）
-- 应用程序管理器（ApplicationsManager，AsM）。
+- 应用程序管理器（ApplicationsManager，AsM）
 
 Scheduler 是一个**集群资源调度器**，根据集群的容量、队列等限制条件，将集群中的资源分配给各个正在运行的应用程序，以保障整个集群高效、合理地使用资源。
 
