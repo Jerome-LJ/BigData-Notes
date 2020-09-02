@@ -1,3 +1,26 @@
+<nav>
+<a href="#1---mapreduce-简介"</a>1 - MapReduce 简介</a><br/>
+<a href="#2---mapreduce-架构概述"</a>2 - MapReduce 架构概述</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21--架构"</a>2.1  架构</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22--角色术语"</a>2.2  角色术语</a><br/>
+<a href="#3---mapreduce-词频统计案例"</a>3 - MapReduce 词频统计案例</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31---项目简介"</a>3.1 - 项目简介</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32---项目依赖"</a>3.2 - 项目依赖</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33---wordcountmapper"</a>3.3 - WordCountMapper</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34---wordcountreducer"</a>3.4 - WordCountReducer</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35---wordcountapp"</a>3.5 - WordCountApp</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36---提交到服务器运行"</a>3.6 - 提交到服务器运行</a><br/>
+<a href="#4---频统计案例进阶之combiner"</a>4 - 频统计案例进阶之Combiner</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---代码实现"</a>4.1 - 代码实现</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---执行结果"</a>4.2 - 执行结果</a><br/>
+<a href="#5---词频统计案例进阶之-partitioner"</a>5 - 词频统计案例进阶之 Partitioner</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51---默认的-partitioner"</a>5.1 - 默认的 Partitioner</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52---自定义partitioner"</a>5.2 - 自定义Partitioner</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#53---执行结果"</a>5.3 - 执行结果</a><br/>
+<a href="#参考资料"</a>参考资料</a><br/>
+</nav>
+
+---
 
 ## 1 - MapReduce 简介
 Hadoop MapReduce 是一个使用简易的分布式计算框架，基于它写出来的应用程序能够运行在由上千个商用机器组成的大型集群上，并以一种可靠容错的方式并行处理 TB 级别的数据集。同时，还可以使用 MapReduce 框架来实现一些算法，例如统计单词频率、数据去重、排序、分组等。
