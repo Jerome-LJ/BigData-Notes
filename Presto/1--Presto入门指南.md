@@ -1,6 +1,6 @@
 <nav>
 <a href="#1---presto-简介"</a>1 - Presto 简介</a><br/>
-<a href="#2---presto-使用场景"</a>2 - Presto 使用场景</a><br/>
+<a href="#2---presto-适用场景"</a>2 - Presto 适用场景</a><br/>
 <a href="#2---presto-架构概述"</a>2 - Presto 架构概述</a><br/>
 <a href="#3---presto-数据模型"</a>3 - Presto 数据模型</a><br/>
 <a href="#4---presto-数据类型"</a>4 - Presto 数据类型</a><br/>
@@ -37,7 +37,7 @@ Presto 是由 Facebook 推出的一个基于 Java 开发的开源分布式 SQL �
 - **高性能：** 基于内存计算，在绝大多数情况下，Presto 的查询性能是 Hive 的10倍以上，完全能实现交互式，实时查询。
 - **流水线：** 由于 Presto 是基于 PipeLine 设计的，在进行海量数据处理的过程中，终端不需要等到所有的数据都计算完毕后才能看到结果，而是一旦开始计算就可以立即产生一部分数据结果。
 
-## 2 - Presto 使用场景
+## 2 - Presto 适用场景
 Presto 是定位在数据仓库和数据分析业务的分布式 SQL 引擎，适合以下应用场景：
 - ETL
 - Ad-Hoc 查询
