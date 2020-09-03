@@ -18,7 +18,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#62---hbase-写入流程"</a>6.2 - HBase 写入流程</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#63---hbase-读取流程"</a>6.3 - HBase 读取流程</a><br/>
 <a href="#7---hbase-架构的优缺点"</a>7 - HBase 架构的优缺点</a><br/>
-<a href="#8---hbase-使用场景"</a>8 - HBase 使用场景</a><br/>
+<a href="#8---hbase-适用场景"</a>8 - HBase 适用场景</a><br/>
 </nav>
 
 ---
@@ -238,8 +238,8 @@ HBase 写入数据流程的简要步骤如下：
 - 故障恢复操作比较慢且过程复杂。
 - Major Compaction 会带来 I/O 飚升。
 
-## 8 - HBase 使用场景
-HBase 的使用场景有如下几个特点：
+## 8 - HBase 适用场景
+HBase 的适用场景有如下几个特点：
 - 适用于处理海量数据（TB 或 PB 级别以上）。
 - 具有高吞吐量。
 - 在海量数据中实现高效的随机读取。
