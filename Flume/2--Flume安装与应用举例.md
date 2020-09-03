@@ -161,4 +161,4 @@ OK
 2020-08-26 23:49:08,817 (SinkRunner-PollingRunner-DefaultSinkProcessor) [INFO - org.apache.flume.sink.LoggerSink.process(LoggerSink.java:95)] Event: { headers:{} body: 48 65 6C 6C 6F 20 77 6F 72 6C 64 21 0D          Hello world!. }
 ```
 
-恭喜，现在我们已经成功配置和部署了 Flume 代理！ 更详细的代理配置[参考官网](http://flume.apache.org/releases/content/1.9.0/FlumeUserGuide.html#using-environment-variables-in-configuration-files)。
+恭喜，现在我们已经成功部署和配置了 Flume 代理！ 更详细的代理配置[参考官网](http://flume.apache.org/releases/content/1.9.0/FlumeUserGuide.html#using-environment-variables-in-configuration-files)。
