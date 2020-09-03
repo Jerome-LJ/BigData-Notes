@@ -58,6 +58,7 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 &emsp;&emsp;&emsp;&emsp;[4 - 从生日请客到 HDFS 工作原理解析](./Hadoop/4--从生日请客到HDFS工作原理解析.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[5 - 从打牌到 Map-Reduce 工作原理解析](./Hadoop/5--从打牌到Map-Reduce工作原理解析.md)
 ## 二、Spark（分布式计算引擎）
+&emsp;&emsp;&emsp;&emsp;[1 - Spark 入门指南](./Spark/1--Spark入门指南.md)
 ## 三、HBase（分布式列存储数据库）
 &emsp;&emsp;&emsp;&emsp;[1 - HBase 入门指南](./HBase/1--HBase入门指南.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[2 - HBase 架构及各角色功能](./HBase/2--HBase架构及各角色功能.md)<br/>
@@ -70,7 +71,7 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 ## 六、Presto（分布式SQL查询引擎）
 &emsp;&emsp;&emsp;&emsp;[1 - Presto 入门指南](./Presto/1--Presto入门指南.md)
 ## 七、Flume（日志收集工具）
-&emsp;&emsp;&emsp;&emsp;[1 - Flume 入门指南](./Flume/1--Flume入门指南.md)
+&emsp;&emsp;&emsp;&emsp;[1 - Flume 入门指南](./Flume/1--Flume入门指南.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[2 - Flume 安装与应用举例](./Flume/2--Flume安装与应用举例.md)
 ## 八、Kafka（分布式消息队列）
 &emsp;&emsp;&emsp;&emsp;[1 - Kafka 入门指南](./Kafka/1--Kafka入门指南.md)
