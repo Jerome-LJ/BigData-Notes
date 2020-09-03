@@ -28,14 +28,14 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
     </tr>
     <tr>
       <td align="center"><a href="#一hadoop分布式系统基础架构">Hadoop</a></td>
-      <td align="center"><a href="#二spark内存计算">Spark</a></td>
+      <td align="center"><a href="#二spark分布式计算引擎">Spark</a></td>
       <td align="center"><a href="#三hbase分布式列存储数据库">HBase</a></td>
       <td align="center"><a href="#四kudu列式存储管理器">Kudu</a></td>
-      <td align="center"><a href="#五hive数据仓库">Hive</a></td>
+      <td align="center"><a href="#五hive数据仓库工具">Hive</a></td>
       <td align="center"><a href="#六presto分布式sql查询引擎">Presto</a></td>
       <td align="center"><a href="#七flume日志收集工具">Flume</a></td>
       <td align="center"><a href="#八kafka分布式消息队列">Kafka</a></td>
-      <td align="center"><a href="#九zookeeper分布式协作服务">ZooKeeper</a></td>
+      <td align="center"><a href="#九zookeeper分布式协调服务">ZooKeeper</a></td>
       <td align="center"><a href="#十cloudera大数据运维工具">Cloudera</a></td>
     </tr>
     <tr>
@@ -57,23 +57,24 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 &emsp;&emsp;&emsp;&emsp;[3 - Yarn 入门指南（集群资源管理系统）](./Hadoop/3--Yarn入门指南--集群资源管理系统.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[4 - 从生日请客到 HDFS 工作原理解析](./Hadoop/4--从生日请客到HDFS工作原理解析.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[5 - 从打牌到 Map-Reduce 工作原理解析](./Hadoop/5--从打牌到Map-Reduce工作原理解析.md)
-## 二、Spark（内存计算）
+## 二、Spark（分布式计算引擎）
 ## 三、HBase（分布式列存储数据库）
 &emsp;&emsp;&emsp;&emsp;[1 - HBase 入门指南](./HBase/1--HBase入门指南.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[2 - HBase 架构及各角色功能](./HBase/2--HBase架构及各角色功能.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[3 - 从洗袜子到 HBase 存储原理解析](./HBase/3--从洗袜子到HBase存储原理解析.md)<br/>
 ## 四、Kudu（列式存储管理器）
 &emsp;&emsp;&emsp;&emsp;[1 - Kudu 入门指南](./Kudu/1--Kudu入门指南.md)
-## 五、Hive（数据仓库）
+## 五、Hive（数据仓库工具）
 &emsp;&emsp;&emsp;&emsp;[1 - Hive 入门指南](./Hive/1--Hive门指南.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[2 - 从电影字幕到 Hive 工作原理解析](./Hive/2--从电影字幕到Hive工作原理解析.md)
 ## 六、Presto（分布式SQL查询引擎）
 &emsp;&emsp;&emsp;&emsp;[1 - Presto 入门指南](./Presto/1--Presto入门指南.md)
 ## 七、Flume（日志收集工具）
 &emsp;&emsp;&emsp;&emsp;[1 - Flume 入门指南](./Flume/1--Flume入门指南.md)
+&emsp;&emsp;&emsp;&emsp;[2 - Flume 安装与应用举例](./Flume/2--Flume安装与应用举例.md)
 ## 八、Kafka（分布式消息队列）
 &emsp;&emsp;&emsp;&emsp;[1 - Kafka 入门指南](./Kafka/1--Kafka入门指南.md)
-## 九、ZooKeeper（分布式协作服务）
+## 九、ZooKeeper（分布式协调服务）
 &emsp;&emsp;&emsp;&emsp;[1 - Zookeeper 入门指南](./Zookeeper/1--Zookeeper入门指南.md)
 ## 十、Cloudera（大数据运维工具）
 ## 十一、Azkaban（批处理工作流调度器）

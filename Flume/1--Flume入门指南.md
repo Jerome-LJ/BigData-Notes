@@ -10,6 +10,13 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#41---flume-事务"</a>4.1 - Flume 事务</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#42---flume-传输流程"</a>4.2 - Flume 传输流程</a><br/>
 <a href="#5---flume-interceptorsflume-拦截器"</a>5 - Flume Interceptors（Flume 拦截器）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51---timestamp-interceptor"</a>5.1 - Timestamp Interceptor</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52---host-interceptor"</a>5.2 - Host Interceptor</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#53---static-interceptor"</a>5.3 - Static Interceptor</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#54---uuid-interceptor"</a>5.4 - UUID Interceptor</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#55---search-and-replace-interceptor"</a>5.5 - Search and Replace Interceptor</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#56---regex-filtering-interceptor"</a>5.6 - Regex Filtering Interceptor</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#57---regex-extractor-interceptor"</a>5.7 - Regex Extractor Interceptor</a><br/>
 <a href="#参考资料"</a>参考资料</a><br/>
 </nav>
 
@@ -122,18 +129,196 @@ Default Sink Processor 对应的是单个的 Sink，`Load Balancing Sink Process
 `Load Balancing Sink Processor` 可以实现负载均衡的功能，`Failover Sink Processor` 可以实现故障转移的功能。
 
 ## 5 - Flume Interceptors（Flume 拦截器）
-Flume 拦截器是简单的插件式组件，设置在 Source 和 Cchannel 之间。Source 接收到的事件 event，在写入 Channel 之前，拦截器都可以进行增加或者删除这些信息，对内容进行过滤，完成初步的数据清洗。每个拦截器只处理同一个 Source 接收到的事件。可以自定义拦截器。Flume-NG 1.9 中目前提供了以下拦截器：
-- Timestamp Interceptor
-- Host Interceptor
-- Static Interceptor
-- Remove Header Interceptor
-- UUID Interceptor
-- Morphline Interceptor
-- Search and Replace Interceptor
-- Regex Filtering Interceptor
-- Regex Extractor Interceptor 
+[Flume Interceptors](http://flume.apache.org/releases/content/1.9.0/FlumeUserGuide.html#flume-interceptors) 是简单的插件式组件，设置在 Source 和 Cchannel 之间。Source 接收到数据后，在写入 Channel 之前，拦截器都可以对这些数据做事件拦截，根据不同的拦截器对事件进行不同的操作。可以增加或者删除一些信息，对内容进行过滤，完成初步的数据清洗。每个拦截器只处理同一个 Source 接收到的事件。可以自定义拦截器。Flume-NG 1.9 中目前提供了以下拦截器：
+- Timestamp Interceptor（时间拦截器）
+- Host Interceptor（主机拦截器）
+- Static Interceptor（静态拦截器）
+- Remove Header Interceptor（删除报头截器）
+- UUID Interceptor（UUID 拦截器）
+- Morphline Interceptor（Morphline 拦截器）
+- Search and Replace Interceptor（查询替换拦截器）
+- Regex Filtering Interceptor（正则过滤拦截器）
+- Regex Extractor Interceptor（正则抽取拦截器）
+
+Flume 拦截器必须在事件写入到 Channel 之前完成处理，因此在拦截器中进行大量的耗时处理不太合适，如果拦截器的处理非常耗时，需要相应调整响应超时时间。防止由于长时间没有响应发送事件的客户端或者 Sink，而导致超时。
+
+Flume 拦截器是需要命名的组件，每个拦截器都需要限定一个名字。拦截器的配置需要以 interceptor 开头、后面跟着拦截器的名称，以及配置项名称。
+
+**下面是拦截器配置示例**
+```yaml
+a1.sources = r1
+a1.sinks = k1
+a1.channels = c1
+a1.sources.r1.interceptors = i1 i2
+a1.sources.r1.interceptors.i1.type = org.apache.flume.interceptor.HostInterceptor$Builder
+a1.sources.r1.interceptors.i1.preserveExisting = false
+a1.sources.r1.interceptors.i1.hostHeader = hostname
+a1.sources.r1.interceptors.i2.type = org.apache.flume.interceptor.TimestampInterceptor$Builder
+a1.sinks.k1.filePrefix = FlumeData.%{CollectorHost}.%Y-%m-%d
+a1.sinks.k1.channel = c1
+```
+
+**本文对常用的几种拦截器进行介绍：**
+
+### 5.1 - Timestamp Interceptor
+**时间拦截器** 是 Flume 中一个最常使用的拦截器，该拦截器会将事件处理的时间戳（以毫秒为单位）插入到 Flume 的事件报头中。如果时间戳报头已经存在，则会替换该时间戳报头，除非 preserveExisting 参数设置为 true。拦截器的配置如下：
+
+|      参数       |  默认值    |      描述          |
+|-----------------|-----------|--------------------|
+|type             | timestamp |类型名称为时间戳|
+|preserveExisting | false     |设置为 true 时，如果时间戳已经存在，则不会替换时间戳报头的值|
+
+**配置示例如下：**
+
+```yaml
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.channels =  c1
+a1.sources.r1.type = seq
+a1.sources.r1.interceptors = i1
+a1.sources.r1.interceptors.i1.type = timestamp
+a1.sources.r1.interceptors.i1.preserveExisting = false
+```
+
+### 5.2 - Host Interceptor
+**主机拦截器** 插入此 Agent 运行所在主机的主机名或 IP 地址。它会根据配置插入带有密钥主机或已配置密钥的标头，其值是主机名或 IP 地址。事件报头中的 key 使用 hostHeader 配置，默认是 host。拦截器的配置如下：
+
+|      参数       |  默认值    |      描述          |
+|-----------------|-----------|--------------------|
+|type             | host      |类型名称为 host |
+|useIP            | true      |如果设置为 true，host 键插入 IP 地址，否则为主机名|
+|hostHeader       | host      |事件报头，用于插入 IP 地址或者主机名|
+|preserveExisting | false     |如果设置为 true，若报头存在，则不会替换该报头|
+
+**配置示例如下：**
+
+```yaml
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.interceptors = i1
+a1.sources.r1.interceptors.i1.type = host
+a1.sources.r1.interceptors.i1.useIP = true
+a1.sources.r1.interceptors.i1.preserveExisting = false
+```
+
+### 5.3 - Static Interceptor
+**静态拦截器** 是将一组静态的 key/value 加入到所有的 events header 中。拦截器的配置如下：
+
+|      参数       |  默认值    |      描述          |
+|-----------------|-----------|--------------------|
+|type             | static    |类型名称为 static |
+|key              | key       |事件报头的 key |
+|value            | value     |key 对应的 value |
+|preserveExisting | true      |默认值为 true，若事件中报头已经存在该 key，不会替换 value 的值 |
+
+**配置示例如下：**
+
+```yaml
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.channels =  c1
+a1.sources.r1.type = seq
+a1.sources.r1.interceptors = i1
+a1.sources.r1.interceptors.i1.type = static
+a1.sources.r1.interceptors.i1.key = datacenter
+a1.sources.r1.interceptors.i1.value = NEW_YORK
+a1.sources.r1.interceptors.i1.preserveExisting = true
+```
+### 5.4 - UUID Interceptor
+**UUID 拦截器** 为每个 events header 上生成唯一的标识符，生成的 UUID 可以设置为可配置的参数，还可以为 UUID 生成相应的前缀。。 例如：b5755073-77a9-43c1-8fad-b7a586fc1b97，它表示 128 位值。拦截器的配置如下：
+
+|      参数       |  默认值    |      描述          |
+|-----------------|-----------|--------------------|
+|type             | org.apache.flume.sink.solr.morphline.UUIDInterceptor$Builder   |类型名称 |
+|headerName       | id        |事件报头名称 |
+|prefix           | ""        |生成 UUID 的前缀 |
+|preserveExisting | true      |默认值为 true，如果 UUID 已存在，保留不覆盖 |
+
+**配置示例如下：**
+
+```yaml
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.interceptors = i1
+a1.sources.r1.interceptors.i1.type = org.apache.flume.sink.solr.morphline.UUIDInterceptor$Builder
+a1.sources.r1.interceptors.i1.headerName = prefix-
+a1.sources.r1.interceptors.i1.preserveExisting = true
+```
+
+### 5.5 - Search and Replace Interceptor
+**查询替换拦截器** 基于 Java 正则表达式提供简单的基于字符串的搜索和替换功能。用于将 events 中的正则匹配到的内容做相应的替换。该拦截器使用与 Java 的 `Matcher.replaceAll()` 方法相同。拦截器的配置如下：
+
+|      参数       |  默认值    |      描述          |
+|-----------------|-----------|--------------------|
+|type             | search_replace  |类型名称为 search_replace |
+|searchPattern    | -         |正则匹配到的内容 |
+|replaceString    | -         |替换后的字符串 |
+|charset          | UTF-8     |默认值为 true，如果 UUID 已存在，保留不覆盖。|
+
+**配置示例如下：**
+
+```yaml
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.interceptors = i1
+a1.sources.r1.interceptors.i1.type = search_replace
+#该配置表示将 events 中的数字替换为 Jerome
+a1.sources.r1.interceptors.i1.searchPattern = [0-9]+
+a1.sources.r1.interceptors.i1.replaceString = Jerome
+a1.sources.r1.interceptors.i1.charset = UTF-8
+```
+
+### 5.6 - Regex Filtering Interceptor
+**正则过滤拦截器** 通过将 event 主体解释为文本并将文本与已配置的正则表达式进行匹配来选择性地过滤 event。这样添加过滤拦截器，可以过滤掉不需要的日志，也可以根据需要收集满足正则条件的日志。拦截器的配置如下：
+
+|      参数       |  默认值    |      描述          |
+|-----------------|-----------|--------------------|
+|type             | regex_filter  |类型名称为 regex_filter |
+|regex            | ".*"      |用于与事件匹配的正则表达式 |
+|excludeEvents    | false     |如果设置为 true，则会过滤掉匹配到的 event，收集未匹配到的 |
+
+**配置示例如下：**
+
+```yaml
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.interceptors = i1
+a1.sources.r1.interceptors.i1.type = regex_filter
+#该配置表示过滤掉以 Jerome 开头的 events。
+a1.sources.r1.interceptors.i1.regex = ^Jerome.*
+a1.sources.r1.interceptors.i1.excludeEvents = true
+```
+
+### 5.7 - Regex Extractor Interceptor
+**正则提取拦截器** 使用正则表达式抽取原始 events 中的内容，并将该内容加入到 events header 中。它还支持可插入序列化程序，用于在将匹配组添加为事件标头之前对其进行格式化。拦截器的配置如下：
+
+|      参数       |  默认值    |      描述          |
+|-----------------|-----------|--------------------|
+|type             | regex_extractor  |类型名称为 regex_extractor |
+|regex            | -         |用于与事件匹配的正则表达式 |
+|serializers      | -         |用空格分隔的序列化程序列表，用于将匹配项映射到标头名称并序列化其值 |
+|serializers.<s1>.type  | default   |必须是默认值 |
+|serializers.<s1>.name  | -         | |
+|serializers.*          | -         |序列化器特定的属性 |
+
+**配置示例如下：**
+
+```yaml
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.interceptors = i1
+a1.sources.r1.interceptors.i1.type = regex_extractor
+#hostname is bigdata01 ip is 192.168.1.10
+a1.sources.r1.interceptors.i1.regex = hostname is (.*?) and ip is (.*)
+a1.sources.r1.interceptors.i1.serializers = s1 s2
+a1.sources.r1.interceptors.i1.serializers.s1.type = default
+#hostname（自定义）= (.*?) -> bigdata01
+a1.sources.r1.interceptors.i1.serializers.s1.name = hostname
+a1.sources.r1.interceptors.i1.serializers.s2.type = default
+#ip（自定义） = (.*) -> 192.168.1.10
+a1.sources.r1.interceptors.i1.serializers.s2.name = ip
+```
 
 ## 参考资料
 - 1、[Flume - 1.9.0](https://flume.apache.org/FlumeUserGuide.html)
 - 2、[江湖小小白的博客 - Flume](https://www.cnblogs.com/jhxxb/p/11574494.html)
-- 3、[Flume中的拦截器](http://lxw1234.com/archives/2015/11/543.htm)
