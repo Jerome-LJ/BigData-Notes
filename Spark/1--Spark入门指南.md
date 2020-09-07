@@ -1,3 +1,27 @@
+<nav>
+<a href="#1---spark-简介"</a>1 - Spark 简介</a><br/>
+<a href="#2---角色术语"</a>2 - 角色术语</a><br/>
+<a href="#3---spark-架构设计"</a>3 - Spark 架构设计</a><br/>
+<a href="#4---spark-应用运行原理"</a>4 - Spark 应用运行原理</a><br/>
+<a href="#5---spark-on-yarn-两种模式"</a>5 - Spark on YARN 两种模式</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51---yarn-client-模式"</a>5.1 - Yarn-Client 模式</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52---yarn-cluster-模式"</a>5.2 - Yarn-Cluster 模式</a><br/>
+<a href="#6---spark-streaming-原理"</a>6 - Spark Streaming 原理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#61---direct-streaming"</a>6.1 - Direct Streaming</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#62---receiver"</a>6.2 - Receiver</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#63---容错性"</a>6.3 - 容错性</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#64---恢复流程"</a>6.4 - 恢复流程</a><br/>
+<a href="#7---sparksql-和-dataset-原理"</a>7 - SparkSQL 和 DataSet 原理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#71---sparksql"</a>7.1 - SparkSQL</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#72---datasets-and-dataframes"</a>7.2 - Datasets and DataFrames</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#73---cli-and-jdbcserver"</a>7.3 - CLI and JDBCServer</a><br/>
+<a href="#8---structured-streaming-原理"</a>8 - Structured Streaming 原理</a><br/>
+<a href="#9---spark-核心概念rdd"</a>9 - Spark 核心概念（RDD）</a><br/>
+<a href="#10---spark-适用场景"</a>10 - Spark 适用场景</a><br/>
+<a href="#参考资料"</a>参考资料</a><br/>
+</nav>
+
+---
 
 ## 1 - Spark 简介
 Apache Spark 是一个基于内存的分布式计算引擎。在迭代计算的场景下，数据处理过程中的数据可以存储在内存中，提供了比 MapReduce 高 10 到 100 倍的计算能力。Spark 可以使用 HDFS 作为底层存储，使用户能够快速的从 MapReduce 切换到 Spark 计算平台上去。Spark 提供一站式数据分析能力，包括小批量流式处理、离线批处理、SQL 查询、数据挖掘等，用户可以在同一个应用中无缝结合使用这些能力。
