@@ -36,7 +36,7 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
       <td align="center"><a href="#七flume日志收集工具">Flume</a></td>
       <td align="center"><a href="#八kafka分布式消息队列">Kafka</a></td>
       <td align="center"><a href="#九zookeeper分布式协调服务">ZooKeeper</a></td>
-      <td align="center"><a href="#十cloudera大数据运维工具">Cloudera</a></td>
+      <td align="center"><a href="#十cloudera-manager大数据运维工具">Cloudera</a></td>
     </tr>
     <tr>
       <th><img width="70px" src="images/logo/azkaban-logo.png"></th>
@@ -77,7 +77,9 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 &emsp;&emsp;&emsp;&emsp;[1 - Kafka 入门指南](./Kafka/1--Kafka入门指南.md)
 ## 九、ZooKeeper（分布式协调服务）
 &emsp;&emsp;&emsp;&emsp;[1 - Zookeeper 入门指南](./Zookeeper/1--Zookeeper入门指南.md)
-## 十、Cloudera（大数据运维工具）
+## 十、Cloudera Manager（大数据运维工具）
+&emsp;&emsp;&emsp;&emsp;[1 - Cloudera 入门指南](Cloudera/1--Cloudera入门指南.md)
+&emsp;&emsp;&emsp;&emsp;
 ## 十一、Azkaban（批处理工作流调度器）
 &emsp;&emsp;&emsp;&emsp;[1 - Azkaban 入门指南](./Azkaban/1--Azkaban入门指南.md)
 ## 十二、Elastic（分布式搜索和分析引擎）
