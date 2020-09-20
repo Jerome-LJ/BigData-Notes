@@ -20,7 +20,7 @@ kind: ReplicationController
 metadata:
   name: nginx-controller
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     name: nginx
   template:
