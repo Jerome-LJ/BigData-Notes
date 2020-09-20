@@ -76,7 +76,8 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 &emsp;&emsp;&emsp;&emsp;[1 - Flume 入门指南](./Flume/1--Flume入门指南.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[2 - Flume 安装与应用举例](./Flume/2--Flume安装与应用举例.md)
 ## 八、Kafka（分布式消息队列）
-&emsp;&emsp;&emsp;&emsp;[1 - Kafka 入门指南](./Kafka/1--Kafka入门指南.md)
+&emsp;&emsp;&emsp;&emsp;[1 - Kafka 入门指南](./Kafka/1--Kafka入门指南.md)<br/>
+&emsp;&emsp;&emsp;&emsp;[2 - Kafka 安装与应用举例](./Kafka/2--Kafka安装与应用举例.md)
 ## 九、ZooKeeper（分布式协调服务）
 &emsp;&emsp;&emsp;&emsp;[1 - Zookeeper 入门指南](./Zookeeper/1--Zookeeper入门指南.md)
 ## 十、Cloudera Manager（大数据运维工具）
