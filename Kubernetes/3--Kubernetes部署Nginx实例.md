@@ -20,20 +20,19 @@ kind: ReplicationController
 metadata:
   name: nginx-controller
 spec:
-  replicas: 1
+  replicas: 2
   selector:
-    app: nginx
+    name: nginx
   template:
     metadata:
-      name: nginx
       labels:
-        app: nginx
+        name: nginx
     spec:
       containers:
-      - name: nginx
-        image: nginx
-        ports:
-        - containerPort: 80
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
 ```
 
 ## 2 - 创建 nginx-svc.yaml
