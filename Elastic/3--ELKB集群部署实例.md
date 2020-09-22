@@ -120,6 +120,10 @@
 	</tr>
 </table>
 
+**结构图如下：**
+
+<div align="center"> <img src="../images/elastic/deploy.png"/> </div>
+
 ## 2 - Elasticsearch（三台机器都要配置）
 **官方文档：**
 https://www.elastic.co/guide/en/elasticsearch/reference/7.8/install-elasticsearch.html
@@ -549,6 +553,9 @@ output.logstash:
 setup.kibana:
   host: "192.168.1.11:5601"
 ```
+
+<div align="center"> <img src="../images/elastic/filebeat.png"/> </div>
+
 **注意：** `ducument_type` 参数已经在 5.5 版本建议丢弃，6.0 中彻底废弃，使用 fields 代替，通过 `fields_under_root` 属性，替换原始 type 属性。
 
 ### 5.3 - 启动 Filebeat
