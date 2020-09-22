@@ -52,6 +52,8 @@ Elastic Stack 是一系列开源产品的合集，包括 Elasticsearch、Kibana�
 - **SIEM：** 安全信息和活动管理。添加各种各样的监控数据，从而消除盲点。
 - **Elasticsearch-Hadoop：** 实现强强联合，助力实时分析。
 
+<div align="center"> <img src="../images/elastic/azure-flow.png"/> </div>
+
 ## 2 - Elasticsearch
 ### 2.1 - Elasticsearch 简介
 Elasticsearch 是一个分布式的开源搜索和分析引擎，适用于所有类型的数据，能够解决不断涌现出的各种用例。包括文本、数字、地理空间、结构化和非结构化数据。Elasticsearch 在 Apache Lucene 的基础上开发而成，由 Elasticsearch N.V.（即现在的 Elastic）于 2010 年首次发布。
@@ -195,6 +197,8 @@ Logstash 能够动态地采集、转换和传输数据，不受格式或复杂�
 
 ### 4.2 - Logstash 适用场景
 Logstash 是 Elastic Stack 的核心产品之一，可用来对数据进行聚合和处理，并将数据发送到 Elasticsearch。Logstash 是一个开源的服务器端数据处理管道，允许您在将数据索引到 Elasticsearch 之前同时从多个来源采集数据，并对数据进行充实和转换。
+
+<div align="center"> <img src="../images/elastic/logstash.png"/> </div>
 
 ### 4.3 - Logstash 输入
 采集各种样式、大小和来源的数据。数据往往以各种各样的形式，或分散或集中地存在于很多系统中。Logstash 支持[各种输入选择](https://www.elastic.co/guide/en/logstash/current/input-plugins.html)，可以同时从众多常用来源捕捉事件。能够以连续的流式传输方式，轻松地从您的日志、指标、Web 应用、数据存储以及各种 AWS 服务采集数据。
