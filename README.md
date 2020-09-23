@@ -24,7 +24,7 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
       <th><img width="70px" src="images/logo/flume-logo.png"></th>
       <th><img width="70px" src="images/logo/kafka-logo.png"></th>
       <th><img width="70px" src="images/logo/zookeeper-logo.png"></th>
-      <th><img width="70px" src="images/logo/cloudera-logo.png"></th>
+      <th><img width="70px" src="images/logo/cloudera-logo.jpg"></th>
     </tr>
     <tr>
       <td align="center"><a href="#一hadoop分布式系统基础架构">Hadoop</a></td>
