@@ -74,17 +74,19 @@
 
 ## 1 - 环境信息
 - 操作系统：Centos 7.8
-- JDK 版本：1.8.0_261
+- Oracle JDK 版本：1.8.0_261
 - ELKB 版本：7.8.1
 - Cerebro 版本：0.9.2
-- Grafana版本：7.1.5
+- Grafana 版本：7.1.5
+- Supervisor 版本：4.2.0
 
 **以部署集群模式为例：**
+
 <table>
 	<tr>
 	    <th>组件名称</th>
 	    <th>节点</th>
-	    <th>IP</th>  
+	    <th>IP</th>
 	</tr >
 	<tr >
 	    <td rowspan="3">Elasticsearch</td>
@@ -129,10 +131,10 @@
 https://www.elastic.co/guide/en/elasticsearch/reference/7.8/install-elasticsearch.html
 
 ### 2.1 - 基础环境部署
-#### 2.1.1 - 安装 JDK8 环境
+#### 2.1.1 - 安装 Oracle JDK 环境
 Elasticsearch 是使用 Java 构建的，并且至少需要 Java 8 才能运行。仅支持 Oracle 的 Java 和 OpenJDK。应在所有 Elasticsearch 节点和客户端上使用`相同的 JVM 版本`。
 
-**1、下载 JDK安装包**
+**1、下载 JDK 安装包**
 - OpenJDK：http://anduin.linuxfromscratch.org/BLFS/OpenJDK/
 - JAVA SE：https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
 
@@ -302,14 +304,18 @@ $ tar xf cerebro-0.9.2.tgz -C /opt/elastic/ && cd /opt/elastic/
 $ ln -s cerebro-0.9.2 cerebro
 $ cd cerebro
 
-#修改配置文件,只需要修改 host 添加当前其中一台 Elasticsearch 地址、集群名称即可
+#修改配置文件,只需要修改 host 添加当前其中一台 Elasticsearch 地址、集群名称、elastic 用户密码即可
 $ vim ./conf/application.conf
-            hosts = [
-                       {
-                           host = "http://192.168.1.11:9200"
-                           name = "es-cluster"
-                       }
-                    ]
+hosts = [
+  {
+    host = "http://192.168.1.11:9200"
+    name = "es-cluster"
+    auth = {
+      username = "username"
+      password = "secret-password"
+    }
+  }
+]
 
 #启动
 $ nohup ./bin/cerebro -Dhttp.port=9000 -Dhttp.address=192.168.1.11 &
