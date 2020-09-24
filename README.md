@@ -60,7 +60,8 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 &emsp;&emsp;&emsp;&emsp;[2 - MapReduce 入门指南（分布式计算框架）](./Hadoop/2--MapReduce入门指南--分布式计算框架.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[3 - Yarn 入门指南（集群资源管理系统）](./Hadoop/3--Yarn入门指南--集群资源管理系统.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[4 - 从生日请客到 HDFS 工作原理解析](./Hadoop/4--从生日请客到HDFS工作原理解析.md)<br/>
-&emsp;&emsp;&emsp;&emsp;[5 - 从打牌到 Map-Reduce 工作原理解析](./Hadoop/5--从打牌到Map-Reduce工作原理解析.md)
+&emsp;&emsp;&emsp;&emsp;[5 - 从打牌到 Map-Reduce 工作原理解析](./Hadoop/5--从打牌到Map-Reduce工作原理解析.md)<br/>
+&emsp;&emsp;&emsp;&emsp;[6 - Hadoop Shell 命令大全](./Hadoop/6--Hadoop-Shell命令大全.md)
 ## 二、Spark（分布式计算引擎）
 &emsp;&emsp;&emsp;&emsp;[1 - Spark 入门指南](./Spark/1--Spark入门指南.md)
 ## 三、HBase（分布式列存储数据库）
