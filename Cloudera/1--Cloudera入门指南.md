@@ -380,9 +380,9 @@ Cloudera Manager 使用健康测试来监控集群中的服务、角色和主机
 
 <table>
     <tr>
-      <th><img src="../images/cloudera/status-health-good.png"></th>
-      <th><img src="../images/cloudera/status-health-concerning.png"></th>
-      <th><img src="../images/cloudera/status-health-bad.png"></th>
+      <th align="center"><img src="../images/cloudera/status-health-good.png"></th>
+      <th align="center"><img src="../images/cloudera/status-health-concerning.png"></th>
+      <th align="center"><img src="../images/cloudera/status-health-bad.png"></th>
     </tr>
     <tr>
       <td align="center">Good</td>
