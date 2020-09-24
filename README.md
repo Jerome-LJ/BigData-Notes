@@ -85,7 +85,8 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 &emsp;&emsp;&emsp;&emsp;[1 - Zookeeper 入门指南](./Zookeeper/1--Zookeeper入门指南.md)
 ## 十、Cloudera Manager（大数据运维工具）
 &emsp;&emsp;&emsp;&emsp;[1 - Cloudera Manager 入门指南](Cloudera/1--Cloudera入门指南.md)<br/>
-&emsp;&emsp;&emsp;&emsp;[2 - 安装 Cloudera Manager 和 CDH](./Cloudera/2--安装Cloudera-Manager和CDH.md)
+&emsp;&emsp;&emsp;&emsp;[2 - 安装 Cloudera Manager 和 CDH](./Cloudera/2--安装Cloudera-Manager和CDH.md)<br/>
+&emsp;&emsp;&emsp;&emsp;[3 - 完全卸载 Cloudera Manager 和其管理的服务](./Cloudera/3--完全卸载Cloudera-Manager和其管理的服务.md)
 ## 十一、Azkaban（批处理工作流调度器）
 &emsp;&emsp;&emsp;&emsp;[1 - Azkaban 入门指南](./Azkaban/1--Azkaban入门指南.md)
 ## 十二、Elastic（分布式搜索和分析引擎）
