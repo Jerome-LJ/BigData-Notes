@@ -21,9 +21,9 @@
 ## 1 - 环境信息
 - 操作系统：Centos 7.8
 - JDK 版本：1.8.0_261
-- Cloudera Manager 版本：5.9
-- CDH 版本：0.9.2
-- Grafana版本：7.1.5
+- Cloudera Manager 版本：5.9.3
+- CDH 版本：5.9.3
+- PostgreSQL 版本：9.2.24
 
 <table>
 	<tr>
