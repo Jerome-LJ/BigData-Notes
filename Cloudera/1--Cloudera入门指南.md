@@ -156,7 +156,7 @@ Heartbeating（心跳）是 Cloudera Manager 中的主要通信机制。默认�
 ## 4 - State Management（状态管理）
 Cloudera Manager Server 管理整个集群的状态。此状态可以分为两类：`model` 和 `runtime`，两者都存储在 Cloudera Manager Server 的数据库中。
 
-<div align="center"> <img width="700px" src="../images/cloudera/cm-state.png"/> </div>
+<div align="center"> <img src="../images/cloudera/cm-state.png"/> </div>
 
 Cloudera Manager 为 CDH 建模和托管服务：它们的角色、配置和内部依赖。模型状态捕获应该在哪里运行以及在什么配置下运行。例如，模型状态捕获了一个事实，即一个集群包含 17 个主机，每个主机都应该运行一个 DataNode。我们可以通过 Cloudera Manager 管理控制台配置页，或者 API 来操作与模型进行交互，例如，**"Add Service"**。
 
