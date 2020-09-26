@@ -308,14 +308,14 @@ a1.sources = r1
 a1.channels = c1
 a1.sources.r1.interceptors = i1
 a1.sources.r1.interceptors.i1.type = regex_extractor
-#hostname is bigdata01 ip is 192.168.1.10
+#hostname is bigdata01 ip is 172.16.1.11
 a1.sources.r1.interceptors.i1.regex = hostname is (.*?) and ip is (.*)
 a1.sources.r1.interceptors.i1.serializers = s1 s2
 a1.sources.r1.interceptors.i1.serializers.s1.type = default
 #hostname（自定义）= (.*?) -> bigdata01
 a1.sources.r1.interceptors.i1.serializers.s1.name = hostname
 a1.sources.r1.interceptors.i1.serializers.s2.type = default
-#ip（自定义） = (.*) -> 192.168.1.10
+#ip（自定义） = (.*) -> 172.16.1.11
 a1.sources.r1.interceptors.i1.serializers.s2.name = ip
 ```
 
