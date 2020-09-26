@@ -91,34 +91,34 @@
 	<tr >
 	    <td rowspan="3">Elasticsearch</td>
 	    <td>node-01</td>
-	    <td>192.168.1.11</td>
+	    <td>172.16.1.11</td>
 	</tr>
 	<tr>
 	    <td>node-02</td>
-	    <td>192.168.1.12</td>
+	    <td>172.16.1.12</td>
 	</tr>
 	<tr>
 	    <td>node-03</td>
-	    <td>192.168.1.13</td>
+	    <td>172.16.1.13</td>
 	</tr>
 	<tr >
 	    <td rowspan="2">Logstash</td>
 	    <td>node-02</td>
-	    <td>192.168.1.12</td>
+	    <td>172.16.1.12</td>
 	</tr>
 	<tr>
 	    <td>node-03</td>
-	    <td>192.168.1.13</td>
+	    <td>172.16.1.13</td>
 	</tr>
 	<tr >
 	    <td>kibana</td>
 	    <td>node-01</td>
-	    <td>192.168.1.11</td>
+	    <td>172.16.1.11</td>
 	</tr>
 	<tr >
 	    <td>Filbeat</td>
 	    <td>node-04</td>
-	    <td>192.168.1.14</td>
+	    <td>172.16.1.14</td>
 	</tr>
 </table>
 
@@ -218,13 +218,13 @@ path.data: /opt/elastic/elasticsearch/data/
 #日志位置
 path.logs: /opt/elastic/elasticsearch/logs
 #配置绑定IP
-network.host: 192.168.1.11
+network.host: 172.16.1.11
 #配置服务端口（9300为集群选举使用的端口）
 http.port: 9200
 #使用单播的方式发现集群节点，避免网络波动和云服务器网络限制造成的节点发现失败问题
-discovery.seed_hosts: ["192.168.1.11", "192.168.1.12", "192.168.1.13"]
+discovery.seed_hosts: ["172.16.1.11", "172.16.1.12", "172.16.1.13"]
 #在全新群集中设置初始的符合主机资格的节点集群
-cluster.initial_master_nodes: ["192.168.1.11", "192.168.1.12", "192.168.1.13"]
+cluster.initial_master_nodes: ["172.16.1.11", "172.16.1.12", "172.16.1.13"]
 #只要有这么多数据节点已加入群集，就可以恢复
 gateway.recover_after_data_nodes: 1
 ```
@@ -251,8 +251,8 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.8/monitoring-settings.
 #### 2.3.4 - 分发到其它两个节点
 **1、拷贝配置文件**
 ```bash
-$ scp -r /opt/elastic/elasticsearch-7.8.1 elastic@192.168.1.12:/opt/elastic/
-$ scp -r /opt/elastic/elasticsearch-7.8.1 elastic@192.168.1.13:/opt/elastic/
+$ scp -r /opt/elastic/elasticsearch-7.8.1 elastic@172.16.1.12:/opt/elastic/
+$ scp -r /opt/elastic/elasticsearch-7.8.1 elastic@172.16.1.13:/opt/elastic/
 ```
 **2、第二个节点配置文件修改**
 ```bash
@@ -262,7 +262,7 @@ $ ln -s elasticsearch-7.8.1 elasticsearch
 $ cd elasticsearch/
 $ vim config/elasticsearch.yml 
 node.name: node-2
-network.host: 192.168.1.12
+network.host: 172.16.1.12
 ```
 **3、第三个节点配置文件修改**
 ```bash
@@ -272,14 +272,14 @@ $ ln -s elasticsearch-7.8.1 elasticsearch
 $ cd elasticsearch/
 $ vim config/elasticsearch.yml 
 node.name: node-3
-network.host: 192.168.1.13
+network.host: 172.16.1.13
 ```
 
 ### 2.4 - 防火墙放开 iptables 9200 端口，允许内网其它机器访问（防火墙关闭，可忽略）
 ```bash
 $ sudo vim /etc/sysconfig/iptables
 #增加如下内容：
--A INPUT -s 192.168.1.0/24 -p tcp -m state --state NEW -m tcp --dport 9200 -j ACCEPT
+-A INPUT -s 172.16.1.0/24 -p tcp -m state --state NEW -m tcp --dport 9200 -j ACCEPT
 
 $ sudo systemctl restart firewalld.service
 ```
@@ -291,7 +291,7 @@ $ cd /opt/elastic/elasticsearch/
 $ ./bin/elasticsearch -d
 ```
 
-> 浏览器访问 Elasticsearch 状态页：192.168.1.11:9200
+> 浏览器访问 Elasticsearch 状态页：172.16.1.11:9200
 
 <div align="center"> <img src="../images/elastic/node.png"/> </div>
 
@@ -308,7 +308,7 @@ $ cd cerebro
 $ vim ./conf/application.conf
 hosts = [
   {
-    host = "http://192.168.1.11:9200"
+    host = "http://172.16.1.11:9200"
     name = "es-cluster"
     auth = {
       username = "username"
@@ -318,12 +318,12 @@ hosts = [
 ]
 
 #启动
-$ nohup ./bin/cerebro -Dhttp.port=9000 -Dhttp.address=192.168.1.11 &
+$ nohup ./bin/cerebro -Dhttp.port=9000 -Dhttp.address=172.16.1.11 &
 ```
 - 默认端口：9000
-- IP 地址：192.168.1.11
+- IP 地址：172.16.1.11
 
-> 浏览器访问 Cerebro 页面：192.168.1.11:9000
+> 浏览器访问 Cerebro 页面：172.16.1.11:9000
 
 <div align="center"> <img width="1024px" src="../images/elastic/cerebro.png"/> </div>
 
@@ -347,9 +347,9 @@ $ sudo rpm --install kibana-7.8.1-x86_64.rpm
 $ sudo vim /etc/kibana/kibana.yml
 #设置 Elasticsearch 的 IP 地址和端口
 server.port: 5601
-server.host: "192.168.1.11"
+server.host: "172.16.1.11"
 #ES 集群中的任何一个
-elasticsearch.hosts: ["http://192.168.1.11:9200"]
+elasticsearch.hosts: ["http://172.16.1.11:9200"]
 kibana.index: ".kibana"
 ```
 
@@ -360,7 +360,7 @@ https://www.elastic.co/guide/en/kibana/7.8/monitoring-settings-kb.html
 $ sudo vim /etc/kibana/kibana.yml
 #（选做）打开以下配置，使用 X-Pack 监控主机状态
 xpack.monitoring.enabled: true
-xpack.monitoring.elasticsearch.hosts: ["http://192.168.1.11:9200", "http://192.168.1.12:9200", "http://192.168.1.13:9200"]
+xpack.monitoring.elasticsearch.hosts: ["http://172.16.1.11:9200", "http://172.16.1.12:9200", "http://172.16.1.13:9200"]
 ```
 
 ### 3.4 - 启动访问 kibana
@@ -373,11 +373,11 @@ $ sudo systemctl start kibana.service
 $ sudo systemctl stop kibana.service
 ```
 
-> 浏览器访问 Kibana：http://192.168.1.11:5601
+> 浏览器访问 Kibana：http://172.16.1.11:5601
 
 <div align="center"> <img width="1024px" src="../images/elastic/kibana.png"/> </div>
 
-> 浏览器访问 kibana 的状态页：http://192.168.1.11:5601/status
+> 浏览器访问 kibana 的状态页：http://172.16.1.11:5601/status
 
 <div align="center"> <img width="1024px" src="../images/elastic/kibana-status.png"/> </div>
 
@@ -440,7 +440,7 @@ filter {
 output {
     if "_grokparsefailure" in [tags] {
         elasticsearch {
-            hosts => ["http://192.168.1.11:9200", "http://192.168.1.12:9200", "http://192.168.1.13:9200"]
+            hosts => ["http://172.16.1.11:9200", "http://172.16.1.12:9200", "http://172.16.1.13:9200"]
             manage_template => false
             index => "grok_failures-%{+YYYY.MM.dd}"
             #user => "elastic"
@@ -449,7 +449,7 @@ output {
     }
     else {
         elasticsearch {
-            hosts => ["http://192.168.1.11:9200", "http://192.168.1.12:9200", "http://192.168.1.13:9200"]
+            hosts => ["http://172.16.1.11:9200", "http://172.16.1.12:9200", "http://172.16.1.13:9200"]
             manage_template => false
             index => "%{[fields][type]}-%{+YYYY.MM.dd}"
             #user => "elastic"
@@ -470,7 +470,7 @@ https://www.elastic.co/guide/en/logstash/7.8/monitoring-logstash.html
 $ vim /opt/elastic/logstash/config/logstash.yml
 #（选做）打开以下配置，使用 X-Pack 监控主机状态
 xpack.monitoring.enabled: true
-xpack.monitoring.elasticsearch.hosts: ["http://192.168.1.11:9200", "http://192.168.1.12:9200", "http://192.168.1.13:9200"]
+xpack.monitoring.elasticsearch.hosts: ["http://172.16.1.11:9200", "http://172.16.1.12:9200", "http://172.16.1.13:9200"]
 ```
 
 ### 4.5 - 启动 Logstash
@@ -543,21 +543,21 @@ output.file:
   filename: filebeat
 #输出到 Redis
 output.redis:
-    hosts: ["192.168.1.12"]
+    hosts: ["172.16.1.12"]
     db: "3"
     port: "6400"
     password: "noted"
     key: "abc"
 #输出到 Elasticsearch
 output.elasticsearch:
-  hosts: ["192.168.1.11:9200", "192.168.1.12:9200", "192.168.1.13:9200"]
+  hosts: ["172.16.1.11:9200", "172.16.1.12:9200", "172.16.1.13:9200"]
 #输出到 Logstash
 output.logstash:
-  hosts: ["192.168.1.12:5044", "192.168.1.13:5044"]
+  hosts: ["172.16.1.12:5044", "172.16.1.13:5044"]
   loadbalance: true
 #输出到 kibana（配置 Kibana 端点）
 setup.kibana:
-  host: "192.168.1.11:5601"
+  host: "172.16.1.11:5601"
 ```
 
 <div align="center"> <img src="../images/elastic/filebeat.png"/> </div>
@@ -584,7 +584,7 @@ https://www.elastic.co/guide/en/beats/filebeat/7.8/monitoring.html
 $ vim /etc/filebeat/filebeat.yml
 #（选做）打开以下配置，使用 X-Pack 监控主机状态
 xpack.monitoring.enabled: true
-xpack.monitoring.elasticsearch.hosts: ["http://192.168.1.11:9200", "http://192.168.1.12:9200", "http://192.168.1.13:9200"]
+xpack.monitoring.elasticsearch.hosts: ["http://172.16.1.11:9200", "http://172.16.1.12:9200", "http://172.16.1.13:9200"]
 ```
 
 ## 6 - 开启 Elastic Stack 安全功能
@@ -612,9 +612,9 @@ $ ls elastic-certificates.p12
 
 **4、将其复制到要配置的每个 Elastic 的相关配置目录中，操作如下**
 ```bash
-$ scp elastic-certificates.p12 elastic@192.168.1.11/opt/elastic/elasticsearch/
-$ scp elastic-certificates.p12 elastic@192.168.1.12/opt/elastic/elasticsearch/
-$ scp elastic-certificates.p12 elastic@192.168.1.13/opt/elastic/elasticsearch/
+$ scp elastic-certificates.p12 elastic@172.16.1.11/opt/elastic/elasticsearch/
+$ scp elastic-certificates.p12 elastic@172.16.1.12/opt/elastic/elasticsearch/
+$ scp elastic-certificates.p12 elastic@172.16.1.13/opt/elastic/elasticsearch/
 ```
 
 **5、修改权限，不然会找不到文件，每一台 Elastic 都需要操作**
@@ -798,7 +798,7 @@ directory=/opt/elastic/elasticsearch/
 ```bash
 $ vim /opt/supervisord/conf.d/cerebro.conf
 [program:cerebro]
-command=/opt/elastic/cerebro/bin/cerebro -Dhttp.port=9000 -Dhttp.address=192.168.1.11
+command=/opt/elastic/cerebro/bin/cerebro -Dhttp.port=9000 -Dhttp.address=172.16.1.11
 autorstart=true
 autorestart=true
 redirect_stderr=true
@@ -1038,9 +1038,9 @@ Logstash 和其连接的服务运行速度一致，它可以和输入、输出�
 ## 10 - 常见故障及处理方法
 **1、错误：**
 ```bash
-2018-09-06T14:00:10.730+0800	ERROR	logstash/async.go:235	Failed to publish events caused by: write tcp 192.168.1.2:19616->192.168.1.3:5044: write: connection reset by peer
+2018-09-06T14:00:10.730+0800	ERROR	logstash/async.go:235	Failed to publish events caused by: write tcp 172.16.1.2:19616->172.16.1.3:5044: write: connection reset by peer
 2018-09-06T14:00:10.731+0800	DEBUG	[logstash]	logstash/async.go:99	close connection
-2018-09-06T14:00:11.731+0800	ERROR	pipeline/output.go:92	Failed to publish events: write tcp 192.168.1.2:19616->192.168.1.3:5044: write: connection reset by peer
+2018-09-06T14:00:11.731+0800	ERROR	pipeline/output.go:92	Failed to publish events: write tcp 172.16.1.2:19616->172.16.1.3:5044: write: connection reset by peer
 ```
 解决方法：
 
