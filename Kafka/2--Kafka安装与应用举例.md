@@ -41,28 +41,28 @@
 	<tr >
 	    <td rowspan="3">Kafka</td>
 	    <td>broker-01</td>
-	    <td>192.168.1.11</td>
+	    <td>172.16.1.11</td>
 	</tr>
 	<tr>
 	    <td>broker-02</td>
-	    <td>192.168.1.12</td>
+	    <td>172.16.1.12</td>
 	</tr>
 	<tr>
 	    <td>broker-03</td>
-	    <td>192.168.1.13</td>
+	    <td>172.16.1.13</td>
 	</tr>
 	<tr >
 	    <td rowspan="3">Zookeeper</td>
 	    <td>zookeeper-01</td>
-	    <td>192.168.1.11</td>
+	    <td>172.16.1.11</td>
 	</tr>
 	<tr>
 	    <td>zookeeper-02</td>
-	    <td>192.168.1.12</td>
+	    <td>172.16.1.12</td>
 	</tr>
 	<tr>
 	    <td>zookeeper-03</td>
-	    <td>192.168.1.13</td>
+	    <td>172.16.1.13</td>
 	</tr>
 </table>
 
@@ -130,11 +130,11 @@ clientPort=2181
 initLimit=5
 syncLimit=2
 #Server.1
-server.1=192.168.1.11:2888:3888
+server.1=172.16.1.11:2888:3888
 #Server.2
-server.2=192.168.1.12:2888:3888
+server.2=172.16.1.12:2888:3888
 #Server.3
-server.3=192.168.1.13:2888:3888
+server.3=172.16.1.13:2888:3888
 leaderServes=yes
 ```
 这个 `Server.1` 是服务器的标识，也可以是其它的数字， 表示这个是第几号服务器，用来标识服务器，这个标识后续会用到。
@@ -217,13 +217,13 @@ $ cat config/server.properties
 #当前机器在集群中的唯一标识
 broker.id=01
 #当前机器监听端口
-listeners=PLAINTEXT://192.168.1.11:9092
+listeners=PLAINTEXT://172.16.1.11:9092
 #提供给生产者，消费者的端口号。可以不设置则使用 listeners 的值
-advertised.listeners=PLAINTEXT://192.168.1.11:9092
+advertised.listeners=PLAINTEXT://172.16.1.11:9092
 #存储数据文件
 log.dirs=/opt/bigdata/kafka/kafka-data
 #连接 Zookeeper
-zookeeper.connect=192.168.1.11:2181,192.168.1.12:2181,192.168.1.13:2181/kafka
+zookeeper.connect=172.16.1.11:2181,172.16.1.12:2181,172.16.1.13:2181/kafka
 ```
 **broker-02 配置：**
 ```bash
@@ -231,13 +231,13 @@ $ cat config/server.properties
 #当前机器在集群中的唯一标识
 broker.id=02
 #当前机器监听端口
-listeners=PLAINTEXT://192.168.1.12:9092
+listeners=PLAINTEXT://172.16.1.12:9092
 #提供给生产者，消费者的端口号。可以不设置则使用 listeners 的值
-advertised.listeners=PLAINTEXT://192.168.1.12:9092
+advertised.listeners=PLAINTEXT://172.16.1.12:9092
 #存储数据文件
 log.dirs=/opt/bigdata/kafka/kafka-data
 #连接 Zookeeper
-zookeeper.connect=192.168.1.11:2181,192.168.1.12:2181,192.168.1.13:2181/kafka
+zookeeper.connect=172.16.1.11:2181,172.16.1.12:2181,172.16.1.13:2181/kafka
 ```
 **broker-03 配置：**
 ```bash
@@ -245,13 +245,13 @@ $ cat config/server.properties
 #当前机器在集群中的唯一标识
 broker.id=03
 #当前机器监听端口
-listeners=PLAINTEXT://192.168.1.13:9092
+listeners=PLAINTEXT://172.16.1.13:9092
 #提供给生产者，消费者的端口号。可以不设置则使用 listeners 的值
-advertised.listeners=PLAINTEXT://192.168.1.13:9092
+advertised.listeners=PLAINTEXT://172.16.1.13:9092
 #存储数据文件
 log.dirs=/opt/bigdata/kafka/kafka-data
 #连接 Zookeeper
-zookeeper.connect=192.168.1.11:2181,192.168.1.12:2181,192.168.1.13:2181/kafka
+zookeeper.connect=172.16.1.11:2181,172.16.1.12:2181,172.16.1.13:2181/kafka
 ```
 
 ### 4.4 - 启动/停止 Kafka 服务
@@ -271,7 +271,7 @@ $ bin/kafka-server-stop.sh config/server.properties
 ### 5.1 - 创建 Kafka 主题
 让我们用一个分区和一个副本创建一个名为 `test` 的主题：
 ```bash
-$ bin/kafka-topics.sh --create --zookeeper 192.168.1.11:2181,192.168.1.12:2181,192.168.1.13:2181/kafka --replication-factor 1 --partitions 1 --topic test
+$ bin/kafka-topics.sh --create --zookeeper 172.16.1.11:2181,172.16.1.12:2181,172.16.1.13:2181/kafka --replication-factor 1 --partitions 1 --topic test
 Created topic test.
 ```
 创建主题后，我们可以在 Kafka Broker 终端窗口中获取通知，并在 `config/server.properties` 文件中的 `/opt/bigdata/kafka/kafka-data` 中指定的创建主题的日志。
@@ -283,7 +283,7 @@ drwxrwxr-x 2 jerome jerome 141 Sep 17 19:02 test-0
 ### 5.2 - 查看主题列表
 运行 list topic 命令，则可以看到该主题：
 ```bash
-$ bin/kafka-topics.sh --list --zookeeper 192.168.1.11:2181,192.168.1.12:2181,192.168.1.13:2181/kafka
+$ bin/kafka-topics.sh --list --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka
 # 输出
 test
 ```
@@ -292,7 +292,7 @@ test
 ### 5.3 - 启动生产者以发送消息
 Kafka 带有一个命令行客户端，它将从文件或标准输入中获取输入，并将其作为消息发送到 Kafka 集群。默认情况下，每个新行将作为单独的新消息发送。如下所示：
 ```bash
-$ bin/kafka-console-producer.sh --broker-list 192.168.1.11,192.168.1.12:9092 --topic test
+$ bin/kafka-console-producer.sh --broker-list 172.16.1.11,172.16.1.12:9092 --topic test
 #输入一些消息
 >Hello World
 >This is a message
@@ -303,7 +303,7 @@ $ bin/kafka-console-producer.sh --broker-list 192.168.1.11,192.168.1.12:9092 --t
 
 与生产者类似，Kafka 还有一个命令行使用者，它将消息转储到标准输出。打开一个新终端并键入以下消息消息语法。
 ```bash
-$ bin/kafka-console-consumer.sh --bootstrap-server 192.168.1.11,192.168.1.12:9092 --topic test --from-beginning
+$ bin/kafka-console-consumer.sh --bootstrap-server 172.16.1.11,172.16.1.12:9092 --topic test --from-beginning
 #输出
 Hello World
 This is a message
@@ -316,14 +316,14 @@ This is another message
 
 增加 partion 数量，从 1 个 partition 增加到 2 个：
 ```bash
-$ bin/kafka-topics.sh --zookeeper 192.168.219.128:2181/kafka --alter --topic test --partitions 2
+$ bin/kafka-topics.sh --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka --alter --topic test --partitions 2
 #输出
 Adding partitions succeeded!
 ```
 
 **2、查看主题分区**
 ```bash
-$ bin/kafka-topics.sh --zookeeper 192.168.219.128:2181/kafka --describe --topic test
+$ bin/kafka-topics.sh --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka --describe --topic test
 #输出
 Topic: test	PartitionCount: 2	ReplicationFactor: 1	Configs: 
 	Topic: test	Partition: 0	Leader: 1	Replicas: 1	Isr: 1
@@ -333,14 +333,14 @@ Topic: test	PartitionCount: 2	ReplicationFactor: 1	Configs:
 **3、修改数据保存时间**
 Topic 默认的数据保存 7 天。修改 test 主题数据保存 1 天（86400000 毫秒）
 ```bash
-$ bin/kafka-topics.sh --zookeeper 192.168.219.128:2181/kafka --alter --topic test --config retention.ms=86400000
+$ bin/kafka-topics.sh --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka --alter --topic test --config retention.ms=86400000
 #输出
 Updated config for topic test.
 ```
 
 **4、删除主题**
 ```bash
-$ bin/kafka-topics.sh --zookeeper 192.168.219.128:2181/kafka --delete --topic test
+$ bin/kafka-topics.sh --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka --delete --topic test
 #输出
 Topic test is marked for deletion.
 ```
