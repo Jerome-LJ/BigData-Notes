@@ -35,17 +35,17 @@
 	<tr >
 	    <td rowspan="3">Cloudera Manager</td>
 	    <td>hadoop-01</td>
-	    <td>10.1.1.2</td>
+	    <td>172.16.1.11</td>
         <td>Master 节点</td>
 	</tr>
 	<tr>
 	    <td>hadoop-02</td>
-	    <td>10.1.1.3</td>
+	    <td>172.16.1.12</td>
         <td>Slave 节点</td>
 	</tr>
 	<tr>
 	    <td>hadoop-03</td>
-	    <td>10.1.1.4</td>
+	    <td>172.16.1.13</td>
         <td>Slave 节点</td>
 	</tr>
 </table>
@@ -76,7 +76,7 @@ $ sudo systemctl status firewalld
 ```
 
 ### 2.3 - 集群时钟同步
-在 CentOS7.x 的操作系统上，已经默认的安装了 `Chrony`，这里先卸载 `Chrony`，然后安装 `NTP`。使用 `NTP` 来配置各台机器的时钟同步，将 Cloudera Manager（10.1.1.2）服务作为本地 `NTP` 服务器，其它 2 台服务器与其保持同步。
+在 CentOS7.x 的操作系统上，已经默认的安装了 `Chrony`，这里先卸载 `Chrony`，然后安装 `NTP`。使用 `NTP` 来配置各台机器的时钟同步，将 Cloudera Manager（172.16.1.11）服务作为本地 `NTP` 服务器，其它 2 台服务器与其保持同步。
 
 **1、所有节点卸载 Chrony**
 ```bash
@@ -122,8 +122,8 @@ restrict default nomodify notrap nopeer noquery
 restrict 127.0.0.1 
 restrict ::1
 
-#新增本地 NTP 服务器 10.1.1.2，注释掉原有的 server 0-n
-server 10.1.1.2
+#新增本地 NTP 服务器 172.16.1.11，注释掉原有的 server 0-n
+server 172.16.1.11
 
 includefile /etc/ntp/crypto/pw
 keys /etc/ntp/keys
@@ -170,9 +170,9 @@ EOF
 ```bash
 $ sudo tee -a /etc/hosts <<-EOF
 
-10.1.1.2    hadoop-01
-10.1.1.3    hadoop-02
-10.1.1.4    hadoop-03
+172.16.1.11    hadoop-01
+172.16.1.12    hadoop-02
+172.16.1.13    hadoop-03
 EOF
 ```
 
@@ -294,7 +294,7 @@ $ sudo chown -R cloudera-scm:cloudera-scm /opt/cloudera/parcels
 ## 5 - 修改 Agent 配置文件
 集群的所有节点将 Cloudera Manager Agent 配置为指向 Master 节点：
 ```bash
-$ sudo sed -i 's/server_host=localhost/server_host=10.1.1.2/' /etc/cloudera-scm-agent/config.ini
+$ sudo sed -i 's/server_host=localhost/server_host=172.16.1.11/' /etc/cloudera-scm-agent/config.ini
 ```
 
 ## 6 - 启动 Cloudera Manager Server
@@ -319,11 +319,11 @@ $ /usr/lib64/cmf/agent/build/env/bin/supervisorctl -c /var/run/cloudera-scm-agen
 
 ## 7 - 登录 Cloudera Manager Admin Console
 
-Cloudera Manager Server URL 的格式为 `http://Server host:port`（http://10.1.1.2:7180），其中 Server host 是安装 Cloudera Manager Server 的主机的标准域名或 `IP 地址`，port 是为 Cloudera 配置的端口 管理器服务器 默认端口是 `7180`。
+Cloudera Manager Server URL 的格式为 `http://Server host:port`（http://172.16.1.11:7180），其中 Server host 是安装 Cloudera Manager Server 的主机的标准域名或 `IP 地址`，port 是为 Cloudera 配置的端口 管理器服务器 默认端口是 `7180`。
 
 1、等待几分钟，以启动 Cloudera Manager Server。要观察启动过程，请在 Cloudera Manager Server 主机上运行 `sudo tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log`。 如果 Cloudera Manager Server 无法启动，请参阅 [安装和升级问题疑难解答](https://docs.cloudera.com/documentation/enterprise/5-9-x/topics/cm_ig_troubleshooting.html#cmig_topic_19)。
 
-2、在 Web 浏览器中，输入 `http://10.1.1.2:7180`，其中服务器主机是运行 Cloudera Manager Server 的主机的标准域名或 IP 地址。
+2、在 Web 浏览器中，输入 `http://172.16.1.11:7180`，其中服务器主机是运行 Cloudera Manager Server 的主机的标准域名或 IP 地址。
 
 将显示 Cloudera Manager Admin Console 的登录屏幕。
 
