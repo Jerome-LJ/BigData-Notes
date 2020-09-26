@@ -82,15 +82,15 @@ nginx-controller-nw8bj   1/1     Running   0          37s
 Name:         nginx-controller-nw8bj
 Namespace:    default
 Priority:     0
-Node:         bigdata-01.test.com/192.168.219.128
+Node:         k8s-master-01.com/172.16.1.11
 Start Time:   Thu, 17 Sep 2020 04:18:45 +0800
 Labels:       app=nginx
-Annotations:  cni.projectcalico.org/podIP: 192.168.81.207/32
-              cni.projectcalico.org/podIPs: 192.168.81.207/32
+Annotations:  cni.projectcalico.org/podIP: 172.16.8.207/32
+              cni.projectcalico.org/podIPs: 172.16.8.207/32
 Status:       Running
-IP:           192.168.81.207
+IP:           172.16.8.207
 IPs:
-  IP:           192.168.81.207
+  IP:           172.16.8.207
 Controlled By:  ReplicationController/nginx-controller
 Containers:
   nginx:
@@ -124,19 +124,19 @@ Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
 Events:
   Type    Reason     Age   From                          Message
   ----    ------     ----  ----                          -------
-  Normal  Scheduled  74s   default-scheduler             Successfully assigned default/nginx-controller-nw8bj to bigdata-01.test.com
-  Normal  Pulling    74s   kubelet, bigdata-01.test.com  Pulling image "nginx"
-  Normal  Pulled     70s   kubelet, bigdata-01.test.com  Successfully pulled image "nginx"
-  Normal  Created    70s   kubelet, bigdata-01.test.com  Created container nginx
-  Normal  Started    70s   kubelet, bigdata-01.test.com  Started container nginx
+  Normal  Scheduled  74s   default-scheduler             Successfully assigned default/nginx-controller-nw8bj to k8s-master-01.com
+  Normal  Pulling    74s   kubelet, k8s-master-01.com    Pulling image "nginx"
+  Normal  Pulled     70s   kubelet, k8s-master-01.com    Successfully pulled image "nginx"
+  Normal  Created    70s   kubelet, k8s-master-01.com    Created container nginx
+  Normal  Started    70s   kubelet, k8s-master-01.com    Started container nginx
 ```
 
 ## 6 - 查看 Service
 ```bash
 # kubectl get svc
 NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
-kubernetes      ClusterIP   192.168.0.1      <none>        443/TCP          39m
-nginx-service   NodePort    192.168.59.168   <none>        8000:31610/TCP   10s
+kubernetes      ClusterIP   172.16.0.1       <none>        443/TCP          39m
+nginx-service   NodePort    172.16.8.168     <none>        8000:31610/TCP   10s
 ```
 ```bash
 # kubectl describe service nginx-service
@@ -146,11 +146,11 @@ Labels:                   <none>
 Annotations:              <none>
 Selector:                 name=nginx
 Type:                     NodePort
-IP:                       192.168.59.168
+IP:                       172.16.8.168
 Port:                     <unset>  8000/TCP
 TargetPort:               80/TCP
 NodePort:                 <unset>  31610/TCP
-Endpoints:                192.168.81.207:80
+Endpoints:                172.16.8.207:80
 Session Affinity:         None
 External Traffic Policy:  Cluster
 Events:                   <none>
@@ -159,7 +159,6 @@ Events:                   <none>
 ## 7 - 测试 Nginx
 ```bash
 浏览器窗口访问（主机 IP + 端口）：
-http://192.168.219.128:31610
+http://172.16.1.11:31610
 Welcome to nginx!
 ```
-
