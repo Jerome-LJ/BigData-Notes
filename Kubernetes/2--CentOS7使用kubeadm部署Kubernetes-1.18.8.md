@@ -37,7 +37,7 @@
 CentOS Linux release 7.8.2003 (Core)
 
 [root@localhost]# hostname -i
-192.168.219.128
+172.16.1.11
 
 ```
 
@@ -59,9 +59,9 @@ NAME=ens33
 UUID=1305dbac-3349-4efc-8ac8-cb8829856311
 DEVICE=ens33
 ONBOOT=yes
-IPADDR=192.168.219.128
+IPADDR=172.16.1.11
 NETMASK=255.255.255.0
-GATEWAY=192.168.219.2
+GATEWAY=172.16.1.2
 DNS1=8.8.8.8
 
 ##重启网卡服务
@@ -80,7 +80,7 @@ DNS1=8.8.8.8
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
-192.168.219.128    kubernetes.test.com    master
+172.16.1.11    kubernetes.test.com    master
 ```
 
 ### 1.5 - 关闭防火墙、selinux、swap
@@ -192,9 +192,9 @@ EOF
 由于 kubeadm 默认从官网 k8s.grc.io 下载所需镜像，国内无法访问，因此需要通过 `--image-repository` 指定阿里云镜像仓库地址。
 ```bash
 [root@kubernetes ~]# kubeadm init --kubernetes-version=v1.18.0  \
-    --apiserver-advertise-address=192.168.219.128  \
+    --apiserver-advertise-address=172.16.1.11  \
     --image-repository registry.aliyuncs.com/google_containers  \
-    --service-cidr=192.168.219.0/16 --pod-network-cidr=192.168.219.0/16
+    --service-cidr=172.16.1.0/16 --pod-network-cidr=172.16.1.0/16
 ```
 集群初始化成功后返回如下信息：
 ```
@@ -216,7 +216,7 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join 192.168.219.128:6443 --token mjil5k.elfcs9fwswcmsknh \
+kubeadm join 172.16.1.11:6443 --token mjil5k.elfcs9fwswcmsknh \
     --discovery-token-ca-cert-hash sha256:012f1ef144902e506951733fdbd6b8e8e8d9983d66bc2df5cb56833c0641b794
 ```
 **记录生成的最后部分内容，在其它节点上可以使用此命令将该节点加入该 K8S 集群。**
@@ -367,13 +367,13 @@ kubernetes-dashboard   dashboard-metrics-scraper-6b4884c9d5-8sb95    1/1     Run
 kubernetes-dashboard   kubernetes-dashboard-7f99b75bf4-hfz75         1/1     Running   0          91s
 [root@kubernetes ~]# 
 [root@kubernetes ~]# kubectl get svc -n kubernetes-dashboard
-NAME                        TYPE        CLUSTER-IP        EXTERNAL-IP   PORT(S)         AGE
-dashboard-metrics-scraper   ClusterIP   192.168.55.57     <none>        8000/TCP        93s
-kubernetes-dashboard        NodePort    192.168.253.241   <none>        443:30000/TCP   93s
+NAME                        TYPE        CLUSTER-IP        EXTERNAL-IP   PORT(S)        AGE
+dashboard-metrics-scraper   ClusterIP   172.16.6.57      <none>        8000/TCP        93s
+kubernetes-dashboard        NodePort    172.16.8.55      <none>        443:30000/TCP   93s
 ```
 
 ### 5.4 - 通过页面访问 kubernetes-dashboard
-https://192.168.219.128:30000/
+https://172.16.1.11:30000/
 
 使用 Token 进行登录
 
@@ -398,7 +398,7 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6ImhHVzM2UG54MjdEM3lPRzB3NU9MbERnMWN5dWRxaHpxMkU2M1N6
 通过查看 dashboard 日志，得到如下信息
 ```bash
 [root@kubernetes ~]# kubectl logs -f -n kubernetes-dashboard kubernetes-dashboard-7f99b75bf4-hfz75
-2020/08/19 11:35:11 [2020-08-19T11:35:11Z] Incoming HTTP/2.0 GET /api/v1/replicationcontroller/default?itemsPerPage=10&page=1&sortBy=d,creationTimestamp request from 192.168.219.128:35021: 
+2020/08/19 11:35:11 [2020-08-19T11:35:11Z] Incoming HTTP/2.0 GET /api/v1/replicationcontroller/default?itemsPerPage=10&page=1&sortBy=d,creationTimestamp request from 172.16.1.11:35021: 
 2020/08/19 11:35:11 Getting list of all replication controllers in the cluster
 2020/08/19 11:35:11 Getting list of all replica sets in the cluster
 2020/08/19 11:35:11 Non-critical error occurred during resource retrieval: replicationcontrollers is forbidden: User "system:serviceaccount:kubernetes-dashboard:kubernetes-dashboard" cannot list resource "replicationcontrollers" in API group "" in the namespace "default"
