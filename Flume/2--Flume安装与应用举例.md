@@ -63,7 +63,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.261-b12, mixed mode)
 ### 3.1 下载 Flume
 官方下载地址：http://flume.apache.org/download.html
 ```bash
-$ wget http://www.apache.org/dyn/closer.lua/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz
+$ wget https://mirrors.tuna.tsinghua.edu.cn/apache/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz
 ```
 
 ### 3.2 - 解压到指定目录
