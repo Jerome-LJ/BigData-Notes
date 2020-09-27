@@ -233,7 +233,7 @@ public class WordCountApp {
 
 
     // 这里为了直观显示参数 使用了硬编码，实际开发中可以通过外部传参
-    private static final String HDFS_URL = "hdfs://192.168.0.107:8020";
+    private static final String HDFS_URL = "hdfs://172.16.1.107:8020";
     private static final String HADOOP_USER_NAME = "root";
 
     public static void main(String[] args) throws Exception {
