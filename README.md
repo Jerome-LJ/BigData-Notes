@@ -84,7 +84,8 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 &emsp;&emsp;&emsp;&emsp;[3 - Kafka 集群管理工具 Kafka-Manager 的安装使用](./Kafka/3--Kafka集群管理工具Kafka-Manager的安装使用.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[4 - Kafka 在 Zookeeper 中的存储结构](./Kafka/4--Kafka在Zookeeper中的存储结构.md)
 ## 九、ZooKeeper（分布式协调服务）
-&emsp;&emsp;&emsp;&emsp;[1 - Zookeeper 入门指南](./Zookeeper/1--Zookeeper入门指南.md)
+&emsp;&emsp;&emsp;&emsp;[1 - Zookeeper 入门指南](./Zookeeper/1--Zookeeper入门指南.md)<br/>
+&emsp;&emsp;&emsp;&emsp;[2 - Zookeeper 安装的三种模式](./Zookeeper/2--Zookeeper安装的三种模式.md)
 ## 十、Cloudera Manager（大数据运维工具）
 &emsp;&emsp;&emsp;&emsp;[1 - Cloudera Manager 入门指南](Cloudera/1--Cloudera入门指南.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[2 - 安装 Cloudera Manager 和 CDH](./Cloudera/2--安装Cloudera-Manager和CDH.md)<br/>
