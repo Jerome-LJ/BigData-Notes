@@ -425,13 +425,13 @@ server.2=172.16.1.12:2888:3888
 server.3=172.16.1.13:2888:3888
 leaderServes=yes
 ```
-这个 `Server.1` 是服务器的标识，也可以是其它的数字，表示这个是第几号服务器，用来标识服务器，这个标识后续会用到。
+这个 `Server.2` 是服务器的标识，也可以是其它的数字，表示这个是第几号服务器，用来标识服务器，这个标识后续会用到。
 ```bash
 #创建数据目录和日志目录，不建议放在同一个目录中，以减少磁盘 IO。
 $ mkdir /opt/bigdata/zookeeper/{data,logs}
 
-#Server.1 操作：
-$ echo '1' > /opt/bigdata/zookeeper/data/myid
+#Server.2 操作：
+$ echo '2' > /opt/bigdata/zookeeper/data/myid
 ```
 
 **3、进入到 zookeeper-03（172.16.1.13）目录操作：**
@@ -451,13 +451,13 @@ server.2=172.16.1.12:2888:3888
 server.3=172.16.1.13:2888:3888
 leaderServes=yes
 ```
-这个 `Server.1` 是服务器的标识，也可以是其它的数字，表示这个是第几号服务器，用来标识服务器，这个标识后续会用到。
+这个 `Server.3` 是服务器的标识，也可以是其它的数字，表示这个是第几号服务器，用来标识服务器，这个标识后续会用到。
 ```bash
 #创建数据目录和日志目录，不建议放在同一个目录中，以减少磁盘 IO。
 $ mkdir /opt/bigdata/zookeeper/{data,logs}
 
-#Server.1 操作：
-$ echo '1' > /opt/bigdata/zookeeper/data/myid
+#Server.3 操作：
+$ echo '3' > /opt/bigdata/zookeeper/data/myid
 ```
 
 **Zookeeper 有三个端口：**
