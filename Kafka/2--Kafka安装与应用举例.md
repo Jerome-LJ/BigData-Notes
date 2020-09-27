@@ -105,12 +105,12 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.261-b12, mixed mode)
 官方文档：https://zookeeper.apache.org/doc/r3.5.8/zookeeperStarted.html
 
 ### 3.1 - 下载 ZooKeeper
-```
+```bash
 $ wget https://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz
 ```
 
 ### 3.2 - 解压到指定目录
-```
+```bash
 $ tar -zxf apache-zookeeper-3.5.8-bin.tar.gz -C /opt/bigdata && cd /opt/bigdata
 $ ln -s apache-zookeeper-3.5.8-bin zookeeper
 $ cd zookeeper
@@ -121,11 +121,11 @@ $ cp ./conf/zoo_sample.cfg ./conf/zoo.cfg
 ```bash
 $ vim ./conf/zoo.cfg
 tickTime=2000
-#zookeeper保存数据的目录
+#zookeeper 保存数据的目录
 dataDir=/opt/bigdata/zookeeper/data
-#Zookeeper保存日志文件目录
+#Zookeeper 保存日志文件目录
 dataLogDir=/opt/bigdata/zookeeper/logs
-#对Client端提供服务
+#用于 Client 端连接 Zookeeper 服务
 clientPort=2181
 initLimit=5
 syncLimit=2
@@ -137,9 +137,9 @@ server.2=172.16.1.12:2888:3888
 server.3=172.16.1.13:2888:3888
 leaderServes=yes
 ```
-这个 `Server.1` 是服务器的标识，也可以是其它的数字， 表示这个是第几号服务器，用来标识服务器，这个标识后续会用到。
+这个 `Server.1` 是服务器的标识，也可以是其它的数字，表示这个是第几号服务器，用来标识服务器，这个标识后续会用到。
 ```bash
-#创建数据目录和日志目录，不建议放在同一个目录中，减少磁盘 IO。
+#创建数据目录和日志目录，不建议放在同一个目录中，以减少磁盘 IO。
 $ mkdir /opt/bigdata/zookeeper/{data,logs}
 
 #Server.1 操作：
@@ -153,9 +153,9 @@ $ echo '3' > /opt/bigdata/zookeeper/data/myid
 ```
 
 **Zookeeper 有三个端口：**
-- 2181：对 Client 端提供服务
-- 2888：集群内机器通讯使用（Leader 监听此端口）
-- 3888：选举 leader 使用
+- 2181：用于 Client 端连接 Zookeeper 服务
+- 2888：用于集群内服务互相通信（leader 和 follower）
+- 3888：用于 leader 选举。
 
 ### 3.4 - 启动/停止/查看 ZooKeeper 服务
 三台服务器都要启动 ZooKeeper 服务。
