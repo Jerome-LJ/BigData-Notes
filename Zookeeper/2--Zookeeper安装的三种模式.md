@@ -560,9 +560,9 @@ dataLogDir=/opt/bigdata/zookeeper/logs
 clientPort=2181
 initLimit=5
 syncLimit=2
-server.1=192.168.219.128:2888:3888
-server.2=192.168.219.128:2889:3889
-server.3=192.168.219.128:2890:3890
+server.1=172.16.1.11:2888:3888
+server.2=172.16.1.12:2888:3888
+server.3=172.16.1.13:2888:3888
 leaderServes=yes
 
 #添加参数
