@@ -2,7 +2,7 @@
 <a href="#1---环境信息"</a>1 - 环境信息</a><br/>
 <a href="#2---elasticsearch三台机器都要配置"</a>2 - Elasticsearch（三台机器都要配置）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#21---基础环境部署"</a>2.1 - 基础环境部署</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211---安装-jdk8-环境"</a>2.1.1 - 安装 JDK8 环境</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211---部署-jdk-环境"</a>2.1.1 - 部署 JDK 环境</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#212---配置内存锁"</a>2.1.2 - 配置内存锁</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#213---配置文件描述符"</a>2.1.3 - 配置文件描述符</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#214---配置-map_counter"</a>2.1.4 - 配置 map_counter</a><br/>
@@ -131,8 +131,12 @@
 https://www.elastic.co/guide/en/elasticsearch/reference/7.8/install-elasticsearch.html
 
 ### 2.1 - 基础环境部署
-#### 2.1.1 - 安装 Oracle JDK 环境
+#### 2.1.1 - 部署 JDK 环境
+本文以 `jdk-8u261-linux-x64.tar.gz` 为例。**每一台机器上都要部署 JDK 环境。**
+
 Elasticsearch 是使用 Java 构建的，并且至少需要 Java 8 才能运行。仅支持 Oracle 的 Java 和 OpenJDK。应在所有 Elasticsearch 节点和客户端上使用`相同的 JVM 版本`。
+
+JAVA8 Ansible Playbook 自动化安装脚本，请点击 [传送门](./../Ansible/README.md#1---java7java8/java11-自动化安装脚本)。
 
 **1、下载 JDK 安装包**
 - OpenJDK：http://anduin.linuxfromscratch.org/BLFS/OpenJDK/
