@@ -43,12 +43,14 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
       <th><img width="70px" src="images/logo/elastic-logo.png"></th>
       <th><img width="70px" src="images/logo/docker.png"></th>
       <th><img width="70px" src="images/logo/kubernetes-logo.png"></th>
+      <th><img width="70px" src="images/logo/ansible-logo.png"></th>
     </tr>
     <tr>
       <td align="center"><a href="#十一azkaban批处理工作流调度器">Azkaban</a></td>
       <td align="center"><a href="#十二elastic分布式搜索和分析引擎">Elastic</a></td>
       <td align="center"><a href="#十三docker应用容器引擎">Docker</a></td>
       <td align="center"><a href="#十四kubernetes容器集群管理系统">Kubernetes</a></td>
+      <td align="center"><a href="./Ansible/README.md">Ansible</a></td>
     </tr>
   </table>
 <br/>
