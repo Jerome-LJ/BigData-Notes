@@ -1,7 +1,7 @@
 <nav>
 <a href="#1---cmak-简介"</a>1 - CMAK 简介</a><br/>
 <a href="#2---环境信息"</a>2 - 环境信息</a><br/>
-<a href="#3---安装部署-jdk"</a>3 - 安装部署 JDK</a><br/>
+<a href="#3---部署-jdk-环境"</a>3 - 部署 JDK 环境</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#31---下载-jdk"</a>3.1 - 下载 JDK</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#32---解压到指定目录"</a>3.2 - 解压到指定目录</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#33---配置-java-环境变量"</a>3.3 - 配置 java 环境变量</a><br/>
@@ -41,11 +41,13 @@ CMAK（以前称为 [Kafka Manager](https://github.com/yahoo/CMAK)）是用于�
 - CMAK（Kafka-Manager） 版本：3.0.0.5
 - Supervisor 版本：4.2.0
 
-## 3 - 安装部署 JDK
+## 3 - 部署 JDK 环境
 ### 3.1 - 下载 JDK
-本文以 `jdk-11.0.8_linux-x64_bin.tar.gz` 为例。**需要 Java 11+ 及以上的版本。**
+本文以 `jdk-11.0.8_linux-x64_bin.tar.gz` 为例。**需要安装 Java 11+ 及以上的版本。**
 
 官方下载地址：https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
+
+JAVA11 Ansible Playbook 自动化安装脚本，请点击 [传送门](./../Ansible/README.md#1---java7java8/java11-自动化安装脚本)。
 
 ### 3.2 - 解压到指定目录
 ```bash
