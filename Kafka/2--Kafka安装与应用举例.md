@@ -1,6 +1,6 @@
 <nav>
 <a href="#1---环境信息"</a>1 - 环境信息</a><br/>
-<a href="#2---安装部署-jdk"</a>2 - 安装部署 JDK</a><br/>
+<a href="#2---部署-jdk-环境"</a>2 - 部署 JDK 环境</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#21---下载-jdk"</a>2.1 - 下载 JDK</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#22---解压到指定目录"</a>2.2 - 解压到指定目录</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#23---配置-java-环境变量"</a>2.3 - 配置 java 环境变量</a><br/>
@@ -66,11 +66,13 @@
 	</tr>
 </table>
 
-## 2 - 安装部署 JDK
+## 2 - 部署 JDK 环境
 ### 2.1 - 下载 JDK
-本文以 `jdk-8u261-linux-x64.tar.gz` 为例。**每一台机器上都要安装 JDK。**
+本文以 `jdk-8u261-linux-x64.tar.gz` 为例。**每一台机器上都要部署 JDK 环境。**
 
 官方下载地址：https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
+
+JAVA8 Ansible Playbook 自动化安装脚本，请点击 [传送门](./../Ansible/README.md#1---java7java8/java11-自动化安装脚本)。
 
 ### 2.2 - 解压到指定目录
 ```bash
