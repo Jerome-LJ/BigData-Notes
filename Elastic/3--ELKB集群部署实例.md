@@ -15,8 +15,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#24---防火墙放开-iptables-9200-端口允许内网其它机器访问防火墙关闭可忽略"</a>2.4 - 防火墙放开 iptables 9200 端口，允许内网其它机器访问（防火墙关闭，可忽略）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#25---启动-elasticsearch"</a>2.5 - 启动 Elasticsearch</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#26---安装-elasticsearch-插件"</a>2.6 - 安装 Elasticsearch 插件</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#261---安装-cerebro-可视化集群管理"</a>2.6.1 - 安装 Cerebro 可视化集群管理</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#262---需要翻墙安装-elasticsearch-head-插件"</a>2.6.2 - （需要翻墙）安装 Elasticsearch-Head 插件</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#261---安装-cerebro-可视化集群管理"</a>2.6.1 - 安装 Cerebro 可视化集群管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#262---需要翻墙安装-elasticsearch-head-插件"</a>2.6.2 - （需要翻墙）安装 Elasticsearch-Head 插件</a><br/>
 <a href="#3---kibana"</a>3 - kibana</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#31---下载并安装-kibana"</a>3.1 - 下载并安装 Kibana</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#32---配置-kibana"</a>3.2 - 配置 kibana</a><br/>
@@ -136,7 +136,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.8/install-elasticsearc
 
 Elasticsearch 是使用 Java 构建的，并且至少需要 Java 8 才能运行。仅支持 Oracle 的 Java 和 OpenJDK。应在所有 Elasticsearch 节点和客户端上使用`相同的 JVM 版本`。
 
-JAVA8 Ansible Playbook 自动化安装脚本，请点击 [传送门](./../Ansible/README.md#1---java7java8/java11-自动化安装脚本)。
+**Java8 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#1---java7java8/java11-自动化安装脚本)。
 
 **1、下载 JDK 安装包**
 - OpenJDK：http://anduin.linuxfromscratch.org/BLFS/OpenJDK/
