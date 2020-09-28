@@ -1,0 +1,46 @@
+---
+
+- name: Make Sure Directory Exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+    - "{{ tmp_path }}"
+    - "{{ install_path }}"
+  become: yes
+  become_method: sudo
+
+- name: Download Flume Software
+  get_url:
+    url: "{{ get_url }}/{{ version }}/{{ flume }}"
+    dest: "{{ tmp_path }}"
+
+- name: Unarchive Flume Software to {{ install_path }}
+  unarchive:
+      src: "{{ tmp_path }}/{{ flume }}"
+      dest: "{{ install_path }}"
+
+- name: Create Flume Link
+  file:
+      src: "{{ install_path }}/{{ flume | basename | replace('.tar.gz', '') }}"
+      dest: "{{ flume_path }}"
+      state: link
+
+- name: Copy conf/flume-env.sh File
+  copy: 
+    src: "{{ flume_path }}/conf/flume-env.sh.template"
+    dest: "{{ flume_path }}/conf/flume-env.sh"
+    remote_src: yes
+
+- name: Set JAVA_HOME Env
+  lineinfile:
+    path: "{{ flume_path }}/conf/flume-env.sh"
+    insertafter: "^# export JAVA_HOME="
+    line: "export JAVA_HOME={{ JAVA_HOME }}"
+
+- name: Clean {{ tmp_path }} Directory
+  file:
+    path: "{{ tmp_path }}"
+    state: absent

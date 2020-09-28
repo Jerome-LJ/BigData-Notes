@@ -1,0 +1,15 @@
+---
+
+user: jerome
+group: hadoop
+
+get_url: https://mirrors.tuna.tsinghua.edu.cn/apache/flume
+version: 1.9.0
+flume: "apache-flume-{{ version }}-bin.tar.gz"
+
+tmp_path: /tmp/software
+install_path: /opt/bigdata
+
+flume_path: "{{ install_path }}/flume"
+
+JAVA_HOME: /usr/java/jdk1.8.0_261
