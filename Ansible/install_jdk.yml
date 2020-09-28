@@ -1,0 +1,9 @@
+---
+
+- name: Install JDK
+  hosts: "{{ host_list }}"
+  gather_facts: False
+
+  roles:
+    # java7=jdk1.7，java8=jdk1.8，java1=jdk11
+    - { role: install_jdk, jdk_type: "java8" }

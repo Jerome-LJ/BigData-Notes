@@ -1,0 +1,10 @@
+---
+
+get_url: "https://code.aliyun.com/Jerome-LJ/Software/raw/master/java"
+
+java7: jdk-7u80-linux-x64.rpm
+java8: jdk-8u261-linux-x64.tar.gz
+java11: jdk-11.0.8_linux-x64_bin.tar.gz
+
+java8_home: /usr/java/jdk1.8.0_261
+java11_home: /usr/java/jdk-11.0.8

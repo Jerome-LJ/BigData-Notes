@@ -1,0 +1,71 @@
+---
+
+- name: Make Suse /usr/java Exists
+  file:
+    path: /usr/java
+    state: directory
+  become: yes
+  become_method: sudo
+
+- block:
+  - name: Install java7 RPM Package
+    yum:
+      name: "{{ get_url }}/{{ java7 }}"
+      state: present
+    register: result
+    until: result|succeeded
+    delay: 5
+    retries: 2
+    become: yes
+    become_method: sudo
+  when: jdk_type == "java7"
+
+- block:
+  - name: Install java8 TGZ Package
+    unarchive:
+      src: "{{ get_url }}/{{ java8 }}"
+      dest: /usr/java/
+      remote_src: yes
+    become: yes
+    become_method: sudo
+
+  - name: Set JAVA_HOME Environment in /etc/profile
+    lineinfile:
+      path: /etc/profile
+      line: "{{ item }}"
+    with_items:
+      - " "
+      - "export JAVA_HOME={{ java8_home }}"
+      - "export PATH=$PATH:$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH"
+      - "export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib"
+    become: yes
+    become_method: sudo
+
+  - name: Source /etc/profile Environment
+    shell: sudo su -c "source /etc/profile"
+  when: jdk_type == "java8"
+
+- block:
+  - name: Install java11 TGZ Package
+    unarchive:
+      src: "{{ get_url }}/{{ java11 }}"
+      dest: /usr/java/
+      remote_src: yes
+    become: yes
+    become_method: sudo
+
+  - name: Set JAVA_HOME Environment in /etc/profile
+    lineinfile:
+      path: /etc/profile
+      line: "{{ item }}"
+    with_items:
+      - " "
+      - "export JAVA_HOME={{ java11_home }}"
+      - "export PATH=$PATH:$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH"
+      - "export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib"
+    become: yes
+    become_method: sudo
+
+  - name: Source /etc/profile Environment
+    shell: sudo su -c "source /etc/profile"
+  when: jdk_type == "java11"

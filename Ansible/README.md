@@ -5,6 +5,7 @@
 
 <nav>
 <a href="#使用示例"</a>使用示例</a><br/>
+<a href="#1---java7java8java11-自动化安装脚本"</a>1 - Java7/Java8/Java11 自动化安装脚本</a><br/>
 </nav>
 
 ---
@@ -20,5 +21,10 @@ $ cat install_jdk.yml
     # java7=jdk1.7，java8=jdk1.8，java1=jdk11
     - { role: install_jdk, jdk_type: "java7" }
 #【3】执行脚本
+$ ansible-playbook -i hosts -e host_list=test install_jdk.yml -k
+```
+
+## 1 - Java7/Java8/Java11 自动化安装脚本
+```bash
 $ ansible-playbook -i hosts -e host_list=test install_jdk.yml -k
 ```
