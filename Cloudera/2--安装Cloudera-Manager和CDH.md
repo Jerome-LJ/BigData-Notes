@@ -6,7 +6,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#23---集群时钟同步"</a>2.3 - 集群时钟同步</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#24---设置透明大页面"</a>2.4 - 设置透明大页面</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#25---配置-etchosts"</a>2.5 - 配置 /etc/hosts</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#26---安装-oracle-jdk-环境"</a>2.6 - 安装 Oracle JDK 环境</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#26---部署-jdk-环境"</a>2.6 - 部署 JDK 环境</a><br/>
 <a href="#3---安装-cloudera-manager-服务软件包"</a>3 - 安装 Cloudera Manager 服务软件包</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#31---方法一使用-yum-源在线安装"</a>3.1 - 方法一：使用 Yum 源在线安装</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#32---方法二使用-rpm-包离线安装"</a>3.2 - 方法二：使用 RPM 包离线安装</a><br/>
