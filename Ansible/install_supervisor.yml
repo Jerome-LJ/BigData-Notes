@@ -1,0 +1,9 @@
+---
+
+- name: install Supervisor
+  hosts: "{{ host_list }}"
+  gather_facts: False
+
+  roles:
+    #以下配置自定义修改即可
+    - { role: install_supervisor, user: "jerome", group: "hadoop", version: "1.9.0", install_path: "/opt/bigdata" }

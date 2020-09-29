@@ -764,6 +764,9 @@ $ sudo systemctl status grafana-server
 
 ## 8 - 使用 Supervisor 统一管理
 官方文档：http://supervisord.org/
+
+**Supervisor Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#2---supervisor-自动化安装脚本)。
+
 ### 8.1 - 安装 Supervisor
 ```bash
 $ sudo pip install supervisor==4.2.0

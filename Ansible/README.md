@@ -32,7 +32,13 @@ $ ansible-playbook -i hosts -e host_list=test install_jdk.yml -k
 ```
 
 ## 2 - Supervisor 自动化安装脚本
-未完待续......
+```bash
+$ ansible-playbook -i hosts -e host_list=test install_supervisor.yml -k
+#启动 Supervisor
+$ supervisord -c /opt/bigdata/supervisor/supervisord.conf
+#进入 Supervisor，查看被管理的 program
+$ supervisorctl -c /opt/bigdata/supervisor/supervisord.conf
+```
 
 ## 3 - Flume 自动化安装脚本
 ```bash

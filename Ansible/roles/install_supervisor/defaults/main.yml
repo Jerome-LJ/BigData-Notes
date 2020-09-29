@@ -1,0 +1,10 @@
+---
+
+requirements:
+  - { name: 'supervisor', version: '4.2.0'}
+
+user: jerome
+group: hadoop
+
+install_path: /opt/bigdata
+supervisor_path: "{{ install_path }}/supervisor"

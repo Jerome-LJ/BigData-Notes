@@ -1,0 +1,63 @@
+---
+
+- name: Make Sure Directory Exists
+  file:
+    path: "{{ install_path }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  become: yes
+  become_method: sudo
+
+- name: Install Supervisor
+  pip:
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    state: present
+  with_items:
+    - "{{ requirements }}"
+  register: result
+  until: result|succeeded
+  retries: 2
+  delay: 5
+  become: yes
+  become_method: sudo
+
+- name: Create Supervisor conf.d and logs Directory
+  file:
+    path: "{{ supervisor_path }}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+    - "conf.d"
+    - "logs"
+  become: yes
+  become_method: sudo
+
+- name: Copy supervisord.conf to Conf
+  template:
+    src: "supervisord.conf"
+    dest: "{{ supervisor_path }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  become: yes
+  become_method: sudo
+
+- name: Set Supervisor to Start Auto
+  template:
+    src: supervisor.service
+    dest: /lib/systemd/system/supervisor.service
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: '0644'
+  become: yes
+  become_method: sudo
+
+- name: Enable Supervisor to Start Auto
+  service:
+    name: supervisor.service
+    enabled: yes
+  become: yes
+  become_method: sudo
