@@ -14,8 +14,8 @@
       state: present
     register: result
     until: result|succeeded
-    delay: 5
     retries: 2
+    delay: 5
     become: yes
     become_method: sudo
   when: jdk_type == "java7"
