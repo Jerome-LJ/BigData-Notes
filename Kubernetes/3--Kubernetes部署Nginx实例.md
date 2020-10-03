@@ -5,7 +5,9 @@
 <a href="#4---创建-service">4 - 创建 Service</a><br/>
 <a href="#5---查看-pod">5 - 查看 Pod</a><br/>
 <a href="#6---查看-service">6 - 查看 Service</a><br/>
-<a href="#7---测试-nginx">7 - 测试 Nginx</a><br/>
+<a href="#7---测试访问-nginx">7 - 测试访问 Nginx</a><br/>
+<a href="#8---常见故障及处理方法">8 - 常见故障及处理方法</a><br/>
+
 </nav>
 
 ---
@@ -156,9 +158,35 @@ External Traffic Policy:  Cluster
 Events:                   <none>
 ```
 
-## 7 - 测试 Nginx
+## 7 - 测试访问 Nginx
 ```bash
 浏览器窗口访问（主机 IP + 端口）：
 http://172.16.1.11:31610
 Welcome to nginx!
+```
+
+## 8 - 常见故障及处理方法
+**1、K8S 创建 Pod 状态状态一直处在 Pending 状态**
+```bash
+# kubectl create -f ./nginx-rc.yaml
+replicationcontroller/nginx-controller created
+
+# kubectl get pods
+NAME               READY   STATUS    RESTARTS   AGE
+nginx-controller   0/1     Pending   0          30s
+```
+创建 pod 之后，一直是 pending 状态，describe pod：
+```bash
+# kubectl describe pods nginx-controller
+...
+...
+Events:
+  Type     Reason            Age        From               Message
+  ----     ------            ----       ----               -------
+  Warning  FailedScheduling  <unknown>  default-scheduler  0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+  Warning  FailedScheduling  <unknown>  default-scheduler  0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+```
+直译意思是 1 个节点有了污点无法容忍，执行 `kubectl get no -o yaml | grep taint -A 5` 之后发现该节点是不可调度的。这是因为 kubernetes 出于安全考虑默认情况下无法在 master 节点上部署 pod，于是**解决方法如下**：
+```bash
+# kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
