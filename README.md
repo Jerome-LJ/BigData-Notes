@@ -98,7 +98,8 @@ Hadoop 生态圈，大数据学习之路。仅作为学习笔记供个人和交�
 ## 十二、Elastic（分布式搜索和分析引擎）
 &emsp;&emsp;&emsp;&emsp;[1 - Elastic 入门指南](./Elastic/1--Elastic入门指南.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[2 - 从诗词大会飞花令到 Elasticsearch 原理解析](./Elastic/2--从诗词大会飞花令到Elasticsearch原理解析.md)<br/>
-&emsp;&emsp;&emsp;&emsp;[3 - ELKB 集群部署实例](./Elastic/3--ELKB集群部署实例.md)
+&emsp;&emsp;&emsp;&emsp;[3 - ELKB 集群部署实例](./Elastic/3--ELKB集群部署实例.md)<br/>
+&emsp;&emsp;&emsp;&emsp;[4 - ELK-Filebeat 收集 Docker 多容器日志实例](./Elastic/4--ELK-Filebeat收集Docker多容器日志实例.md)
 ## 十三、Docker（应用容器引擎）
 &emsp;&emsp;&emsp;&emsp;[1 - Docker 入门指南](./Docker/1--Docker入门指南.md)<br/>
 &emsp;&emsp;&emsp;&emsp;[2 - 从搬家到容器技术 Docker 应用场景解析](./Docker/2--从搬家到容器技术Docker应用场景解析.md)<br/>
