@@ -74,6 +74,10 @@
 
 **Java8 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#1---java7java8/java11-自动化安装脚本)。
 
+```bash
+$ wget https://code.aliyun.com/Jerome-LJ/Software/raw/master/java/jdk-8u261-linux-x64.tar.gz
+```
+
 ### 2.2 - 解压到指定目录
 ```bash
 $ sudo mkdir /usr/java
