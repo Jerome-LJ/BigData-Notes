@@ -90,35 +90,40 @@
 	</tr >
 	<tr >
 	    <td rowspan="3">Elasticsearch</td>
-	    <td>node-01</td>
+	    <td>es-node-01</td>
 	    <td>172.16.1.11</td>
 	</tr>
 	<tr>
-	    <td>node-02</td>
+	    <td>es-node-02</td>
 	    <td>172.16.1.12</td>
 	</tr>
 	<tr>
-	    <td>node-03</td>
+	    <td>es-node-03</td>
 	    <td>172.16.1.13</td>
 	</tr>
 	<tr >
 	    <td rowspan="2">Logstash</td>
-	    <td>node-02</td>
-	    <td>172.16.1.12</td>
+	    <td>logstash-01</td>
+	    <td>172.16.1.14</td>
 	</tr>
 	<tr>
-	    <td>node-03</td>
-	    <td>172.16.1.13</td>
+	    <td>logstash-02</td>
+	    <td>172.16.1.15</td>
 	</tr>
 	<tr >
 	    <td>kibana</td>
-	    <td>node-01</td>
+	    <td>es-node-01</td>
 	    <td>172.16.1.11</td>
 	</tr>
 	<tr >
+	    <td>Cerebro</td>
+	    <td>es-node-02</td>
+	    <td>172.16.1.12</td>
+	</tr>
+	<tr >
 	    <td>Filbeat</td>
-	    <td>node-04</td>
-	    <td>172.16.1.14</td>
+	    <td>logstash-02</td>
+	    <td>172.16.1.15</td>
 	</tr>
 </table>
 
@@ -141,6 +146,9 @@ Elasticsearch 是使用 Java 构建的，并且至少需要 Java 8 才能运行�
 **1、下载 JDK 安装包**
 - OpenJDK：http://anduin.linuxfromscratch.org/BLFS/OpenJDK/
 - JAVA SE：https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
+```bash
+$ wget https://code.aliyun.com/Jerome-LJ/Software/raw/master/java/jdk-8u261-linux-x64.tar.gz
+```
 
 **2、解压到指定目录**
 ```bash
@@ -322,12 +330,12 @@ hosts = [
 ]
 
 #启动
-$ nohup ./bin/cerebro -Dhttp.port=9000 -Dhttp.address=172.16.1.11 &
+$ nohup ./bin/cerebro -Dhttp.port=9000 -Dhttp.address=172.16.1.12 &
 ```
 - 默认端口：9000
-- IP 地址：172.16.1.11
+- IP 地址：172.16.1.12
 
-> 浏览器访问 Cerebro 页面：172.16.1.11:9000
+> 浏览器访问 Cerebro 页面：172.16.1.12:9000
 
 <div align="center"> <img width="1024px" src="../images/elastic/cerebro.png"/> </div>
 
@@ -547,7 +555,7 @@ output.file:
   filename: filebeat
 #输出到 Redis
 output.redis:
-    hosts: ["172.16.1.12"]
+    hosts: ["172.16.1.14"]
     db: "3"
     port: "6400"
     password: "noted"
@@ -557,7 +565,7 @@ output.elasticsearch:
   hosts: ["172.16.1.11:9200", "172.16.1.12:9200", "172.16.1.13:9200"]
 #输出到 Logstash
 output.logstash:
-  hosts: ["172.16.1.12:5044", "172.16.1.13:5044"]
+  hosts: ["172.16.1.14:5044", "172.16.1.15:5044"]
   loadbalance: true
 #输出到 kibana（配置 Kibana 端点）
 setup.kibana:
@@ -805,7 +813,7 @@ directory=/opt/elastic/elasticsearch/
 ```bash
 $ vim /opt/supervisord/conf.d/cerebro.conf
 [program:cerebro]
-command=/opt/elastic/cerebro/bin/cerebro -Dhttp.port=9000 -Dhttp.address=172.16.1.11
+command=/opt/elastic/cerebro/bin/cerebro -Dhttp.port=9000 -Dhttp.address=172.16.1.12
 autorstart=true
 autorestart=true
 redirect_stderr=true
@@ -1045,9 +1053,9 @@ Logstash 和其连接的服务运行速度一致，它可以和输入、输出�
 ## 10 - 常见故障及处理方法
 **1、错误：**
 ```bash
-2018-09-06T14:00:10.730+0800	ERROR	logstash/async.go:235	Failed to publish events caused by: write tcp 172.16.1.2:19616->172.16.1.3:5044: write: connection reset by peer
-2018-09-06T14:00:10.731+0800	DEBUG	[logstash]	logstash/async.go:99	close connection
-2018-09-06T14:00:11.731+0800	ERROR	pipeline/output.go:92	Failed to publish events: write tcp 172.16.1.2:19616->172.16.1.3:5044: write: connection reset by peer
+2020-09-06T14:00:10.730+0800	ERROR	logstash/async.go:235	Failed to publish events caused by: write tcp 172.16.1.15:19616->172.16.1.14:5044: write: connection reset by peer
+2020-09-06T14:00:10.731+0800	DEBUG	[logstash]	logstash/async.go:99	close connection
+2020-09-06T14:00:11.731+0800	ERROR	pipeline/output.go:92	Failed to publish events: write tcp 172.16.1.15:19616->172.16.1.14:5044: write: connection reset by peer
 ```
 解决方法：
 
