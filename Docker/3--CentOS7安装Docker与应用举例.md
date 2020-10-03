@@ -7,10 +7,14 @@
 <a href="#6---镜像加速"</a>6 - 镜像加速</a><br/>
 <a href="#7---添加内核参数"</a>7 - 添加内核参数</a><br/>
 <a href="#8---docker-常用命令"</a>8 - Docker 常用命令</a><br/>
-<a href="#9---入门实例以-nginx-为例"</a>9 - 入门实例（以 Nginx 为例）</a><br/>
+<a href="#9---入门实例-1以-nginx-为例"</a>9 - 入门实例 1（以 Nginx 为例）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#91---通过-docker-pull-构建镜像"</a>9.1 - 通过 Docker Pull 构建镜像</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#92---通过-dockerfile-构建镜像"</a>9.2 - 通过 Dockerfile 构建镜像</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#93---使用-nginx-镜像"</a>9.3 - 使用 Nginx 镜像</a><br/>
+<a href="#10---入门实例-2以-tomcat-为例"</a>10 - 入门实例 2（以 Tomcat 为例）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#101---通过-docker-pull-构建镜像"</a>10.1 - 通过 Docker Pull 构建镜像</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#102---通过-dockerfile-构建镜像"</a>10.2 - 通过 Dockerfile 构建镜像</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#103---使用-tomcat-镜像"</a>10.3 - 使用 tomcat 镜像</a><br/>
 </nav>
 
 ---
@@ -192,69 +196,69 @@ $ sudo sysctl -p
 ## 8 - Docker 常用命令
 ```bash
 #列出镜像
-$ docker image ls
+docker image ls
 
 #查看镜像体积
-$ docker system df
+docker system df
 
 #虚悬镜像(既没有仓库名，也没有标签，均为 <none>)
 $ docker image ls -f dangling=true
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 <none>              <none>              00285df0df87        5 days ago          342 MB
 #一般来说，虚悬镜像已经失去了存在的价值，是可以随意删除的，可以用下面的命令删除。
-$ docker image prune
+docker image prune
 
 #中间层镜像
-$ docker image ls -a
+docker image ls -a
 
 #列出部分镜像
-$ docker image ls ubuntu
+docker image ls ubuntu
 
 #删除 centos 镜像，可以用镜像名，也就是 <仓库名>:<标签>
-$ docker image rmi centos
+docker image rmi centos
 
 #删除所有仓库名为 redis 的镜像
-$ docker image rmi $(docker image ls -q redis)
+docker image rmi $(docker image ls -q redis)
 
 #删除所有在 mongo:3.2 之前的镜像
-$ docker image rmi $(docker image ls -q -f before=mongo:3.2)
+docker image rmi $(docker image ls -q -f before=mongo:3.2)
 
 #以特定格式显示
 #列出镜像ID
-$ docker image ls -q
+docker image ls -q
 
 #列出只包含镜像ID和仓库名
-$ docker image ls --format "{{.ID}}: {{.Repository}}"
+docker image ls --format "{{.ID}}: {{.Repository}}"
 
 #列出含标题、并只包含镜像ID和仓库名
-$ docker image ls --format "table {{.ID}}\t{{.Repository}}"
+docker image ls --format "table {{.ID}}\t{{.Repository}}"
 
 #列出容器
-$ docker ps
+docker ps
 
 #显示所有的容器，包括未运行的
-$ docker ps -a
+docker ps -a
 
 #显示总的文件大小
-$ docker ps -s
+docker ps -s
 
 #停止所有的容器，这样才能够删除其中的镜像
-$ docker stop $(docker ps -a -q)
+docker stop $(docker ps -a -q)
 
 # 删除所有的容器
-$ docker rm $(docker ps -a -q)
+docker rm $(docker ps -a -q)
 
 #导出容器
-$ docker export 7691a814370e > ubuntu.tar
+docker export 7691a814370e > ubuntu.tar
 
 #导入容器快照
-$ cat ubuntu.tar | docker import - test/ubuntu:v1.0
+cat ubuntu.tar | docker import - test/ubuntu:v1.0
 
-#进入容器内
-$ docker exec -it 8d885cc61a69 bash
+#进入容器内执行 shell 命令
+docker exec -it 8d885cc61a69 bash
 ```
 
-## 9 - 入门实例（以 Nginx 为例）
+## 9 - 入门实例 1（以 Nginx 为例）
 以 Docker 安装 Nginx 为例，分别为：
 - 通过 Docker Pull 构建镜像（直接从 HUB 拉取镜像）
 - 通过 Dockerfile 构建镜像
@@ -375,7 +379,7 @@ centos              7.6.1810            831691599b88        5 weeks ago         
 ### 9.3 - 使用 Nginx 镜像
 **1、运行容器**
 ```bash
-$ docker run --name nginx -p 80:80 -d nginx:v1.0
+$ docker run --name nginx -p 80:80 -d nginx:v2.0
 822c5e7b0c64c6d5df483f3a8751ab6ad160e6c40535f37e1fdacf3722c577b5
 ```
 
@@ -383,12 +387,150 @@ $ docker run --name nginx -p 80:80 -d nginx:v1.0
 ```bash
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
-822c5e7b0c64        nginx:v1.0          "nginx -g 'daemon of…"   13 minutes ago      Up 1 minutes        0.0.0.0:80->80/tcp   nginx
+822c5e7b0c64        nginx:v2.0          "nginx -g 'daemon of…"   13 minutes ago      Up 1 minutes        0.0.0.0:80->80/tcp   nginx
 
-#进入容器内
+#进入容器内执行 shell 命令
 $ docker exec -it 822c5e7b0c64 bash
 ```
 
 **3、通过浏览器访问**
 
 http://172.16.1.11:80/
+
+## 10 - 入门实例 2（以 Tomcat 为例）
+以 Docker 安装 Tomcat 为例，分别为：
+- 通过 Docker Pull 构建镜像（直接从 HUB 拉取镜像）
+- 通过 Dockerfile 构建镜像
+
+### 10.1 - 通过 Docker Pull 构建镜像
+**1、查看可用版本**
+```bash
+$ docker search tomcat
+```
+
+**2、拉取官方的镜像**
+```bash
+$ docker pull tomcat
+```
+
+**3、查看 Tomcat 镜像**
+```bash
+$ docker images | grep tomcat
+tomcat              latest              2ae23eb477aa        Less than a second ago   647MB
+```
+
+### 10.2 - 通过 Dockerfile 构建镜像
+以 [apache-tomcat-9.0.38.tar.gz](https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.38/bin/apache-tomcat-9.0.38.tar.gz) 为例，提前下载好放到 `~/nginx/` 目录。
+
+**1、创建目录并下载 JDK 和 tomcat**
+提前下载好 jdk-8u261-linux-x64.tar.gz、apache-tomcat-9.0.38.tar.gz 放到 `~/tomcat/` 目录：
+```bash
+$ mkdir ~/tomcat/
+$ cd ~/tomcat/
+$ wget https://code.aliyun.com/Jerome-LJ/Software/raw/master/java/jdk-8u261-linux-x64.tar.gz
+$ wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.38/bin/apache-tomcat-9.0.38.tar.gz
+```
+
+**2、编写 Dockerfile 文件**
+
+**方法一：使用 centos 构建镜像**
+```bash
+$ cat Dockerfile.v1
+FROM centos:7.6.1810
+
+RUN mkdir /usr/java/
+ADD jdk-8u261-linux-x64.tar.gz /usr/java/
+ENV JAVA_HOME /usr/java/jdk1.8.0_261
+
+ADD apache-tomcat-9.0.38.tar.gz /opt/
+
+RUN ln -s /opt/apache-tomcat-9.0.37 /opt/tomcat
+
+WORKDIR /opt/tomcat
+
+EXPOSE 8080
+
+CMD ["./bin/catalina.sh", "run"]
+```
+
+**方法二：使用 alpine 构建镜像**
+```bash
+$ cat Dockerfile.v2
+FROM alpine:latest
+LABEL Jerome="jeroome@163.com"
+
+#配置Tomcat版本
+ENV TOMCAT_VERSION=9.0.38
+
+#修改源
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+#安装Tomcat
+RUN apk add --no-cache --virtual=build-dependencies wget tzdata openjdk8-jre-base \
+    && export JAVA_HOME=$PATH:/usr/lib/jvm/default-jvm \
+    && export PATH=${PATH}:${JAVA_HOME}/bin \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone \
+    && wget https://archive.apache.org/dist/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz \
+    && tar zxf apache-tomcat-${TOMCAT_VERSION}.tar.gz \
+    && mv apache-tomcat-${TOMCAT_VERSION} /usr/local/tomcat \
+    && rm -rf apache-tomcat-${TOMCAT_VERSION}.tar.gz \
+    && apk del tzdata wget
+
+EXPOSE 8080
+
+#设置工作目录
+WORKDIR /usr/local/tomcat
+
+#启动Tomcat
+CMD ["./bin/catalina.sh", "run"]
+```
+
+更多 DockerFiles 参考：https://github.com/Jerome-LJ/DockerFiles
+
+**3、通过 Dockerfile 创建镜像**
+```bash
+#选择其中任一方法即可。
+$ docker build -t tomcat:v1.0 -f ./Dockerfile.v1 .
+$ docker build -t tomcat:v2.0 -f ./Dockerfile.v2 .
+...
+...
+Step 8/8 : CMD ["./bin/catalina.sh", "run"]
+ ---> Running in 1ead44bd11d2
+Removing intermediate container 1ead44bd11d2
+ ---> 9ea811bf03de
+Successfully built 9ea811bf03de
+Successfully tagged tomcat:v2.0
+```
+
+**4、查看创建好的 Tomcat 的镜像**
+```bash
+$ $ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+tomcat              v1.0                eae251295ef9        5 minutes ago       570MB
+tomcat              v2.0                9ea811bf03de        7 seconds ago       97.5MB
+alpine              latest              a24bb4013296        4 months ago        5.57MB
+centos              7.6.1810            f1cb7c7d58b7        18 months ago       202MB
+```
+由此可以看出，tomcat:v2.0 是使用 alpine 构建镜像，相对于其它 Docker 基础镜像，体积会更小。
+
+### 10.3 - 使用 tomcat 镜像
+**1、运行容器**
+```bash
+$ docker run --name tomcat -p 8080:8080 -d tomcat:v2.0
+1b7ebb5b35a81e304e4b119fcfbc8ed5183606cf3472d93e857cf7aa98117092
+```
+
+**2、查看容器运行情况**
+```bash
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+1b7ebb5b35a8        tomcat:v2.0         "./bin/catalina.sh r…"   8 seconds ago       Up 7 seconds        0.0.0.0:8080->8080/tcp   tomcat
+
+#进入容器内执行 shell 命令
+$ docker exec -it 1b7ebb5b35a8 sh
+```
+
+**3、通过浏览器访问**
+
+http://172.16.1.11:8080/
