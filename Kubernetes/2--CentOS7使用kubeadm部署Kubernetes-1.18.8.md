@@ -111,7 +111,7 @@ UUID=30b5ff64-4613-4daa-8d2c-774489c25f06   /boot       xfs     defaults        
 ### 1.6 - 添加内核参数
 添加内核配置参数以启用这些功能
 ```bash
-[root@kubernetes ~]# tee -a /etc/sysctl.conf <<EOF
+[root@kubernetes ~]# tee -a /etc/sysctl.conf <<-EOF
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
@@ -170,7 +170,7 @@ Registry Mirrors:
 ## 3 - kubectl、kubelet、kubeadm
 ### 3.1 - 添加阿里 Kubernetes 源
 ```bash
-[root@kubernetes ~]# cat > /etc/yum.repos.d/kubernetes.repo <<EOF
+[root@kubernetes ~]# cat > /etc/yum.repos.d/kubernetes.repo <<-EOF
 [kubernetes]
 name=Kubernetes
 baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
