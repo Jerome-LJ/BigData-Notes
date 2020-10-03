@@ -185,6 +185,9 @@ Elasticsearch 是使用 Java 构建的，并且至少需要 Java 8 才能运行�
 
 **1、下载 JDK 安装包**
 - JAVA SE：https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
+```bash
+$ wget https://code.aliyun.com/Jerome-LJ/Software/raw/master/java/jdk-8u261-linux-x64.tar.gz
+```
 
 **2、解压到指定目录**
 ```bash
