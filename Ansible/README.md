@@ -20,7 +20,7 @@ $ cd BigData-Notes/Ansible
 #【2】根据实际情况，自行修改参数变量（例如：install_jdk.yml 文件、hosts 文件）
 $ cat install_jdk.yml
   roles:
-    # java7=jdk1.7，java8=jdk1.8，java1=jdk11
+    # java7=jdk1.7，java8=jdk1.8，java11=jdk11
     - { role: install_jdk, jdk_type: "java7" }
 #【3】执行脚本
 $ ansible-playbook -i hosts -e host_list=test install_jdk.yml -k
