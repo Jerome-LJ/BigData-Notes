@@ -30,7 +30,7 @@
 
 官方下载地址：https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
 
-**Java8 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#1---java7java8/java11-自动化安装脚本)。
+**Java8 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#2---java7java8/java11-自动化安装脚本)。
 
 ```bash
 $ wget https://code.aliyun.com/Jerome-LJ/Software/raw/master/java/jdk-8u261-linux-x64.tar.gz
@@ -66,7 +66,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.261-b12, mixed mode)
 若能正常输出以上信息，则说明 java 环境变量配置成功。
 
 ## 3 - 安装部署 Flume
-**Flume Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#3---flume-自动化安装脚本)。
+**Flume Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#5---flume-自动化安装脚本)。
 
 ### 3.1 下载 Flume
 官方下载地址：http://flume.apache.org/download.html
