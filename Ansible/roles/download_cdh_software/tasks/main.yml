@@ -1,0 +1,23 @@
+---
+
+- name: Make Sure /tmp/software Exist
+  file:
+    path: /tmp/software
+    state: directory
+    mode: 0700
+
+- name: Download Cloudera parcel Software
+  get_url:
+    url: http://archive.cloudera.com/cdh5/parcels/{{ cdh_version }}/
+    dest: /tmp/software/
+  with_items:
+    - "{{ parcel_software }}"
+
+- name: Download Cloudera Management Software
+  get_url:
+    url: http://archive.cloudera.com/cm5/redhat/{{system_version}}/x86_64/cm/{{cdh_version}}/RPMS/x86_64/{{item}}
+    dest: /tmp/software/
+  with_items:
+    - "{{ common_software }}"
+    - "{{ agent_software }}"
+    - "{{ server_software }}"

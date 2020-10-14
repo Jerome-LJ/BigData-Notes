@@ -1,0 +1,74 @@
+---
+
+- name: Create the hosts file for all machines
+  template: 
+    src: hosts.j2
+    dest: /etc/hosts
+    backup: yes
+  become: yes
+  become_method: sudo
+
+- name: Set timezone to Asia/Shanghai
+  timezone:
+    name: Asia/Shanghai
+  become: yes
+  become_method: sudo
+
+- name: Disable transparent Huge Pages (THP)
+  script: disable_THP.sh
+  become: yes
+  become_method: sudo
+
+- name: chmod +x /etc/rc.d/rc.local
+  file:
+    path: /etc/rc.d/rc.local
+    mode: 0755
+  become: yes
+  become_method: sudo
+
+- name: Insert/Update disable THP configuation block in /etc/rc.local
+  blockinfile:
+    dest: /etc/rc.d/rc.local
+    block: |
+      if [[ -f /sys/kernel/mm/transparent_hugepage/enabled ]]; then
+          echo never > /sys/kernel/mm/transparent_hugepage/enabled
+      fi
+
+      if [[ -f /sys/kernel/mm/transparent_hugepage/defrag ]]; then
+          echo never > /sys/kernel/mm/transparent_hugepage/defrag
+      fi
+  become: yes
+  become_method: sudo
+
+- name: sysctl vm.swappiness=0
+  sysctl:
+    name: vm.swappiness
+    value: 0
+    state: present
+  become: yes
+  become_method: sudo
+
+- name: Stop Firewalld and chronyd
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  with_items:
+    - firewalld
+    - chronyd
+  become: yes
+  become_method: sudo
+
+- name: Disable SELinux
+  shell: setenforce 0
+  become: yes
+  become_method: sudo
+
+- name: Disable SELinux in /etc/sysconfig/selinux
+  ini_file:
+    path: /etc/sysconfig/selinux
+    section: null
+    option: SELINUX
+    value: disabled
+  become: yes
+  become_method: sudo

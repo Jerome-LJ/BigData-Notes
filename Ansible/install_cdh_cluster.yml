@@ -1,0 +1,19 @@
+---
+
+- hosts: cluster
+  gather_facts: True
+  roles:
+    # 初始化主机（thp、swappiness、firewall、selinux、/etc/hosts...）
+    - role: init_host_common
+    # 安装并修改 NTP 服务同步的时间源
+    - { role: install_ntp, ntpserver: "172.16.1.11" }
+    # 安装 JDK：java7=jdk1.7，java8=jdk1.8，java11=jdk11
+    - { role: install_jdk, jdk_type: "java8" }
+    - { role: download_cdh_software, system_version: "7", cdh_version: "5.9.3" }
+    # 安装 Agent，修改为 CDH Master IP
+    - { role: install_scm_agent, server_host: "172.16.1.11" }
+
+- hosts: master
+  gather_facts: False
+  roles:
+    - role: install_scm_server

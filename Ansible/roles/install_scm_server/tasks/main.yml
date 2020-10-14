@@ -1,0 +1,56 @@
+---
+
+- name: Make Sure /tmp/software Exist
+  file:
+    path: /tmp/software
+    state: directory
+    mode: 0700
+
+- name: Copy RPM Software to Master Node
+  copy:
+      src: "/tmp/software/{{ item }}"
+      dest: "/tmp/software/{{ item }}"
+  with_items: 
+    - "{{ server_software }}"
+
+- name: Install cloudera-manager server and dp Software
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ server_software }}"
+  become: yes
+  become_method: sudo
+
+- name: Copy Cloudera CDH Software to repo Directory
+  copy:
+    src: "/tmp/software/{{ item }}"
+    dest: "/opt/cloudera/parcel-repo/{{ item }}"
+    owner: cloudera-scm
+    group: cloudera-scm
+  with_items:
+    - "{{ parcel_software }}"
+  become: yes
+  become_method: sudo
+
+- name: Rename sha1 to sha
+  shell: find /opt/cloudera/parcel-repo -name '*.sha1' | sed 's/.sha1//g' | xargs -i mv {}.sha1 {}.sha
+  become: yes
+  become_method: sudo
+
+- name: Start cloudera-scm-server and db
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - cloudera-scm-server-db
+    - cloudera-scm-server
+  become: yes
+  become_method: sudo
+
+- name: Clean /tmp/software Directory
+  file:
+    path: /tmp/software
+    state: absent
+  become: yes
+  become_method: sudo

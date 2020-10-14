@@ -1,2 +1,14 @@
 [test]
 127.0.0.1
+
+[master]
+cdh1
+
+[slave]
+cdh1
+cdh2
+cdh3
+
+[cluster:children]
+master
+slave

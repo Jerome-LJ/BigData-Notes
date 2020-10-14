@@ -1,0 +1,42 @@
+---
+
+- name: Make Sure /tmp/software Exist
+  file:
+    path: /tmp/software
+    state: directory
+    mode: 0700
+
+- name: Copy RPM Software to Cluster Nodes
+  copy:
+      src: "/tmp/software/{{ item }}"
+      dest: "/tmp/software/{{ item }}"
+  with_items: 
+    - "{{ common_software }}"
+    - "{{ agent_software }}"
+
+- name: Install cloudera-scm-agent Software
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ common_software }}"
+    - "{{ agent_software }}"
+  become: yes
+  become_method: sudo
+
+- name: Update /etc/cloudera-scm-agent/config.ini
+  ini_file:
+    dest: /etc/cloudera-scm-agent/config.ini
+    section: General
+    option: server_host
+    value: "{{ server_host }}"
+  become: yes
+  become_method: sudo
+  notify: start cloudera-scm-agent
+
+- name: Clean /tmp/software Directory
+  file:
+    path: /tmp/software
+    state: absent
+  become: yes
+  become_method: sudo
