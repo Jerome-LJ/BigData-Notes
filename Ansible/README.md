@@ -51,7 +51,6 @@ $ supervisorctl -c /opt/bigdata/supervisor/supervisord.conf
 
 ## 4 - CDH 自动化安装脚本
 ```bash
-#注意
 $ ansible-playbook -i hosts install_cdh_cluster.yml -k
 ```
 
