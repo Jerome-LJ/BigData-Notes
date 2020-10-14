@@ -43,7 +43,7 @@ CentOS Linux release 7.8.2003 (Core)
 
 ### 1.2 - 配置网络
 ```bash
-[root@localhost ~]# cat  /etc/sysconfig/network-scripts/ifcfg-ens33
+[root@localhost ~]# cat /etc/sysconfig/network-scripts/ifcfg-ens33
 TYPE=Ethernet
 PROXY_METHOD=none
 BROWSER_ONLY=no
@@ -141,13 +141,14 @@ EOF
 ### 2.2 - 添加镜像加速器
 对于使用 systemd 的系统，请在 `/etc/docker/daemon.json` 中写入如下内容（如果文件不存在请新建该文件）
 ```bash
-[root@kubernetes ~]# cat /etc/docker/daemon.json
+[root@kubernetes ~]# tee -a /etc/docker/daemon.json <<-EOF
 {
   "registry-mirrors": [
     "https://hub-mirror.c.163.com",
     "https://mirror.baidubce.com"
   ]
 }
+EOF
 ```
 之后重新启动服务。
 ```bash
