@@ -51,6 +51,8 @@
 </table>
 
 ## 2 - 在你开始之前
+**Cloudera Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#4---cdh-自动化安装脚本)。
+
 ### 2.1 - 禁用 SELinux
 `SELinux` 会干扰网络引导服务器的运行。这里直接禁用它。**所有节点**修改 `/etc/selinux/config` 文件如下：
 ```bash
@@ -181,7 +183,7 @@ EOF
 
 Elasticsearch 是使用 Java 构建的，并且至少需要 Java 8 才能运行。仅支持 Oracle 的 Java 和 OpenJDK。应在所有 Elasticsearch 节点和客户端上使用`相同的 JVM 版本`。
 
-**Java8 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#1---java7java8/java11-自动化安装脚本)。
+**Java8 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#2---java7java8/java11-自动化安装脚本)。
 
 **1、下载 JDK 安装包**
 - JAVA SE：https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
