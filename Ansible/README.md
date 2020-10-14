@@ -5,9 +5,10 @@
 
 <nav>
 <a href="#使用示例"</a>使用示例</a><br/>
-<a href="#1---java7java8java11-自动化安装脚本"</a>1 - Java7/Java8/Java11 自动化安装脚本</a><br/>
-<a href="#2---supervisor-自动化安装脚本"</a>2 - Supervisor 自动化安装脚本</a><br/>
-<a href="#3---flume-自动化安装脚本"</a>3 - Flume 自动化安装脚本</a><br/>
+<a href="#1---批量配置远程-ssh-免密登录脚本"</a>1 - 批量配置远程 ssh 免密登录脚本</a><br/>
+<a href="#2---java7java8java11-自动化安装脚本"</a>2 - Java7/Java8/Java11 自动化安装脚本</a><br/>
+<a href="#3---supervisor-自动化安装脚本"</a>3 - Supervisor 自动化安装脚本</a><br/>
+<a href="#4---flume-自动化安装脚本"</a>4 - Flume 自动化安装脚本</a><br/>
 </nav>
 
 ---
@@ -26,12 +27,19 @@ $ cat install_jdk.yml
 $ ansible-playbook -i hosts -e host_list=test install_jdk.yml -k
 ```
 
-## 1 - Java7/Java8/Java11 自动化安装脚本
+## 1 - 批量配置远程 ssh 免密登录脚本
+```bash
+#生成公共秘钥
+$ ssh-keygen
+$ ansible-playbook -i hosts -e "host_list=test remote_user=jerome" set_pub_key.yml -k
+```
+
+## 2 - Java7/Java8/Java11 自动化安装脚本
 ```bash
 $ ansible-playbook -i hosts -e host_list=test install_jdk.yml -k
 ```
 
-## 2 - Supervisor 自动化安装脚本
+## 3 - Supervisor 自动化安装脚本
 ```bash
 $ ansible-playbook -i hosts -e host_list=test install_supervisor.yml -k
 #启动 Supervisor
@@ -40,7 +48,7 @@ $ supervisord -c /opt/bigdata/supervisor/supervisord.conf
 $ supervisorctl -c /opt/bigdata/supervisor/supervisord.conf
 ```
 
-## 3 - Flume 自动化安装脚本
+## 4 - Flume 自动化安装脚本
 ```bash
 $ ansible-playbook -i hosts -e host_list=test install_flume.yml -k
 ```
