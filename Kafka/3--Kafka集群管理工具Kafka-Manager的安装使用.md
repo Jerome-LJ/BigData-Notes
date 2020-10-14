@@ -47,7 +47,7 @@ CMAK（以前称为 [Kafka Manager](https://github.com/yahoo/CMAK)）是用于�
 
 官方下载地址：https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 
-**Java11 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#1---java7java8/java11-自动化安装脚本)。
+**Java11 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#2---java7java8/java11-自动化安装脚本)。
 
 ```bash
 $ wget https://code.aliyun.com/Jerome-LJ/Software/raw/master/java/jdk-11.0.8_linux-x64_bin.tar.gz
