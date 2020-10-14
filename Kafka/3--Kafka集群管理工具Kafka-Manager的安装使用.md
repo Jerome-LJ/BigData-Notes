@@ -195,6 +195,9 @@ Lag 代表 consumer 的消费能力，计算公式为 `Lag = Consumer Offset - L
 
 ## 5 - 使用 Supervisor 管理
 由于时候使用命令启动关闭 CMAK 比较麻烦，建议使用 Supervisor 管理。
+
+**Supervisor Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#3---supervisor-自动化安装脚本)。
+
 ```bash
 #【1】安装 Supervisor
 $ sudo pip install supervisor==4.2.0
