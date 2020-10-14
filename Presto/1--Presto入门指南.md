@@ -27,14 +27,14 @@
 ---
 
 ## 1 - Presto 简介
-Presto 是由 Facebook 推出的一个基于 Java 开发的开源分布式 SQL 查询引擎，适用于交互式分析查询，数据量支持 GB 到 PB 字节。Presto 本身并不存储数据，但是可以接入多种数据源，并且支持跨数据源的级联查询。
+Presto 是 Facebook 推出的一个基于 Java 开发的开源的 MPP（Massive Parallel Processing）分布式 SQL 查询引擎，其理念来源于一个叫 Volcano 的并行数据库，该数据库提出了一个并行执行 SQL 的模型，它被设计为用来专门进行高速、实时的数据分析。Presto 是一个 SQL 计算引擎，分离计算层和存储层，其不存储数据，通过 Connector SPI 实现对各种数据源（Storage）的访问，并且支持跨数据源的级联查询。适用于交互式分析查询，数据量支持 GB 到 PB 字节。
 
-**它具有以下特点：**
+**Presto 是一个交互式查询引擎，我们最关心的是 Presto 实现低延时查询的原理，具有以下特点：**
 - **多数据源：** 目前版本支持20多种数据源，几乎能覆盖所有常见情况，Elasticsearch、Hive、JMX、Kafka、Kudu、Local File、Memory、MongoDB、MySQL、Redis 等等。
 - **支持 SQL：** 完全支持 ANSI SQL，提供 SQL shell。
 - **扩展性：** 支持开发自定义数据源的 Connector。
 - **混合计算：** 同一种数据源的不同库或表；将多个数据源的数据进行合并。
-- **高性能：** 基于内存计算，在绝大多数情况下，Presto 的查询性能是 Hive 的10倍以上，完全能实现交互式，实时查询。
+- **高性能：** 基于内存计算，在绝大多数情况下，Presto 的查询性能是 Hive 的 10 倍以上，完全能实现交互式，实时查询。
 - **流水线：** 由于 Presto 是基于 PipeLine 设计的，在进行海量数据处理的过程中，终端不需要等到所有的数据都计算完毕后才能看到结果，而是一旦开始计算就可以立即产生一部分数据结果。
 
 ## 2 - Presto 适用场景
@@ -47,15 +47,15 @@ Presto 是定位在数据仓库和数据分析业务的分布式 SQL 引擎，�
 Presto 是一个数仓类产品，因为对事务支持有限，所以不适合在线业务场景。
 
 ## 2 - Presto 架构概述
-Presto 查询引擎是一个 Master-Slave 的架构，由一个 Coordinator 节点，一个 Discovery Server 节点，多个 Worker 节点组成，Discovery Server 通常内嵌于 Coordinator 节点中。如下图所示：
+Presto 查询引擎是一个 Master-Slave 的架构，由一个 Coordinator 节点，一个 Discovery Server 节点，多个 Worker 节点组成。Presto 提供了一套 Connector 接口，用于读取元信息和原始数据，Presto 内置有多种数据源，如 Hive、MySQL、Kudu、Kafka 等。同时，Presto 的扩展机制允许自定义 Connector，从而实现对定制数据源的查询。假如配置了 Hive Connector，需要配置一个 Hive MetaStore 服务为 Presto 提供 Hive 元信息，Worker 节点通过 Hive Connector 与 HDFS 交互，读取原始数据。Discovery Server 通常内嵌于 Coordinator 节点中。如下图所示：
 
 <div align="center"> <img src="../images/presto/presto-architecture.png"/> </div>
 
-- **Coordinator：** 负责接收查询请求、解析 SQL、生成执行计划、任务调度以及 worker 管理。
+- **Coordinator：** 负责接收查询请求、解析 SQL、生成执行计划、任务调度以及 Worker 管理。
 - **Worker：** 负责执行实际查询任务，通过 Connector 访问底层存储系统。
 - **Discovery Service：** （通常内嵌于 Coordinator 节点中），是将 Coordinator 和 Worker 结合在一起的服务。Worker 节点启动后向 Discovery Service 服务注册，Coordinator 从 Discovery Service 获得可以正常工作的 Worker 节点。
 - **Connector（连接器）：** 是 Presto 以插件形式对数据存储层进行了抽象，不仅包含 Hadoop 相关组件的连接器，还包括 RDBMS 连接器。
-- **底层存储：** Presto 的数据可以存储在 HDFS/MySQL/ES/Kafka等。
+- **底层存储：** Presto 的数据可以存储在 HDFS/MySQL/ES/Kafka 等。
 
 从架构图可以看出，Presto 具有混合计算的优势，可以连接多种 Connector。
 
