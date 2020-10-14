@@ -183,7 +183,7 @@ EOF
 
 Elasticsearch 是使用 Java 构建的，并且至少需要 Java 8 才能运行。仅支持 Oracle 的 Java 和 OpenJDK。应在所有 Elasticsearch 节点和客户端上使用`相同的 JVM 版本`。
 
-**Java8 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#2---java7java8/java11-自动化安装脚本)。
+**Java8 Ansible Playbook 自动化安装脚本**，请点击 [传送门](./../Ansible/README.md#2---java7java8java11-自动化安装脚本)。
 
 **1、下载 JDK 安装包**
 - JAVA SE：https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
