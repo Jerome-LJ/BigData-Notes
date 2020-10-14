@@ -1,6 +1,6 @@
 ---
 
-- name: Make Suse /usr/java Exists
+- name: Make Sure /usr/java Exist
   file:
     path: /usr/java
     state: directory
