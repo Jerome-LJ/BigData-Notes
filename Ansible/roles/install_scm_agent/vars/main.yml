@@ -1,11 +1,12 @@
 ---
-# Cloudera Master Host IP
-server_host: "172.16.1.11"
 
-# Cloudera manager common software
-common_software:
-  - cloudera-manager-daemons-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
-
-# Cloudera manager agent software
-agent_software:
-  - cloudera-manager-agent-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+# # Cloudera Master Host IP
+# server_host: "172.16.1.11"
+# 
+# # Cloudera manager common software
+# common_software:
+#   - cloudera-manager-daemons-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+# 
+# # Cloudera manager agent software
+# agent_software:
+#   - cloudera-manager-agent-5.9.3-1.cm593.p0.6.el7.x86_64.rpm

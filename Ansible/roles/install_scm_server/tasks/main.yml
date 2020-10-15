@@ -42,6 +42,7 @@
   service:
     name: "{{ item }}"
     state: started
+    enabled: yes
   with_items:
     - cloudera-scm-server-db
     - cloudera-scm-server

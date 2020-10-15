@@ -4,5 +4,6 @@
   service:
     name: cloudera-scm-agent
     state: started
+    enabled: yes
   become: yes
   become_method: sudo

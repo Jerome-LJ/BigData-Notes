@@ -8,14 +8,14 @@
 
 - name: Download Cloudera parcel Software
   get_url:
-    url: http://archive.cloudera.com/cdh5/parcels/{{ cdh_version }}/
+    url: "http://archive.cloudera.com/cdh5/parcels/{{ cdh_version }}/{{ item }}"
     dest: /tmp/software/
   with_items:
     - "{{ parcel_software }}"
 
 - name: Download Cloudera Management Software
   get_url:
-    url: http://archive.cloudera.com/cm5/redhat/{{system_version}}/x86_64/cm/{{cdh_version}}/RPMS/x86_64/{{item}}
+    url: "http://archive.cloudera.com/cm5/redhat/{{ system_version }}/x86_64/cm/{{ cdh_version }}/RPMS/x86_64/{{ item }}"
     dest: /tmp/software/
   with_items:
     - "{{ common_software }}"

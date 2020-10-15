@@ -2,18 +2,62 @@
 
 - hosts: cluster
   gather_facts: True
+
+  vars:
+    # NTP 服务同步的时间源
+    ntpserver: "172.16.1.11"
+
+    system_version: 7
+
+    cdh_version: "5.9.3"
+
+    # Cloudera Master Host IP
+    server_host: "172.16.1.11"
+
+    # Cloudera Manager Common Software
+    common_software:
+        - cloudera-manager-daemons-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+
+    # Cloudera Manager Agent Software
+    agent_software:
+        - cloudera-manager-agent-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+
+    # Cloudera Manager Server Software
+    server_software:
+        - cloudera-manager-server-db-2-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+        - cloudera-manager-server-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+
+    # Cloudera CDH Software
+    parcel_software:
+        - CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel
+        - CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel.sha1
+
   roles:
     # 初始化主机（thp、swappiness、firewall、selinux、/etc/hosts...）
     - role: init_host_common
-    # 安装并修改 NTP 服务同步的时间源
-    - { role: install_ntp, ntpserver: "172.16.1.11" }
+    # 安装 NTP 服务同步的时间源
+    - { role: install_ntp }
     # 安装 JDK：java7=jdk1.7，java8=jdk1.8，java11=jdk11
     - { role: install_jdk, jdk_type: "java8" }
-    - { role: download_cdh_software, system_version: "7", cdh_version: "5.9.3" }
-    # 安装 Agent，修改为 CDH Master IP
-    - { role: install_scm_agent, server_host: "172.16.1.11" }
+    # 下载相关软件包
+    - { role: download_cdh_software }
+    # 安装 Agent
+    - { role: install_scm_agent }
 
 - hosts: master
   gather_facts: False
+
+  vars:
+    # Cloudera manager server software
+    server_software:
+        - cloudera-manager-server-db-2-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+        - cloudera-manager-server-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+
+    # Cloudera cdh software
+    parcel_software:
+        - CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel
+        - CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel.sha1
+
   roles:
+    # 安装 Server 和 PostgreSQL
     - role: install_scm_server

@@ -1,11 +1,11 @@
 ---
 
-# Cloudera manager server software
-server_software:
-  - cloudera-manager-server-db-2-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
-  - cloudera-manager-server-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
-
-# Cloudera cdh software
-parcel_software:
-    - CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel
-    - CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel.sha1
+# # Cloudera manager server software
+# server_software:
+#   - cloudera-manager-server-db-2-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+#   - cloudera-manager-server-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+# 
+# # Cloudera cdh software
+# parcel_software:
+#     - CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel
+#     - CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel.sha1
