@@ -9,7 +9,8 @@
 <a href="#2---java7java8java11-自动化安装脚本"</a>2 - Java7/Java8/Java11 自动化安装脚本</a><br/>
 <a href="#3---supervisor-自动化安装脚本"</a>3 - Supervisor 自动化安装脚本</a><br/>
 <a href="#4---cdh-自动化安装脚本"</a>4 - CDH 自动化安装脚本</a><br/>
-<a href="#5---flume-自动化安装脚本"</a>5 - Flume 自动化安装脚本</a><br/>
+<a href="#5---cdh-client-自动化安装脚本"</a>5 - CDH Client 自动化安装脚本</a><br/>
+<a href="#6---flume-自动化安装脚本"</a>6 - Flume 自动化安装脚本</a><br/>
 </nav>
 
 ---
@@ -54,7 +55,12 @@ $ supervisorctl -c /opt/bigdata/supervisor/supervisord.conf
 $ ansible-playbook -i hosts install_cdh_cluster.yml -k
 ```
 
-## 5 - Flume 自动化安装脚本
+## 5 - CDH Client 自动化安装脚本
+```bash
+$ ansible-playbook -i hosts -e host_list=test install_cdh_client.yml -k
+```
+
+## 6 - Flume 自动化安装脚本
 ```bash
 $ ansible-playbook -i hosts -e host_list=test install_flume.yml -k
 ```

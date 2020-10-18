@@ -1,0 +1,54 @@
+---
+
+- name: Make Sure /tmp/hadoop-conf Exist
+  file:
+    path: /tmp/hadoop-conf
+    mode: 0700
+    state: directory
+
+- name: Configure Cloudera CDH repo
+  template:
+    src: cloudera-cdh5.repo.j2
+    dest: /etc/yum.repos.d/cloudera-cdh5.repo
+  become: yes
+  become_method: sudo
+
+- name: Install Hadoop Client
+  yum:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - hadoop-client
+  become: yes
+  become_method: sudo
+
+- name: Download Client Config
+  get_url:
+    url: "http://{{ server_host }}:{{ server_port }}/api/{{ server_api_version }}/clusters/{{ cluster_name }}/services/{{ item }}/clientConfig"
+    dest: "/tmp/hadoop-conf/{{ item }}Config.tar.gz"
+  with_items:
+    - "{{ service_name }}"
+
+- name: Extract tarball into /tmp/hadoop-conf/
+  unarchive:
+    src: "/tmp/hadoop-conf/{{ item }}Config.tar.gz"
+    dest: /tmp/hadoop-conf/
+    remote_src: yes
+  with_items:
+    - "{{ service_name }}"
+
+- name: Copy Client Config to /etc/hadoop/conf/
+  copy:
+    src: "/tmp/hadoop-conf/{{ item }}-conf/"
+    dest: /etc/hadoop/conf/
+    remote_src: yes
+  with_items:
+    - hadoop
+    - yarn
+  become: yes
+  become_method: sudo
+
+- name: Clean /tmp/hadoop-conf Directory
+  file:
+    path: /tmp/hadoop-conf
+    state: absent

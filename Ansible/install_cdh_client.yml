@@ -1,0 +1,24 @@
+---
+
+- hosts: "{{ host_list }}"
+  gather_facts: False
+
+  vars:
+    server_host: "172.16.1.11"
+    server_port: 7180
+    cdh_version: 5
+    server_api_version: v19
+    cluster_name: cluster
+    service_name:
+        - hdfs
+        - yarn
+
+  roles:
+    # 初始化主机（thp、swappiness、firewall、selinux、/etc/hosts...）
+    - role: init_host_common
+    # 安装 NTP 服务同步的时间源
+    - role: install_ntp
+    # 安装 JDK：java7=jdk1.7，java8=jdk1.8，java11=jdk11
+    - { role: install_jdk, jdk_type: "java8" }
+    # 安装 CDH 客户端
+    - role: install_cdh_client

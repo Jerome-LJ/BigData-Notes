@@ -1,0 +1,10 @@
+---
+
+# server_host: "172.16.1.11"
+# server_port: 7180
+# cdh_version: 5
+# server_api_version: v19
+# cluster_name: cluster
+# service_name:
+#     - hdfs
+#     - yarn
