@@ -363,6 +363,17 @@ server.host: "172.16.1.11"
 #ES 集群中的任何一个
 elasticsearch.hosts: ["http://172.16.1.11:9200"]
 kibana.index: ".kibana"
+#日志默认在 /var/log/messages。也可以指定输出日志
+logging.dest: /var/log/kibana/kibana.log
+#Kibana 支持以下语言环境：English - en，Chinese - zh-CN，Japanese - ja-JP
+i18n.locale: "zh-CN"
+```
+
+```bash
+#创建日志目录，并赋 777 权限
+$ sudo mkdir /var/log/kibana
+$ sudo touch /var/log/kibana/kibana.log
+$ sudo chmod -R 777 /var/log/kibana
 ```
 
 ### 3.3 - Kibana 开启 X-Pack
