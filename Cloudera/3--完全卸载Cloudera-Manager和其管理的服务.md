@@ -61,6 +61,8 @@ data_drive_path/yarn
 2、进入 **删除集群 Cluster 1** 页面。点击 **删除**。删除成功后，通过 Cloudera Manager 已经看不到集群。
 
 ## 5 - 卸载 Cloudera Manager Server
+**完全卸载 Cloudera Ansible Playbook 自动化脚本**，请点击 [传送门](./../Ansible/README.md#6---完全卸载-cdh-自动化脚本)。
+
 **1、停止 Cloudera Manager Server 和数据库**
 ```bash
 $ sudo systemctl stop cloudera-scm-server
