@@ -36,13 +36,13 @@
     # 初始化主机（thp、swappiness、firewall、selinux、/etc/hosts...）
     - role: init_host_common
     # 安装 NTP 服务同步的时间源
-    - { role: install_ntp }
+    - role: install_ntp
     # 安装 JDK：java7=jdk1.7，java8=jdk1.8，java11=jdk11
     - { role: install_jdk, jdk_type: "java8" }
     # 下载相关软件包
-    - { role: download_cdh_software }
+    - role: download_cdh_software
     # 安装 Agent
-    - { role: install_scm_agent }
+    - role: install_scm_agent
 
 - hosts: master
   gather_facts: False
