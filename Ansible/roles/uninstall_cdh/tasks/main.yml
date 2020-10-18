@@ -1,0 +1,77 @@
+#https://docs.cloudera.com/documentation/enterprise/5-9-x/topics/cm_ig_uninstall_cm.html#concept_byj_sk3_pn
+#https://docs.cloudera.com/documentation/enterprise/5-9-x/topics/cdh_ig_cdh_comp_uninstall.html#topic_27_4
+---
+
+- name: stop all services
+  service:
+    name: "{{ item }}"
+    state: stopped
+  with_items:
+    - cloudera-scm-server
+    - cloudera-scm-server-db
+    - cloudera-scm-agent
+  ignore_errors: True
+  become: yes
+  become_method: sudo
+
+- name: uninstall all services
+  yum:
+    name: "{{ item }}"
+    state: removed
+  with_items:
+    - "{{ uninstall_all_service }}"
+  ignore_errors: True
+  become: yes
+  become_method: sudo
+
+- name: clear all
+  shell: yum clean all
+  become: yes
+  become_method: sudo
+
+# 如果前面正确停止了所有服务和 Cloudera Manager Agent，则无需执行此步骤。
+#- name: clear cloudera user
+#  command: for u in cloudera-scm flume hadoop hdfs hbase hive httpfs hue impala llama mapred oozie solr spark sqoop sqoop2 yarn zookeeper; do sudo kill $(ps -u $u -o pid=); done
+#  become: yes
+#  become_method: sudo
+
+- name: umount cm_processes
+  mount: 
+    path: /run/cloudera-scm-agent/process
+    src: cm_processes
+    state: unmounted
+  ignore_errors: True
+  become: yes
+  become_method: sudo
+
+- name: remove cloudera manager data
+  file: 
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ remove_cm_data}}"
+  ignore_errors: True
+  become: yes
+  become_method: sudo
+
+- name: clean lock file
+  file: 
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /tmp/.scm_prepare_node.lock
+    - /tmp/cmf*
+    - /tmp/scm*
+  ignore_errors: True
+  become: yes
+  become_method: sudo
+
+- name: clean data
+  file: 
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ remove_all_data }}"
+  ignore_errors: True
+  become: yes
+  become_method: sudo

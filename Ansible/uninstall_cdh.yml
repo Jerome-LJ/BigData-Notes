@@ -1,0 +1,7 @@
+---
+
+- hosts: "{{ host_list }}"
+  gather_facts: False
+
+  roles:
+    - role: uninstall_cdh

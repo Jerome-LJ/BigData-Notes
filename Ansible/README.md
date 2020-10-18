@@ -10,12 +10,14 @@
 <a href="#3---supervisor-自动化安装脚本"</a>3 - Supervisor 自动化安装脚本</a><br/>
 <a href="#4---cdh-自动化安装脚本"</a>4 - CDH 自动化安装脚本</a><br/>
 <a href="#5---cdh-client-自动化安装脚本"</a>5 - CDH Client 自动化安装脚本</a><br/>
-<a href="#6---flume-自动化安装脚本"</a>6 - Flume 自动化安装脚本</a><br/>
+<a href="#6---完全卸载-cdh-自动化脚本"</a>6 - 完全卸载 CDH 自动化脚本</a><br/>
+<a href="#7---flume-自动化安装脚本"</a>7 - Flume 自动化安装脚本</a><br/>
 </nav>
 
 ---
 
 ## 使用示例
+**注意：** Ansible 版本：`2.8.0+`
 ```bash
 #【1】克隆下载
 $ git clone https://github.com/Jerome-LJ/BigData-Notes.git
@@ -60,7 +62,12 @@ $ ansible-playbook -i hosts install_cdh_cluster.yml -k
 $ ansible-playbook -i hosts -e host_list=test install_cdh_client.yml -k
 ```
 
-## 6 - Flume 自动化安装脚本
+## 6 - 完全卸载 CDH 自动化脚本
+```bash
+$ ansible-playbook -i hosts -e host_list=test uninstall_cdh.yml -k
+```
+
+## 7 - Flume 自动化安装脚本
 ```bash
 $ ansible-playbook -i hosts -e host_list=test install_flume.yml -k
 ```
