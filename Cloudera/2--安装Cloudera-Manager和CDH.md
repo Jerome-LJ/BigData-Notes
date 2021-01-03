@@ -21,8 +21,8 @@
 ## 1 - 环境信息
 - 操作系统：Centos 7.8
 - JDK 版本：1.8.0_261
-- Cloudera Manager 版本：5.9.3
-- CDH 版本：5.9.3
+- Cloudera Manager 版本：5.16.2
+- CDH 版本：5.16.2
 - PostgreSQL 版本：9.2.24
 
 <table>
@@ -253,13 +253,13 @@ $ sudo yum install cloudera-manager-daemons cloudera-manager-agent
 ### 3.2 - 方法二：使用 RPM 包离线安装
 **1、下载以下 RPM 包**
 
-> Cloudera Manager下载地址：http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.9.3/RPMS/x86_64/
+> Cloudera Manager下载地址：http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.16.2/RPMS/x86_64/
 
 ```
-cloudera-manager-agent-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
-cloudera-manager-daemons-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
-cloudera-manager-server-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
-cloudera-manager-server-db-2-5.9.3-1.cm593.p0.6.el7.x86_64.rpm
+cloudera-manager-agent-5.16.2-1.cm5162.p0.7.el7.x86_64.rpm
+cloudera-manager-daemons-5.16.2-1.cm5162.p0.7.el7.x86_64.rpm
+cloudera-manager-server-5.16.2-1.cm5162.p0.7.el7.x86_64.rpm
+cloudera-manager-server-db-2-5.16.2-1.cm5162.p0.7.el7.x86_64.rpm
 ```
 
 **2、Master 节点安装 cloudera-manager-server 和 PostgreSQL 包**
@@ -274,7 +274,7 @@ $ sudo yum --nogpgcheck localinstall cloudera-manager-daemons-*.rpm cloudera-man
 $ sudo yum --nogpgcheck localinstall cloudera-manager-daemons-*.rpm cloudera-manager-agent-*.rpm
 ```
 
-> PostgreSQL 官方地址：https://www.cloudera.com/documentation/enterprise/5-9-x/topics/cm_ig_embed_pstgrs.html
+> PostgreSQL 官方地址：https://www.cloudera.com/documentation/enterprise/5-16-x/topics/cm_ig_embed_pstgrs.html
 
 ## 4 - 创建 Parcel 目录
 **1、在 Cloudera Manager Server 主机上，如果没有 `parcel-repo` 创建一个 Parcel 目录，并更改权限**
@@ -284,15 +284,15 @@ $ sudo chown -R cloudera-scm:cloudera-scm /opt/cloudera/parcel-repo
 ```
 
 **2、下载 CDH 包，放到至 `/opt/cloudera/parcel-repo`**
-> CDH 安装包下载地址：https://archive.cloudera.com/cdh5/parcels/5.9.3/
+> CDH 安装包下载地址：https://archive.cloudera.com/cdh5/parcels/5.16.2/
 ```
-CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel
-CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel.sha1
+CDH-5.16.2-1.cdh5.16.2.p0.8-el7.parcel
+CDH-5.16.2-1.cdh5.16.2.p0.8-el7.parcel.sha1
 ```
-最后将 `CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel.sha1`，重命名为 `CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel.sha`，这点必须注意，否则，系统会重新下载 `CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel` 文件。
+最后将 `CDH-5.16.2-1.cdh5.16.2.p0.8-el7.parcel.sha1`，重命名为 `CDH-5.16.2-1.cdh5.16.2.p0.8-el7.parcel.sha`，这点必须注意，否则，系统会重新下载 `CDH-5.16.2-1.cdh5.16.2.p0.8-el7.parcel` 文件。
 ```bash
 $ cd /opt/cloudera/parcel-repo
-$ mv CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel.sha1 CDH-5.9.3-1.cdh5.9.3.p0.4-el7.parcel.sha
+$ mv CDH-5.16.2-1.cdh5.16.2.p0.8-el7.parcel.sha1 CDH-5.16.2-1.cdh5.16.2.p0.8-el7.parcel.sha
 $ sudo chown cloudera-scm:cloudera-scm /opt/cloudera/parcel-repo/*
 ```
 
@@ -350,7 +350,7 @@ Cloudera Manager Server URL 的格式为 `http://Server host:port`（http://172.
 
 7、进入 **为 CDH 集群安装指定主机** 页面。输入主机 IP 或者主机名，点击 **搜索** 找到主机后，点击 **继续**。
 
-8、进入 **集群安装 选择存储库** 页面。选择 CDH 的版本：`CDH-5.9.3-1.cdh5.9.3.p0.4-el7`，点击 **继续**。
+8、进入 **集群安装 选择存储库** 页面。选择 CDH 的版本：`CDH-5.16.2-1.cdh5.16.2.p0.4-el7`，点击 **继续**。
 
 9、进入 **集群安装 JDK 安装选择** 页面。取消两个勾选项。点击 **继续**。
 
