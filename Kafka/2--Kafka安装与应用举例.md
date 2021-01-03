@@ -17,11 +17,12 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#43---修改配置文件"</a>4.3 - 修改配置文件</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#44---启动停止-kafka-服务"</a>4.4 - 启动/停止 Kafka 服务</a><br/>
 <a href="#5---入门实例"</a>5 - 入门实例</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51---创建-kafka-主题"</a>5.1 - 创建 Kafka 主题</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52---查看主题列表"</a>5.2 - 查看主题列表</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51---创建-kafka-topic"</a>5.1 - 创建 Kafka Topic</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52---查看-topic-列表"</a>5.2 - 查看 Topic 列表</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#53---启动生产者以发送消息"</a>5.3 - 启动生产者以发送消息</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#54---启动消费者以接收消息"</a>5.4 - 启动消费者以接收消息</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#55---其它命令使用"</a>5.5 - 其它命令使用</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#55---批量生产消息"</a>5.5 - 批量生产消息</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#56---其它命令使用"</a>5.6 - 其它命令使用</a><br/>
 </nav>
 
 ---
@@ -274,42 +275,50 @@ $ bin/kafka-server-stop.sh config/server.properties
 **恭喜，现在我们已经成功部署和配置了 Kafka 集群！**
 
 ## 5 - 入门实例
-### 5.1 - 创建 Kafka 主题
-让我们用一个分区和一个副本创建一个名为 `test` 的主题：
+### 5.1 - 创建 Kafka Topic
+让我们用一个分区和一个副本创建一个名为 `test` 的 Topic：
 ```bash
 $ bin/kafka-topics.sh --create --zookeeper 172.16.1.11:2181,172.16.1.12:2181,172.16.1.13:2181/kafka --replication-factor 1 --partitions 1 --topic test
 Created topic test.
 ```
-创建主题后，我们可以在 Kafka Broker 终端窗口中获取通知，并在 `config/server.properties` 文件中的 `/opt/bigdata/kafka/kafka-data` 中指定的创建主题的日志。
+创建 Topic 后，我们可以在 Kafka Broker 终端窗口中获取通知，并在 `config/server.properties` 文件中的 `/opt/bigdata/kafka/kafka-data` 中指定的创建 Topic 的日志。
 ```bash
 $ ls -l /opt/bigdata/kafka/kafka-data
 drwxrwxr-x 2 jerome jerome 141 Sep 17 19:02 test-0
 ```
 
-### 5.2 - 查看主题列表
-运行 list topic 命令，则可以看到该主题：
+### 5.2 - 查看 Topic/Consumer 列表
+运行 list topic 命令，则可以看到该 Topic：
 ```bash
-$ bin/kafka-topics.sh --list --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka
+$ bin/kafka-topics.sh --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka --list 
 # 输出
 test
 ```
-由于我们已经创建了一个主题，它将仅列出 `test` 。 假设，如果创建多个主题，我们将在输出中获取主题名称。
+由于我们已经创建了一个 Topic，它将仅列出 `test` 。假设，如果创建多个 Topic，我们将在输出中获取 Topic 名称。
 
-### 5.3 - 启动生产者以发送消息
+运行 list group 命令，则可以看到该消费组：
+```bash
+$ bin/kafka-consumer-groups.sh --bootstrap-server 172.16.1.11:9092,172.16.1.12:9092 --list
+# 输出
+atlas
+test_group
+```
+如果没有消费组，则没有输出。
+
+### 5.3 - 启动生产者以生产消息
 Kafka 带有一个命令行客户端，它将从文件或标准输入中获取输入，并将其作为消息发送到 Kafka 集群。默认情况下，每个新行将作为单独的新消息发送。如下所示：
 ```bash
-$ bin/kafka-console-producer.sh --broker-list 172.16.1.11,172.16.1.12:9092 --topic test
+$ bin/kafka-console-producer.sh --broker-list 172.16.1.11:9092,172.16.1.12:9092 --topic test
 #输入一些消息
 >Hello World
 >This is a message
 >This is another message
 ```
 
-### 5.4 - 启动消费者以接收消息
-
+### 5.4 - 启动消费者以消费数据
 与生产者类似，Kafka 还有一个命令行使用者，它将消息转储到标准输出。打开一个新终端并键入以下消息消息语法。
 ```bash
-$ bin/kafka-console-consumer.sh --bootstrap-server 172.16.1.11,172.16.1.12:9092 --topic test --from-beginning
+$ bin/kafka-console-consumer.sh --bootstrap-server 172.16.1.11:9092,172.16.1.12:9092 --topic test --from-beginning
 #输出
 Hello World
 This is a message
@@ -317,8 +326,13 @@ This is another message
 ```
 最后，我们可以从终端输入消息，并看到它们出现在消费者的终端中。到目前为止，已经成功了解消息生产到消费。
 
-### 5.5 - 其它命令使用
-**1、修改主题分区**
+### 5.5 - 批量生产消息
+```
+$ bin/kafka-producer-perf-test.sh --topic test --num-records 1000000 --record-size 1000 --throughput 20000 --producer-props bootstrap.servers=172.16.1.11:9092,172.16.1.12:9092
+```
+
+### 5.6 - 其它命令使用
+**1、修改 Topic 分区**
 
 增加 partion 数量，从 1 个 partition 增加到 2 个：
 ```bash
@@ -327,7 +341,7 @@ $ bin/kafka-topics.sh --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka --alte
 Adding partitions succeeded!
 ```
 
-**2、查看主题分区**
+**2、查看 Topic 分区详细信息**
 ```bash
 $ bin/kafka-topics.sh --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka --describe --topic test
 #输出
@@ -337,17 +351,51 @@ Topic: test	PartitionCount: 2	ReplicationFactor: 1	Configs:
 ```
 
 **3、修改数据保存时间**
-Topic 默认的数据保存 7 天。修改 test 主题数据保存 1 天（86400000 毫秒）
+Topic 默认的数据保存 7 天。修改 test topic 数据保存 1 天（86400000 毫秒）
 ```bash
 $ bin/kafka-topics.sh --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka --alter --topic test --config retention.ms=86400000
 #输出
 Updated config for topic test.
 ```
 
-**4、删除主题**
+**4、删除 Topic**
 ```bash
 $ bin/kafka-topics.sh --zookeeper 172.16.1.11:2181,172.16.1.12:2181/kafka --delete --topic test
 #输出
 Topic test is marked for deletion.
 ```
 **注意** - 如果在 `config/server.properties` 文件中 `delete.topic.enable` 未设置为 true，则此操作不会产生任何影响。
+
+执行完命令后，查看 `log.dirs` 指定的目录，会发现 test 的目录都被标记为 `-delete` 结尾。
+
+等一定的时间（根据 `log.retention.check.interval.ms` 配置而定，`hdp` 版本默认为 60s）后，被标记为 delete 的文件则会被移除。
+
+**5、查看消费情况（Lag 堆积数）**
+```bash
+$ bin/kafka-consumer-groups.sh --bootstrap-server 172.16.1.11:9092,172.16.1.12:9092 --describe --group test_group
+#输出
+Consumer group 'test_group' has no active members.
+
+TOPIC             PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID     HOST            CLIENT-ID
+test              0          2310            4233            1923            -               -               -
+```
+
+**6、查看 Topic 的 offset 范围**
+```bash
+$ bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list 172.16.1.11:9092,172.16.1.12:9092 --topic test --time -1
+#输出
+test:0:47379
+```
+
+**7、指定 partition 和 offset 消费**
+```bash
+$ bin/kafka-console-consumer.sh --bootstrap-server 172.16.1.11:9092,172.16.1.12:9092 --topic test --partition 0 --offset 1024
+```
+
+**8、查看 kafla 数据 xxx.log 日志**
+```bash
+$ bin/kafka-run-class.sh kafka.tools.DumpLogSegments --files /data/kafka-data/logs/test-0/00000000000000000015.log --print-data-log --deep-iteration > test_topic.log
+#查看 test_topic.log 输出
+Starting offset: 15
+...
+```
