@@ -175,7 +175,7 @@ Standby HMaster 会在 Master 节点添加监听事件。如果主节点服务�
 
 ## 6 - HBase 数据的读写流程
 ### 6.1 - HBase 第一次读写操作
-HBase 存在一张特殊的 Catalog 表，即 `.META` 表，包含了集群中所有 Region 的位置信息。而 Zookeeper 则记录了 Meta Table 的位置信息。
+HBase 存在一张特殊的 Catalog 表，即 `.META` 表，包含了集群中所有 HRegion 的位置信息。而 Zookeeper 则记录了 Meta Table 的位置信息。
 
 当第一次向 HBase 读或写时，会有以下的操作：
 - 1、Client 访问 Zookeeper 以获取 `.META` 表存放的位置，得到对应的 RegionServer 信息。
