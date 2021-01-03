@@ -225,6 +225,12 @@ $ vim ./config/elasticsearch.yml
 cluster.name: es-cluster
 #本节点名称
 node.name: node-1
+#允许该节点是否选举为 Master 节点，ES 默认集群中的第一台机器为 Master，如果该机器停止就会重新选举 Master. 任何主节点的节点（默认情况下所有节点）都可以被主选举过程选为主节点。
+node.master: true
+#允许该节点存储数据（默认开启）
+node.data: true
+#允许该节点为摄取节点（默认开启）。如果为 true，负责处理用户请求、实现请求转发（ingest 角色）；如果为 false，用于负载均衡（client 角色）。
+node.ingest: false
 #数据文件位置
 path.data: /opt/elastic/elasticsearch/data/
 #日志位置
@@ -254,7 +260,7 @@ $ vim ./config/jvm.options
 -Xmx2g
 ```
 
-#### 2.3.3 - ElasticSearch 开启 X-Pack
+#### 2.3.3 - ElasticSearch 开启 X-Pack 监控
 **官方文档：**
 https://www.elastic.co/guide/en/elasticsearch/reference/7.8/monitoring-settings.html
 
@@ -303,7 +309,7 @@ $ cd /opt/elastic/elasticsearch/
 $ ./bin/elasticsearch -d
 ```
 
-> 浏览器访问 Elasticsearch 状态页：172.16.1.11:9200
+> 浏览器访问任意一个 Elasticsearch 状态页：172.16.1.11:9200
 
 <div align="center"> <img src="../images/elastic/node.png"/> </div>
 
@@ -376,7 +382,7 @@ $ sudo touch /var/log/kibana/kibana.log
 $ sudo chmod -R 777 /var/log/kibana
 ```
 
-### 3.3 - Kibana 开启 X-Pack
+### 3.3 - Kibana 开启 X-Pack 监控
 **官方文档：**
 https://www.elastic.co/guide/en/kibana/7.8/monitoring-settings-kb.html
 ```bash
@@ -437,7 +443,15 @@ $ mkdir /opt/elastic/logstash/{data,logs}
 $ mkdir /opt/elastic/logstash/config/conf.d/
 ```
 
-#### 4.3.2 - test.conf
+#### 4.3.2 - jvm.options
+```bash
+$ sudo vim /etc/logstash/jvm.options
+#根据机器配置适当修改参数
+-Xms2g
+-Xmx2g
+```
+
+#### 4.3.3 - test.conf
 ```bash
 $ vim /opt/elastic/logstash/config/conf.d/test.conf
 #配置范例
@@ -486,7 +500,7 @@ output {
 }
 ```
 
-### 4.4 - Logstash 开启 X-Pack
+### 4.4 - Logstash 开启 X-Pack 监控
 **官方文档：**
 https://www.elastic.co/guide/en/logstash/7.8/monitoring-logstash.html
 ```bash
@@ -587,7 +601,17 @@ setup.kibana:
 
 **注意：** `ducument_type` 参数已经在 5.5 版本建议丢弃，6.0 中彻底废弃，使用 fields 代替，通过 `fields_under_root` 属性，替换原始 type 属性。
 
-### 5.3 - 启动 Filebeat
+### 5.3 - Filebeat 开启 X-Pack 监控
+**官方文档：**
+https://www.elastic.co/guide/en/beats/filebeat/7.8/monitoring.html
+```bash
+$ vim /etc/filebeat/filebeat.yml
+#（选做）打开以下配置，使用 X-Pack 监控主机状态
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.hosts: ["http://172.16.1.11:9200", "http://172.16.1.12:9200", "http://172.16.1.13:9200"]
+```
+
+### 5.4 - 启动 Filebeat
 ```bash
 #设置为开机自启动
 $ sudo systemctl daemon-reload
@@ -598,16 +622,6 @@ $ sudo systemctl stop filebeat.service
 
 #要强制 Filebeat 从头开始读取日志文，请关闭 Filebeat，删除注册表文件，然后使用命令重新启动 Filebeat
 $ sudo rm /var/lib/filebeat/registry
-```
-
-### 5.4 - Filebeat 开启 X-Pack
-**官方文档：**
-https://www.elastic.co/guide/en/beats/filebeat/7.8/monitoring.html
-```bash
-$ vim /etc/filebeat/filebeat.yml
-#（选做）打开以下配置，使用 X-Pack 监控主机状态
-xpack.monitoring.enabled: true
-xpack.monitoring.elasticsearch.hosts: ["http://172.16.1.11:9200", "http://172.16.1.12:9200", "http://172.16.1.13:9200"]
 ```
 
 ## 6 - 开启 Elastic Stack 安全功能
@@ -847,6 +861,7 @@ stdout_logfile=/opt/supervisord/logs/logstash.log
 stderr_logfile=/opt/supervisord/logs/logstash.log
 directory=/opt/elastic/logstash/
 ```
+
 ### 8.4 - 启动 Supervisor
 **1、启动 Supervisor**
 ```bash
@@ -1108,4 +1123,22 @@ Failed to start logstash.service: Unit logstash.service not found.
 ```bash
 #自动生成 logstash.service
 $ sudo /usr/share/logstash/bin/system-install /etc/logstash/startup.options systemd
+```
+
+**4、错误**
+
+logstash 启动失败，查看 vim hs_err_pid28552.log 日志，发现如下错误：
+```bash
+Other Threads:
+
+=>0x00007fdd7400b000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=28560, stack(0x00007fdd78a02000,0x00007fdd78c02000)]
+
+VM state:not at safepoint (not fully initialized)
+```
+
+解决方法：
+```bash
+$ sudo vim /usr/share/logstash/bin/logstash.lib.sh
+#文件头部添加如下内容
+JAVA_HOME=/usr/java/jdk1.8.0_261
 ```
