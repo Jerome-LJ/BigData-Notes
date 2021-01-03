@@ -56,7 +56,7 @@ Elastic Stack 是一系列开源产品的合集，包括 Elasticsearch、Kibana�
 
 ## 2 - Elasticsearch
 ### 2.1 - Elasticsearch 简介
-Elasticsearch 是一个分布式的开源搜索和分析引擎，适用于所有类型的数据，能够解决不断涌现出的各种用例。包括文本、数字、地理空间、结构化和非结构化数据。Elasticsearch 在 Apache Lucene 的基础上开发而成，由 Elasticsearch N.V.（即现在的 Elastic）于 2010 年首次发布。
+Elasticsearch 是一个实时的分布式存储，搜索和分析引擎，适用于所有类型的数据，能够解决不断涌现出的各种用例。包括文本、数字、地理空间、结构化和非结构化数据。Elasticsearch 在 Apache Lucene 的基础上开发而成，由 Elasticsearch N.V.（即现在的 Elastic）于 2010 年首次发布。
 
 Elasticsearch 以其简单的 REST 风格 API、分布式特性、速度和可扩展性而闻名，是 Elastic Stack 的核心组件；Elastic Stack 是适用于数据采集、充实、存储、分析和可视化的一组开源工具。人们通常将 Elastic Stack 称为 ELK Stack（代指 Elasticsearch、Logstash 和 Kibana），目前 Elastic Stack 包括一系列丰富的轻量型数据采集代理，这些代理统称为 Beats，可用来向 Elasticsearch 发送数据。
 
